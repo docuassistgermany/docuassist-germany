@@ -91,6 +91,8 @@
 
     /* HERO */
     #home{min-height:100vh;display:flex;align-items:center;padding:100px 5% 60px;background:var(--white);position:relative;overflow:hidden}
+    @media(max-width:1024px){#home{min-height:auto;padding:120px 5% 60px}}
+    @media(max-width:640px){#home{padding:100px 5% 48px}}
     #home::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(39,174,96,0.07) 0%,transparent 70%);pointer-events:none}
     .hero-inner{max-width:760px;position:relative;z-index:1}
     .hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(39,174,96,0.1);color:var(--green-d);border-radius:20px;padding:5px 16px;font-size:0.76rem;font-weight:600;margin-bottom:24px;letter-spacing:0.04em}
@@ -145,7 +147,8 @@
     .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
     @media(max-width:768px){.about-grid{grid-template-columns:1fr;gap:36px}}
     .about-text p{color:var(--mid);margin-bottom:18px;font-size:0.93rem}
-    .about-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
+    .about-stats{display:flex;flex-wrap:wrap;gap:16px;margin-top:32px;justify-content:center}
+    .stat{flex:0 0 calc(50% - 8px)}
     .stat{background:var(--white);border-radius:12px;padding:20px;border:1px solid var(--border);text-align:center}
     .stat .number{font-size:1.7rem;font-weight:700;color:var(--green);display:block}
     .stat .label{font-size:0.74rem;color:var(--mid);margin-top:3px}
@@ -185,6 +188,9 @@
     .contact-item{display:flex;align-items:flex-start;gap:12px}
     .contact-item-icon{width:40px;height:40px;border-radius:10px;background:rgba(39,174,96,0.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
     .contact-item-text strong{font-size:0.78rem;color:var(--mid);display:block;margin-bottom:1px}
+    .contact-item-text strong[data-lang="de"]{display:none}
+    body.de .contact-item-text strong[data-lang="de"]{display:block}
+    body.de .contact-item-text strong[data-lang="en"]{display:none}
     .contact-item-text span{font-size:0.88rem;font-weight:500}
     .contact-form{display:flex;flex-direction:column;gap:14px}
     .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -213,8 +219,39 @@
     .wa-bubble{position:fixed;bottom:24px;right:24px;z-index:999;background:#25d366;color:white;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;text-decoration:none;box-shadow:0 4px 16px rgba(37,211,102,0.4);transition:transform 0.2s}
     .wa-bubble:hover{transform:scale(1.1)}
 
-    /* RESPONSIVE */
-    @media(max-width:640px){.nav-links{display:none}.form-row{grid-template-columns:1fr}.step:not(:last-child)::after{display:none}.booking-box{padding:28px}.footer-top{grid-template-columns:1fr}}
+    /* RESPONSIVE — TABLET (up to 1024px) */
+    @media(max-width:1024px){
+      section{padding:72px 5%}
+      .footer-top{grid-template-columns:1fr 1fr;gap:32px}
+      .services-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+      .steps{grid-template-columns:repeat(2,1fr);gap:16px}
+      .step:not(:last-child)::after{display:none}
+      .booking-box{padding:36px;flex-direction:column;align-items:flex-start}
+      .blog-grid{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+    }
+
+    /* RESPONSIVE — TABLET PORTRAIT / LARGE MOBILE (up to 768px) */
+    @media(max-width:768px){
+      .about-grid{grid-template-columns:1fr;gap:36px}
+      .contact-grid{grid-template-columns:1fr;gap:36px}
+      .nav-links{gap:16px}
+      .nav-links a{font-size:0.8rem}
+      #home{padding:90px 5% 50px}
+      .trust-bar{gap:20px;padding:14px 5%}
+    }
+
+    /* RESPONSIVE — MOBILE (up to 640px) */
+    @media(max-width:640px){
+      .nav-links{display:none}
+      .form-row{grid-template-columns:1fr}
+      .booking-box{padding:24px}
+      .footer-top{grid-template-columns:1fr}
+      .services-grid{grid-template-columns:1fr}
+      .steps{grid-template-columns:1fr}
+      .about-stats{grid-template-columns:1fr 1fr}
+      #home{padding:80px 5% 40px}
+      .trust-bar{flex-direction:column;gap:12px;align-items:flex-start}
+    }
 
     /* LANG */
     [data-lang="de"]{display:none}
@@ -274,7 +311,7 @@
 <!-- TRUST BAR -->
 <div class="trust-bar">
   <div class="trust-item"><span class="dot"></span><span data-lang="en">Certified Translations</span><span data-lang="de">Beglaubigte Übersetzungen</span></div>
-  <div class="trust-item"><span class="dot"></span><span data-lang="en">Tamil · English · German</span><span data-lang="de">Tamil · Englisch · Deutsch</span></div>
+  <div class="trust-item"><span class="dot"></span><span data-lang="en">English · German · Tamil</span><span data-lang="de">Englisch · Deutsch · Tamil</span></div>
   <div class="trust-item"><span class="dot"></span><span data-lang="en">Expat & Immigrant Focus</span><span data-lang="de">Fokus auf Expats & Einwanderer</span></div>
   <div class="trust-item"><span class="dot"></span><span data-lang="en">Accepted by German Courts & LEA</span><span data-lang="de">Anerkannt von Gerichten & LEA</span></div>
 </div>
@@ -529,7 +566,7 @@
     <h2 data-lang="de">Sprechen wir miteinander</h2>
     <div class="contact-grid">
       <div class="contact-info">
-        <p data-lang="en">Reach out in Tamil, English or German. We respond within one business day and offer free initial consultations.</p>
+        <p data-lang="en">Reach out in English, German or Tamil. We offer free initial consultations.</p>
         <p data-lang="de">Schreiben Sie uns auf Tamil, Englisch oder Deutsch. Wir antworten innerhalb eines Werktages.</p>
         <div class="contact-items">
           <div class="contact-item">
@@ -650,7 +687,7 @@
   <div class="footer-bottom">
     <a href="#home" class="logo footer-logo">Docu<span style="color:var(--green)">Assist</span> Germany</a>
     <p>&copy; 2026 DocuAssist Germany · Berlin, Deutschland</p>
-    <p>Tamil · English · Deutsch</p>
+    <p>English · German · Tamil</p>
   </div>
 </footer>
 

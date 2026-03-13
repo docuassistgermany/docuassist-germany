@@ -83,7 +83,7 @@
     .nav-links{display:flex;align-items:center;gap:28px;list-style:none}
     .nav-links a{text-decoration:none;color:var(--mid);font-size:0.85rem;font-weight:500;transition:color 0.2s}
     .nav-links a:hover{color:var(--green)}
-    .nav-cta{background:var(--green)!important;color:white!important;padding:8px 18px;border-radius:6px;font-weight:600!important}
+    .nav-cta{background:var(--green)!important;color:white!important;padding:8px 18px;border-radius:6px;font-weight:600!important;white-space:nowrap}
     .nav-cta:hover{background:var(--green-d)!important}
     .lang-toggle{display:flex;background:var(--grey);border-radius:20px;overflow:hidden;border:1px solid var(--border)}
     .lang-toggle button{border:none;background:transparent;padding:5px 13px;font-size:0.76rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;color:var(--mid);transition:all 0.2s;border-radius:20px}
@@ -228,14 +228,24 @@
       .step:not(:last-child)::after{display:none}
       .booking-box{padding:36px;flex-direction:column;align-items:flex-start}
       .blog-grid{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+      nav{padding:0 3%}
+      .nav-links{gap:14px}
+      .nav-links a{font-size:0.78rem}
+      .nav-cta{padding:7px 13px;font-size:0.78rem}
+      .lang-toggle button{padding:4px 10px;font-size:0.72rem}
+    }
+
+    /* RESPONSIVE — TABLET PORTRAIT / LARGE MOBILE (up to 868px) */
+    @media(max-width:868px){
+      .nav-links li:nth-child(2){display:none}
     }
 
     /* RESPONSIVE — TABLET PORTRAIT / LARGE MOBILE (up to 768px) */
     @media(max-width:768px){
       .about-grid{grid-template-columns:1fr;gap:36px}
       .contact-grid{grid-template-columns:1fr;gap:36px}
-      .nav-links{gap:16px}
-      .nav-links a{font-size:0.8rem}
+      .nav-links{gap:12px}
+      .nav-links a{font-size:0.76rem}
       #home{padding:90px 5% 50px}
       .trust-bar{gap:20px;padding:14px 5%}
     }
@@ -654,7 +664,7 @@
   <div class="footer-top">
     <div class="footer-brand">
       <a href="#home" class="logo">Docu<span>Assist</span> Germany</a>
-      <p data-lang="en">End-to-end immigration document assistance for expats in Germany. Tamil · English · German.</p>
+      <p data-lang="en">End-to-end immigration document assistance for expats in Germany. English · German · Tamil.</p>
       <p data-lang="de">Umfassende Einwanderungsdokumentenhilfe für Expats in Deutschland.</p>
     </div>
     <div class="footer-col">

@@ -1290,21 +1290,20 @@
     if (sessionStorage.getItem('welcome-seen')) return;
     document.getElementById('welcome-popup').classList.add('show');
   }
+  // Only show popup on genuine exit intent (cursor leaves viewport top)
+  // Delay enabling it so it doesn't fire on page load mouse movements
+  let exitIntentReady = false;
+  setTimeout(function() { exitIntentReady = true; }, 15000); // enable after 15s on page
   document.addEventListener('mouseout', function(e) {
-    if (e.clientY < 5 && e.relatedTarget === null) showWelcome();
+    if (exitIntentReady && e.clientY < 5 && e.relatedTarget === null) showWelcome();
   });
-  let lastScroll = 0;
+  // Mobile fallback: show after 90s of inactivity
   let mobileTimer = null;
   function resetMobileTimer() {
     clearTimeout(mobileTimer);
-    mobileTimer = setTimeout(showWelcome, 45000);
+    mobileTimer = setTimeout(showWelcome, 90000);
   }
-  window.addEventListener('scroll', function() {
-    const curr = window.scrollY;
-    if (curr < lastScroll - 80 && curr > 300) showWelcome();
-    lastScroll = curr;
-    resetMobileTimer();
-  });
+  window.addEventListener('scroll', resetMobileTimer);
   resetMobileTimer();
 
   // ── Calendly ──

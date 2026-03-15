@@ -71,13 +71,20 @@
   }
   </script>
 
-  <!-- ═══ GOOGLE ANALYTICS ═══ -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GJ1QXTBWL6"></script>
+  <!-- ═══ GOOGLE ANALYTICS (loads only after cookie consent) ═══ -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-GJ1QXTBWL6');
+    function loadGA(){
+      if(document.getElementById('ga-script')) return;
+      var s=document.createElement('script');
+      s.id='ga-script';s.async=true;
+      s.src='https://www.googletagmanager.com/gtag/js?id=G-GJ1QXTBWL6';
+      document.head.appendChild(s);
+      gtag('js',new Date());
+      gtag('config','G-GJ1QXTBWL6');
+    }
+    if(localStorage.getItem('cookie-consent')==='true') loadGA();
   </script>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
@@ -280,6 +287,32 @@
     /* REVEAL */
     .reveal{opacity:0;transform:translateY(18px);transition:opacity 0.6s ease,transform 0.6s ease}
     .reveal.visible{opacity:1;transform:none}
+
+    /* WELCOME POPUP */
+    .welcome-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity 0.3s,visibility 0.3s}
+    .welcome-overlay.show{opacity:1;visibility:visible}
+    .welcome-box{background:var(--white);border-radius:18px;max-width:420px;width:90%;padding:36px 32px;text-align:center;transform:translateY(20px);transition:transform 0.3s}
+    .welcome-overlay.show .welcome-box{transform:none}
+    .welcome-box h3{font-size:1.2rem;margin-bottom:6px}
+    .welcome-box p{font-size:0.88rem;color:var(--mid);margin-bottom:24px;line-height:1.6}
+    .welcome-options{display:flex;flex-direction:column;gap:10px}
+    .welcome-opt{display:flex;align-items:center;gap:12px;padding:14px 18px;border:1px solid var(--border);border-radius:12px;text-decoration:none;color:var(--black);font-size:0.88rem;font-weight:500;transition:border-color 0.2s,background 0.2s}
+    .welcome-opt:hover{border-color:var(--green);background:rgba(39,174,96,0.04)}
+    .welcome-opt-icon{font-size:1.3rem;flex-shrink:0}
+    .welcome-close{margin-top:18px;background:none;border:none;color:var(--mid);font-size:0.8rem;cursor:pointer;padding:6px}
+    .welcome-close:hover{color:var(--black)}
+
+    /* GDPR COOKIE BANNER */
+    .cookie-banner{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);padding:18px 5%;display:flex;align-items:center;justify-content:space-between;gap:20px;z-index:1999;box-shadow:0 -4px 20px rgba(0,0,0,0.08);transform:translateY(100%);transition:transform 0.4s;flex-wrap:wrap}
+    .cookie-banner.show{transform:none}
+    .cookie-text{font-size:0.82rem;color:var(--mid);line-height:1.6;flex:1;min-width:250px}
+    .cookie-text a{color:var(--green);text-decoration:underline}
+    .cookie-btns{display:flex;gap:10px;flex-shrink:0}
+    .cookie-btn{padding:10px 20px;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;border:none;transition:background 0.2s}
+    .cookie-accept{background:var(--green);color:var(--white)}
+    .cookie-accept:hover{background:var(--green-d)}
+    .cookie-decline{background:var(--grey);color:var(--mid)}
+    .cookie-decline:hover{background:var(--border)}
   </style>
 </head>
 <body>
@@ -339,7 +372,7 @@
     <p class="section-sub" data-lang="de">Von Ihrem ersten Visumantrag bis zur vollständigen Integration in Deutschland – wir begleiten jeden Dokumentenschritt Ihrer Reise.</p>
 
     <div class="services-grid">
-      <div class="service-card">
+      <div class="service-card" id="svc-immigration">
         <span class="service-badge">Available</span>
         <div class="service-icon" role="img" aria-label="Immigration documents">🛂</div>
         <h3 data-lang="en">Immigration Document Assistance</h3>
@@ -349,7 +382,7 @@
         <div class="service-langs"><span class="service-lang">All nationalities</span><span class="service-lang">Multilingual</span></div>
       </div>
 
-      <div class="service-card">
+      <div class="service-card" id="svc-translation">
         <span class="service-badge">Available</span>
         <div class="service-icon" role="img" aria-label="Certified translations">🌐</div>
         <h3 data-lang="en">Certified Translations</h3>
@@ -611,14 +644,14 @@
             <div class="contact-item-icon" role="img" aria-label="Email">✉️</div>
             <div class="contact-item-text">
               <strong>Email</strong>
-              <span>info@docuassistgermany.de</span>
+              <span><a href="mailto:info@docuassistgermany.de" style="color:inherit;text-decoration:none">info@docuassistgermany.de</a></span>
             </div>
           </div>
           <div class="contact-item">
             <div class="contact-item-icon" role="img" aria-label="Phone">📞</div>
             <div class="contact-item-text">
               <strong data-lang="en">Phone / WhatsApp</strong><strong data-lang="de">Telefon / WhatsApp</strong>
-              <span>+49 155 6367 1657</span>
+              <span><a href="tel:+4915563671657" style="color:inherit;text-decoration:none">+49 155 6367 1657</a></span>
             </div>
           </div>
           <div class="contact-item">
@@ -711,9 +744,60 @@
   <div class="footer-bottom">
     <a href="#home" class="logo footer-logo">Docu<span style="color:var(--green)">Assist</span> Germany</a>
     <p>&copy; 2026 DocuAssist Germany · Berlin, Deutschland</p>
-    <p>Multilingual Support</p>
+    <p><a href="privacy.html" style="color:var(--mid);text-decoration:none;font-size:0.78rem"><span data-lang="en">Privacy Policy</span><span data-lang="de">Datenschutzerklärung</span></a></p>
   </div>
 </footer>
+
+<!-- WELCOME POPUP -->
+<div class="welcome-overlay" id="welcome-popup">
+  <div class="welcome-box">
+    <h3 data-lang="en">How can we help you today?</h3>
+    <h3 data-lang="de">Wie können wir Ihnen heute helfen?</h3>
+    <p data-lang="en">Choose what best describes your situation and we'll guide you from there.</p>
+    <p data-lang="de">Wählen Sie, was am besten zu Ihrer Situation passt.</p>
+    <div class="welcome-options">
+      <a href="#svc-immigration" class="welcome-opt" onclick="closeWelcome()">
+        <span class="welcome-opt-icon">🛂</span>
+        <span data-lang="en">I need help with immigration documents</span>
+        <span data-lang="de">Ich brauche Hilfe bei Einwanderungsdokumenten</span>
+      </a>
+      <a href="#svc-translation" class="welcome-opt" onclick="closeWelcome()">
+        <span class="welcome-opt-icon">📄</span>
+        <span data-lang="en">I need a certified translation</span>
+        <span data-lang="de">Ich brauche eine beglaubigte Übersetzung</span>
+      </a>
+      <a href="#contact" class="welcome-opt" onclick="closeWelcome()">
+        <span class="welcome-opt-icon">💬</span>
+        <span data-lang="en">I'd like a free consultation</span>
+        <span data-lang="de">Ich möchte eine kostenlose Beratung</span>
+      </a>
+      <a href="#about" class="welcome-opt" onclick="closeWelcome()">
+        <span class="welcome-opt-icon">👋</span>
+        <span data-lang="en">Just browsing — tell me more</span>
+        <span data-lang="de">Ich schaue mich nur um — erzählen Sie mehr</span>
+      </a>
+    </div>
+    <button class="welcome-close" onclick="closeWelcome()">
+      <span data-lang="en">Maybe later</span><span data-lang="de">Vielleicht später</span>
+    </button>
+  </div>
+</div>
+
+<!-- GDPR COOKIE BANNER -->
+<div class="cookie-banner" id="cookie-banner">
+  <p class="cookie-text">
+    <span data-lang="en">We use cookies to analyse site traffic and improve your experience. By clicking "Accept", you consent to the use of analytics cookies. <a href="privacy.html">Privacy Policy</a></span>
+    <span data-lang="de">Wir verwenden Cookies, um den Website-Traffic zu analysieren und Ihr Erlebnis zu verbessern. Mit „Akzeptieren" stimmen Sie der Verwendung von Analyse-Cookies zu. <a href="privacy.html">Datenschutzerklärung</a></span>
+  </p>
+  <div class="cookie-btns">
+    <button class="cookie-btn cookie-decline" onclick="handleCookies(false)">
+      <span data-lang="en">Decline</span><span data-lang="de">Ablehnen</span>
+    </button>
+    <button class="cookie-btn cookie-accept" onclick="handleCookies(true)">
+      <span data-lang="en">Accept</span><span data-lang="de">Akzeptieren</span>
+    </button>
+  </div>
+</div>
 
 <!-- WHATSAPP BUBBLE -->
 <a href="https://wa.me/4915563671657" class="wa-bubble" target="_blank" title="WhatsApp">💬</a>
@@ -782,6 +866,25 @@
         btn.style.background='';
       },3000);
     }
+  }
+
+  /* ═══ WELCOME POPUP ═══ */
+  function closeWelcome(){
+    document.getElementById('welcome-popup').classList.remove('show');
+    sessionStorage.setItem('welcome-seen','true');
+  }
+  if(!sessionStorage.getItem('welcome-seen')){
+    setTimeout(()=>{document.getElementById('welcome-popup').classList.add('show')},1500);
+  }
+
+  /* ═══ GDPR COOKIE BANNER ═══ */
+  function handleCookies(accepted){
+    localStorage.setItem('cookie-consent',accepted?'true':'false');
+    document.getElementById('cookie-banner').classList.remove('show');
+    if(accepted) loadGA();
+  }
+  if(!localStorage.getItem('cookie-consent')){
+    setTimeout(()=>{document.getElementById('cookie-banner').classList.add('show')},2000);
   }
 </script>
 </body>

@@ -87,6 +87,9 @@
     if(localStorage.getItem('cookie-consent')==='true') loadGA();
   </script>
 
+  <!-- ═══ CALENDLY POPUP WIDGET ═══ -->
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"/>
+
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"/>
@@ -328,7 +331,7 @@
     <li><a href="#services" data-lang="en">Services</a><a href="#services" data-lang="de">Leistungen</a></li>
     <li><a href="#how" data-lang="en">How It Works</a><a href="#how" data-lang="de">So funktioniert's</a></li>
     <li><a href="#about" data-lang="en">About</a><a href="#about" data-lang="de">Über uns</a></li>
-    <li><a href="#contact" class="nav-cta" data-lang="en">Book a Call</a><a href="#contact" class="nav-cta" data-lang="de">Termin buchen</a></li>
+    <li><a href="#" class="nav-cta" data-lang="en" onclick="openCalendly(event)">Book a Call</a><a href="#" class="nav-cta" data-lang="de" onclick="openCalendly(event)">Termin buchen</a></li>
   </ul>
   <div style="display:flex;align-items:center;gap:10px">
     <div class="lang-toggle">
@@ -351,7 +354,7 @@
     <p class="hero-sub" data-lang="de">Umfassende Unterstützung bei Einwanderungsdokumenten, beglaubigte Übersetzungen und Verwaltungsassistenz für Expats und Einwanderer in Deutschland. Mehrsprachige Unterstützung verfügbar.</p>
 
     <div class="hero-btns">
-      <a href="#contact" class="btn-primary"><span data-lang="en">Book Free Consultation</span><span data-lang="de">Kostenlose Beratung buchen</span></a>
+      <a href="#" class="btn-primary" onclick="openCalendly(event)"><span data-lang="en">Book Free Consultation</span><span data-lang="de">Kostenlose Beratung buchen</span></a>
       <a href="#services" class="btn-secondary"><span data-lang="en">Our Services</span><span data-lang="de">Unsere Leistungen</span></a>
     </div>
   </div>
@@ -620,10 +623,10 @@
       <div>
         <h3 data-lang="en">Ready to get started?</h3>
         <h3 data-lang="de">Bereit loszulegen?</h3>
-        <p data-lang="en">Book a free 20-minute consultation. We'll assess your situation, tell you exactly what documents you need and give you a clear quote — in Tamil, English or German.</p>
-        <p data-lang="de">Buchen Sie eine kostenlose 20-minütige Beratung. Wir analysieren Ihre Situation und erstellen ein klares Angebot — auf Tamil, Englisch oder Deutsch.</p>
+        <p data-lang="en">Book a free 15-minute consultation. We'll assess your situation, tell you exactly what documents you need and give you a clear quote — in Tamil, English or German.</p>
+        <p data-lang="de">Buchen Sie eine kostenlose 15-minütige Beratung. Wir analysieren Ihre Situation und erstellen ein klares Angebot — auf Tamil, Englisch oder Deutsch.</p>
         <div class="booking-btns">
-          <a href="#contact" class="btn-white"><span data-lang="en">Book Free Call</span><span data-lang="de">Kostenloses Gespräch buchen</span></a>
+          <a href="#" class="btn-white" onclick="openCalendly(event)"><span data-lang="en">Book Free Call</span><span data-lang="de">Kostenloses Gespräch buchen</span></a>
           <a href="https://wa.me/4915563671657" class="btn-outline-white" target="_blank"><span data-lang="en">WhatsApp Us</span><span data-lang="de">WhatsApp schreiben</span></a>
         </div>
       </div>
@@ -741,7 +744,7 @@
       <ul>
         <li><a href="mailto:info@docuassistgermany.de">Email</a></li>
         <li><a href="#contact">WhatsApp</a></li>
-        <li><a href="#contact" data-lang="en">Book a Call</a><a href="#contact" data-lang="de">Termin buchen</a></li>
+        <li><a href="#" data-lang="en" onclick="openCalendly(event)">Book a Call</a><a href="#" data-lang="de" onclick="openCalendly(event)">Termin buchen</a></li>
       </ul>
     </div>
   </div>
@@ -770,7 +773,7 @@
         <span data-lang="en">I need a certified translation</span>
         <span data-lang="de">Ich brauche eine beglaubigte Übersetzung</span>
       </a>
-      <a href="#contact" class="welcome-opt" onclick="closeWelcome()">
+      <a href="#" class="welcome-opt" onclick="closeWelcome();openCalendly(event)">
         <span class="welcome-opt-icon">💬</span>
         <span data-lang="en">I'd like a free consultation</span>
         <span data-lang="de">Ich möchte eine kostenlose Beratung</span>
@@ -909,6 +912,13 @@
   if(!localStorage.getItem('cookie-consent')){
     setTimeout(()=>{document.getElementById('cookie-banner').classList.add('show')},2000);
   }
+
+  /* ═══ CALENDLY POPUP ═══ */
+  function openCalendly(e){
+    if(e) e.preventDefault();
+    Calendly.initPopupWidget({url:'https://calendly.com/docuassistgermany/15-minute-docu-assist-consulation'});
+  }
 </script>
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 </body>
 </html>

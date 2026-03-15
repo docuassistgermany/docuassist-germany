@@ -78,8 +78,11 @@
     if(localStorage.getItem('cookie-consent')==='true') loadGA();
   </script>
 
-  <!-- CALENDLY -->
+  <!-- CALENDLY — preload for faster popup -->
+  <link rel="preload" href="https://assets.calendly.com/assets/external/widget.js" as="script"/>
+  <link rel="preload" href="https://assets.calendly.com/assets/external/widget.css" as="style"/>
   <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"/>
+  <link rel="preconnect" href="https://calendly.com"/>
 
   <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -1324,6 +1327,6 @@
     setTimeout(() => document.getElementById('cookie-banner').classList.add('show'), 1500);
   }
 </script>
-<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<script src="https://assets.calendly.com/assets/external/widget.js"></script>
 </body>
 </html>

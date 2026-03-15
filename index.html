@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
-  <link rel="shortcut icon" href="favicon.svg"/>
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="shortcut icon" href="favicon.png"/>
 
   <!-- ═══ PRIMARY SEO ═══ -->
   <title>DocuAssist Germany – Certified Translation & Immigration Document Services Berlin</title>
@@ -87,11 +87,15 @@
     if(localStorage.getItem('cookie-consent')==='true') loadGA();
   </script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/></noscript>
   <style>
     :root {
       --black:#1a1a1a; --white:#fff; --grey:#f8f8f8; --mid:#6b7280;
-      --green:#27ae60; --green-d:#1e8449; --border:#e5e7eb;
+      --green:#1a8a4a; --green-d:#14693a; --border:#e5e7eb;
       --orange:#e07b00; --blue:#1a4fa0;
     }
     *{box-sizing:border-box;margin:0;padding:0}
@@ -121,7 +125,7 @@
     .hero-tag::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green)}
     h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:700;line-height:1.15;margin-bottom:24px}
     h1 em{font-style:normal;color:var(--green)}
-    .hero-sub{font-size:1rem;color:var(--mid);max-width:600px;margin-bottom:32px;font-weight:300}
+    .hero-sub{font-size:1rem;color:var(--mid);max-width:600px;margin-bottom:32px;font-weight:400}
     .hero-langs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px}
     .lang-pill{border:1.5px solid var(--border);border-radius:20px;padding:4px 13px;font-size:0.76rem;font-weight:500;color:var(--mid)}
     .hero-btns{display:flex;gap:12px;flex-wrap:wrap}
@@ -131,7 +135,7 @@
     .btn-secondary:hover{border-color:var(--green);color:var(--green)}
 
     /* TRUST BAR */
-    .trust-bar{background:var(--grey);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:18px 5%;display:flex;gap:32px;flex-wrap:wrap;align-items:center;justify-content:center}
+    .trust-bar{background:var(--grey);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:18px 5%;display:flex;gap:32px;flex-wrap:wrap;align-items:center;justify-content:center;min-height:60px}
     .trust-item{display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--mid);font-weight:500}
     .trust-item .dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
 
@@ -161,7 +165,7 @@
     .step{padding:32px 24px;position:relative;text-align:center}
     .step:not(:last-child)::after{content:'→';position:absolute;right:-8px;top:40px;font-size:1.4rem;color:var(--border)}
     .step-num{width:44px;height:44px;border-radius:50%;background:var(--green);color:white;font-weight:700;font-size:1rem;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
-    .step h4{font-size:0.9rem;font-weight:600;margin-bottom:6px}
+    .step h3{font-size:0.9rem;font-weight:600;margin-bottom:6px}
     .step p{font-size:0.8rem;color:var(--mid)}
 
     /* ABOUT */
@@ -176,7 +180,7 @@
     .team-cards{display:flex;flex-direction:column;gap:16px}
     .team-card{background:var(--white);border-radius:14px;padding:22px;border:1px solid var(--border);display:flex;align-items:flex-start;gap:16px}
     .team-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--green-d));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:1rem;flex-shrink:0}
-    .team-info h4{font-weight:600;font-size:0.9rem;margin-bottom:3px}
+    .team-info h3{font-weight:600;font-size:0.9rem;margin-bottom:3px}
     .team-info p{font-size:0.78rem;color:var(--mid);margin:0}
 
 
@@ -219,7 +223,7 @@
     @media(max-width:768px){.footer-top{grid-template-columns:1fr 1fr}}
     .footer-brand .logo{color:white;font-size:1.05rem;display:block;margin-bottom:10px}
     .footer-brand p{font-size:0.8rem;line-height:1.7;max-width:260px}
-    .footer-col h5{color:white;font-size:0.82rem;font-weight:600;margin-bottom:14px}
+    .footer-col h3{color:white;font-size:0.82rem;font-weight:600;margin-bottom:14px}
     .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:8px}
     .footer-col ul li a{color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.78rem;transition:color 0.2s}
     .footer-col ul li a:hover{color:white}
@@ -289,8 +293,8 @@
     .reveal.visible{opacity:1;transform:none}
 
     /* WELCOME POPUP */
-    .welcome-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity 0.3s,visibility 0.3s}
-    .welcome-overlay.show{opacity:1;visibility:visible}
+    .welcome-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s}
+    .welcome-overlay.show{opacity:1;pointer-events:auto}
     .welcome-box{background:var(--white);border-radius:18px;max-width:420px;width:90%;padding:36px 32px;text-align:center;transform:translateY(20px);transition:transform 0.3s}
     .welcome-overlay.show .welcome-box{transform:none}
     .welcome-box h3{font-size:1.2rem;margin-bottom:6px}
@@ -429,29 +433,29 @@
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
-        <h4 data-lang="en">Free Consultation</h4>
-        <h4 data-lang="de">Kostenlose Beratung</h4>
+        <h3 data-lang="en">Free Consultation</h3>
+        <h3 data-lang="de">Kostenlose Beratung</h3>
         <p data-lang="en">Tell us your situation. We assess what documents you need and give you a clear plan and price.</p>
         <p data-lang="de">Schildern Sie Ihre Situation. Wir erstellen einen klaren Plan mit Preisangabe.</p>
       </div>
       <div class="step">
         <div class="step-num">2</div>
-        <h4 data-lang="en">Document Checklist</h4>
-        <h4 data-lang="de">Dokumentencheckliste</h4>
+        <h3 data-lang="en">Document Checklist</h3>
+        <h3 data-lang="de">Dokumentencheckliste</h3>
         <p data-lang="en">We send you a personalised checklist of everything needed for your case — in your language.</p>
         <p data-lang="de">Sie erhalten eine persönliche Checkliste in Ihrer Sprache.</p>
       </div>
       <div class="step">
         <div class="step-num">3</div>
-        <h4 data-lang="en">We Prepare Everything</h4>
-        <h4 data-lang="de">Wir bereiten alles vor</h4>
+        <h3 data-lang="en">We Prepare Everything</h3>
+        <h3 data-lang="de">Wir bereiten alles vor</h3>
         <p data-lang="en">You send us your documents. We translate, certify, fill forms and compile your complete package.</p>
         <p data-lang="de">Sie senden uns Ihre Unterlagen. Wir übersetzen, beglaubigen und stellen Ihr vollständiges Paket zusammen.</p>
       </div>
       <div class="step">
         <div class="step-num">4</div>
-        <h4 data-lang="en">Submit & Follow Up</h4>
-        <h4 data-lang="de">Einreichen & Nachverfolgen</h4>
+        <h3 data-lang="en">Submit & Follow Up</h3>
+        <h3 data-lang="de">Einreichen & Nachverfolgen</h3>
         <p data-lang="en">We help you submit to the right authority and follow up until your case is resolved.</p>
         <p data-lang="de">Wir helfen bei der Einreichung und verfolgen Ihren Fall bis zur Lösung.</p>
       </div>
@@ -484,8 +488,8 @@
         <div class="team-card" style="background:rgba(39,174,96,0.04);border-color:rgba(39,174,96,0.2)">
           <div style="font-size:1.4rem">🇮🇳</div>
           <div class="team-info">
-            <h4 data-lang="en">Indian Roots</h4>
-            <h4 data-lang="de">Indische Wurzeln</h4>
+            <h3 data-lang="en">Indian Roots</h3>
+            <h3 data-lang="de">Indische Wurzeln</h3>
             <p data-lang="en">We understand the immigrant experience in Germany — because we've lived it. Multilingual support, all under one roof.</p>
             <p data-lang="de">Wir verstehen die Erfahrung von Einwanderern in Deutschland – weil wir sie selbst gemacht haben. Mehrsprachige Unterstützung aus einer Hand.</p>
           </div>
@@ -493,8 +497,8 @@
         <div class="team-card" style="background:rgba(39,174,96,0.04);border-color:rgba(39,174,96,0.2)">
           <div style="font-size:1.4rem">🏛️</div>
           <div class="team-info">
-            <h4 data-lang="en">German System Experts</h4>
-            <h4 data-lang="de">Deutsche Systemexperten</h4>
+            <h3 data-lang="en">German System Experts</h3>
+            <h3 data-lang="de">Deutsche Systemexperten</h3>
             <p data-lang="en">Berlin-based, connected to certified translators, and deeply familiar with the LEA, Standesamt and every German authority that matters.</p>
             <p data-lang="de">In Berlin ansässig, mit Zugang zu zertifizierten Übersetzern und tiefer Kenntnis des LEA, Standesamts und aller relevanten deutschen Behörden.</p>
           </div>
@@ -502,8 +506,8 @@
         <div class="team-card" style="background:rgba(39,174,96,0.04);border-color:rgba(39,174,96,0.2)">
           <div style="font-size:1.4rem">🌍</div>
           <div class="team-info">
-            <h4 data-lang="en">Our Mission</h4>
-            <h4 data-lang="de">Unsere Mission</h4>
+            <h3 data-lang="en">Our Mission</h3>
+            <h3 data-lang="de">Unsere Mission</h3>
             <p data-lang="en">Making German bureaucracy accessible to every expat in Germany — regardless of language or background.</p>
             <p data-lang="de">Die deutsche Bürokratie für jeden Expat in Deutschland zugänglich machen – unabhängig von Sprache und Herkunft.</p>
           </div>
@@ -678,33 +682,33 @@
         <input type="checkbox" name="botcheck" style="display:none"/>
         <div class="form-row">
           <div class="form-group">
-            <label data-lang="en">First Name</label><label data-lang="de">Vorname</label>
-            <input type="text" name="first_name" required/>
+            <label for="fname" data-lang="en">First Name</label><label for="fname" data-lang="de">Vorname</label>
+            <input type="text" id="fname" name="first_name" required/>
           </div>
           <div class="form-group">
-            <label data-lang="en">Last Name</label><label data-lang="de">Nachname</label>
-            <input type="text" name="last_name" required/>
+            <label for="lname" data-lang="en">Last Name</label><label for="lname" data-lang="de">Nachname</label>
+            <input type="text" id="lname" name="last_name" required/>
           </div>
         </div>
         <div class="form-group">
-          <label>Email</label>
-          <input type="email" name="email" required/>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required/>
         </div>
         <div class="form-group">
-          <label data-lang="en">Preferred Language</label><label data-lang="de">Bevorzugte Sprache</label>
-          <select name="preferred_language">
+          <label for="pref-lang" data-lang="en">Preferred Language</label><label for="pref-lang" data-lang="de">Bevorzugte Sprache</label>
+          <select id="pref-lang" name="preferred_language">
             <option>English</option>
             <option>German</option>
             <option>Tamil</option>
           </select>
         </div>
         <div class="form-group">
-          <label data-lang="en">Service Needed</label><label data-lang="de">Gewünschte Leistung</label>
+          <label for="service-select" data-lang="en">Service Needed</label><label for="service-select" data-lang="de">Gewünschte Leistung</label>
           <select id="service-select" name="service_needed"></select>
         </div>
         <div class="form-group">
-          <label data-lang="en">Message</label><label data-lang="de">Nachricht</label>
-          <textarea data-lang="en" name="message" placeholder="Tell us about your situation — we've probably helped someone in the same spot before..."></textarea>
+          <label for="msg" data-lang="en">Message</label><label for="msg" data-lang="de">Nachricht</label>
+          <textarea id="msg" data-lang="en" name="message" placeholder="Tell us about your situation — we've probably helped someone in the same spot before..."></textarea>
           <textarea data-lang="de" name="message" placeholder="Erzählen Sie uns von Ihrer Situation — wir haben wahrscheinlich schon jemandem in der gleichen Lage geholfen..."></textarea>
         </div>
         <button type="submit" class="form-submit">
@@ -724,7 +728,7 @@
       <p data-lang="de">Umfassende Einwanderungsdokumentenhilfe für Expats in Deutschland.</p>
     </div>
     <div class="footer-col">
-      <h5 data-lang="en">Services</h5><h5 data-lang="de">Leistungen</h5>
+      <h3 data-lang="en">Services</h3><h3 data-lang="de">Leistungen</h3>
       <ul>
         <li><a href="#services" data-lang="en">Immigration Docs</a><a href="#services" data-lang="de">Einwanderung</a></li>
         <li><a href="#services" data-lang="en">Translations</a><a href="#services" data-lang="de">Übersetzungen</a></li>
@@ -733,7 +737,7 @@
       </ul>
     </div>
     <div class="footer-col">
-      <h5 data-lang="en">Contact</h5><h5 data-lang="de">Kontakt</h5>
+      <h3 data-lang="en">Contact</h3><h3 data-lang="de">Kontakt</h3>
       <ul>
         <li><a href="mailto:info@docuassistgermany.de">Email</a></li>
         <li><a href="#contact">WhatsApp</a></li>
@@ -744,17 +748,17 @@
   <div class="footer-bottom">
     <a href="#home" class="logo footer-logo">Docu<span style="color:var(--green)">Assist</span> Germany</a>
     <p>&copy; 2026 DocuAssist Germany · Berlin, Deutschland</p>
-    <p><a href="privacy.html" style="color:var(--mid);text-decoration:none;font-size:0.78rem"><span data-lang="en">Privacy Policy</span><span data-lang="de">Datenschutzerklärung</span></a></p>
+    <p><a href="privacy.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.78rem"><span data-lang="en">Privacy Policy</span><span data-lang="de">Datenschutzerklärung</span></a></p>
   </div>
 </footer>
 
 <!-- WELCOME POPUP -->
 <div class="welcome-overlay" id="welcome-popup">
   <div class="welcome-box">
-    <h3 data-lang="en">How can we help you today?</h3>
-    <h3 data-lang="de">Wie können wir Ihnen heute helfen?</h3>
-    <p data-lang="en">Choose what best describes your situation and we'll guide you from there.</p>
-    <p data-lang="de">Wählen Sie, was am besten zu Ihrer Situation passt.</p>
+    <h3 data-lang="en">Before you go — can we help?</h3>
+    <h3 data-lang="de">Bevor Sie gehen — können wir helfen?</h3>
+    <p data-lang="en">Many expats feel overwhelmed by German paperwork. Pick what you need and we'll take it from there.</p>
+    <p data-lang="de">Viele Expats fühlen sich von deutscher Bürokratie überfordert. Wählen Sie, was Sie brauchen — wir kümmern uns darum.</p>
     <div class="welcome-options">
       <a href="#svc-immigration" class="welcome-opt" onclick="closeWelcome()">
         <span class="welcome-opt-icon">🛂</span>
@@ -868,14 +872,33 @@
     }
   }
 
-  /* ═══ WELCOME POPUP ═══ */
+  /* ═══ EXIT-INTENT POPUP ═══ */
   function closeWelcome(){
     document.getElementById('welcome-popup').classList.remove('show');
     sessionStorage.setItem('welcome-seen','true');
   }
-  if(!sessionStorage.getItem('welcome-seen')){
-    setTimeout(()=>{document.getElementById('welcome-popup').classList.add('show')},1500);
+  function showWelcome(){
+    if(sessionStorage.getItem('welcome-seen')) return;
+    document.getElementById('welcome-popup').classList.add('show');
   }
+  /* Desktop: mouse leaves viewport (toward close/back button) */
+  document.addEventListener('mouseout',function(e){
+    if(e.clientY<5 && e.relatedTarget===null) showWelcome();
+  });
+  /* Mobile: user scrolls up quickly (pull-to-leave gesture) or is idle for 45s */
+  let lastScroll=0;
+  let mobileTimer=null;
+  function resetMobileTimer(){
+    clearTimeout(mobileTimer);
+    mobileTimer=setTimeout(showWelcome,45000);
+  }
+  window.addEventListener('scroll',function(){
+    const curr=window.scrollY;
+    if(curr<lastScroll-80 && curr>300) showWelcome();
+    lastScroll=curr;
+    resetMobileTimer();
+  });
+  if('ontouchstart' in window) resetMobileTimer();
 
   /* ═══ GDPR COOKIE BANNER ═══ */
   function handleCookies(accepted){

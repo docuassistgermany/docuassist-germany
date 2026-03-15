@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="icon" type="image/png" href="favicon.png"/>
-  <link rel="shortcut icon" href="favicon.png"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
 
-  <!-- ═══ PRIMARY SEO ═══ -->
+  <!-- PRIMARY SEO -->
   <title>DocuAssist Germany – Certified Translation & Immigration Document Services Berlin</title>
   <meta name="description" content="Certified multilingual translations, immigration document assistance and administrative support for expats and immigrants in Berlin. All languages supported through our network of certified translators."/>
   <meta name="keywords" content="certified translation Berlin, multilingual translation Berlin, immigration documents Berlin, Aufenthaltserlaubnis help Berlin, expats Germany, document assistance Berlin, certified translator Germany, English German translation Berlin, immigrants Germany, expat community Berlin, all languages translation Berlin"/>
@@ -17,7 +16,7 @@
   <link rel="alternate" hreflang="de" href="https://www.docuassistgermany.de/"/>
   <link rel="alternate" hreflang="x-default" href="https://www.docuassistgermany.de/"/>
 
-  <!-- ═══ OPEN GRAPH (Facebook, LinkedIn, WhatsApp previews) ═══ -->
+  <!-- OPEN GRAPH -->
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="https://www.docuassistgermany.de/"/>
   <meta property="og:title" content="DocuAssist Germany – Certified Translation & Immigration Documents Berlin"/>
@@ -26,52 +25,44 @@
   <meta property="og:locale" content="en_GB"/>
   <meta property="og:locale:alternate" content="de_DE"/>
 
-  <!-- ═══ TWITTER CARD ═══ -->
+  <!-- TWITTER CARD -->
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="DocuAssist Germany – Certified Translation & Immigration Documents Berlin"/>
   <meta name="twitter:description" content="Certified multilingual translations and immigration document assistance for expats and immigrants in Berlin. All languages supported."/>
 
-  <!-- ═══ LOCAL BUSINESS SCHEMA (Google uses this for Maps & Search) ═══ -->
+  <!-- LOCAL BUSINESS SCHEMA -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "DocuAssist Germany",
-    "description": "Certified multilingual translation services and end-to-end immigration document assistance for expats and immigrants in Berlin, Germany. All languages supported.",
+    "description": "Certified multilingual translation services and end-to-end immigration document assistance for expats and immigrants in Berlin, Germany.",
     "url": "https://www.docuassistgermany.de",
     "email": "info@docuassistgermany.de",
     "telephone": "+4915563671657",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Berlin",
-      "addressCountry": "DE"
-    },
+    "address": { "@type": "PostalAddress", "addressLocality": "Berlin", "addressCountry": "DE" },
     "areaServed": ["Berlin", "Germany"],
     "knowsLanguage": ["Tamil", "English", "German"],
     "serviceType": ["Translation service", "Document preparation service", "Immigration assistance"],
     "priceRange": "€€",
-    "openingHours": "Mo-Fr 09:00-18:00",
-    "sameAs": []
+    "openingHours": "Mo-Fr 09:00-18:00"
   }
   </script>
 
-  <!-- ═══ SERVICE SCHEMA ═══ -->
+  <!-- SERVICE SCHEMA -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Service",
     "serviceType": "Certified Translation",
-    "provider": {
-      "@type": "LocalBusiness",
-      "name": "DocuAssist Germany"
-    },
+    "provider": { "@type": "LocalBusiness", "name": "DocuAssist Germany" },
     "areaServed": "Germany",
     "description": "Certified translations for all language pairs, accepted by German courts, immigration offices and civil registries.",
     "availableLanguage": ["Tamil", "English", "German", "French", "Spanish", "Arabic", "Hindi", "Chinese", "Turkish", "Polish", "Russian"]
   }
   </script>
 
-  <!-- ═══ GOOGLE ANALYTICS (loads only after cookie consent) ═══ -->
+  <!-- GOOGLE ANALYTICS -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -87,245 +78,543 @@
     if(localStorage.getItem('cookie-consent')==='true') loadGA();
   </script>
 
-  <!-- ═══ CALENDLY POPUP WIDGET ═══ -->
+  <!-- CALENDLY -->
   <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"/>
 
+  <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"/>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/></noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
   <style>
     :root {
-      --black:#1a1a1a; --white:#fff; --grey:#f8f8f8; --mid:#6b7280;
-      --green:#1a8a4a; --green-d:#14693a; --border:#e5e7eb;
-      --orange:#e07b00; --blue:#1a4fa0;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{font-family:'Poppins',system-ui,sans-serif;color:var(--black);background:var(--white);font-size:16px;line-height:1.7}
-
-    /* NAV */
-    nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,0.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:68px}
-    .logo{font-weight:700;font-size:1.1rem;color:var(--black);text-decoration:none}
-    .logo span{color:var(--green)}
-    .nav-links{display:flex;align-items:center;gap:28px;list-style:none}
-    .nav-links a{text-decoration:none;color:var(--mid);font-size:0.85rem;font-weight:500;transition:color 0.2s}
-    .nav-links a:hover{color:var(--green)}
-    .nav-cta{background:var(--green)!important;color:white!important;padding:8px 18px;border-radius:6px;font-weight:600!important;white-space:nowrap}
-    .nav-cta:hover{background:var(--green-d)!important}
-    .lang-toggle{display:flex;background:var(--grey);border-radius:20px;overflow:hidden;border:1px solid var(--border)}
-    .lang-toggle button{border:none;background:transparent;padding:5px 13px;font-size:0.76rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;color:var(--mid);transition:all 0.2s;border-radius:20px}
-    .lang-toggle button.active{background:var(--green);color:white}
-
-    /* HERO */
-    #home{min-height:100vh;display:flex;align-items:center;padding:100px 5% 60px;background:var(--white);position:relative;overflow:hidden}
-    @media(max-width:1024px){#home{min-height:auto;padding:120px 5% 60px}}
-    @media(max-width:640px){#home{padding:100px 5% 48px}}
-    #home::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(39,174,96,0.07) 0%,transparent 70%);pointer-events:none}
-    .hero-inner{max-width:760px;position:relative;z-index:1}
-    .hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(39,174,96,0.1);color:var(--green-d);border-radius:20px;padding:5px 16px;font-size:0.76rem;font-weight:600;margin-bottom:24px;letter-spacing:0.04em}
-    .hero-tag::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green)}
-    h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:700;line-height:1.15;margin-bottom:24px}
-    h1 em{font-style:normal;color:var(--green)}
-    .hero-sub{font-size:1rem;color:var(--mid);max-width:600px;margin-bottom:32px;font-weight:400}
-    .hero-langs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px}
-    .lang-pill{border:1.5px solid var(--border);border-radius:20px;padding:4px 13px;font-size:0.76rem;font-weight:500;color:var(--mid)}
-    .hero-btns{display:flex;gap:12px;flex-wrap:wrap}
-    .btn-primary{background:var(--green);color:white;padding:13px 28px;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.9rem;transition:background 0.2s,transform 0.15s;display:inline-block}
-    .btn-primary:hover{background:var(--green-d);transform:translateY(-1px)}
-    .btn-secondary{border:1.5px solid var(--border);color:var(--black);padding:13px 28px;border-radius:8px;text-decoration:none;font-weight:500;font-size:0.9rem;transition:border-color 0.2s,color 0.2s;display:inline-block}
-    .btn-secondary:hover{border-color:var(--green);color:var(--green)}
-
-    /* TRUST BAR */
-    .trust-bar{background:var(--grey);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:18px 5%;display:flex;gap:32px;flex-wrap:wrap;align-items:center;justify-content:center;min-height:60px}
-    .trust-item{display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--mid);font-weight:500}
-    .trust-item .dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
-
-    /* SECTIONS */
-    section{padding:88px 5%}
-    section.alt{background:var(--grey)}
-    .section-label{text-transform:uppercase;letter-spacing:0.1em;font-size:0.7rem;font-weight:700;color:var(--green);margin-bottom:10px}
-    h2{font-size:clamp(1.6rem,3.5vw,2.3rem);font-weight:700;margin-bottom:14px}
-    .section-sub{font-size:0.95rem;color:var(--mid);max-width:560px;margin-bottom:48px;font-weight:300}
-
-    /* SERVICES TABS */
-    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px}
-    .tab{border:1.5px solid var(--border);border-radius:20px;padding:7px 18px;font-size:0.8rem;font-weight:600;cursor:pointer;background:white;color:var(--mid);transition:all 0.2s;font-family:'Poppins',sans-serif}
-    .tab.active,.tab:hover{background:var(--green);color:white;border-color:var(--green)}
-    .services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px}
-    .service-card{background:var(--white);border-radius:14px;padding:32px 24px;border:1px solid var(--border);transition:box-shadow 0.2s,transform 0.2s;position:relative}
-    .service-card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.08);transform:translateY(-2px)}
-    .service-badge{position:absolute;top:16px;right:16px;background:rgba(39,174,96,0.1);color:var(--green-d);border-radius:4px;padding:2px 8px;font-size:0.68rem;font-weight:700;text-transform:uppercase}
-    .service-icon{width:48px;height:48px;border-radius:12px;background:rgba(39,174,96,0.1);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px}
-    .service-card h3{font-size:1rem;font-weight:600;margin-bottom:8px}
-    .service-card p{font-size:0.84rem;color:var(--mid);line-height:1.7}
-    .service-langs{margin-top:14px;display:flex;gap:5px;flex-wrap:wrap}
-    .service-lang{background:rgba(39,174,96,0.08);color:var(--green-d);border-radius:4px;padding:2px 7px;font-size:0.7rem;font-weight:600}
-
-    /* HOW IT WORKS */
-    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;counter-reset:steps}
-    .step{padding:32px 24px;position:relative;text-align:center}
-    .step:not(:last-child)::after{content:'→';position:absolute;right:-8px;top:40px;font-size:1.4rem;color:var(--border)}
-    .step-num{width:44px;height:44px;border-radius:50%;background:var(--green);color:white;font-weight:700;font-size:1rem;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
-    .step h3{font-size:0.9rem;font-weight:600;margin-bottom:6px}
-    .step p{font-size:0.8rem;color:var(--mid)}
-
-    /* ABOUT */
-    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
-    @media(max-width:768px){.about-grid{grid-template-columns:1fr;gap:36px}}
-    .about-text p{color:var(--mid);margin-bottom:18px;font-size:0.93rem}
-    .about-stats{display:flex;flex-wrap:wrap;gap:16px;margin-top:32px;justify-content:center}
-    .stat{flex:0 0 calc(50% - 8px)}
-    .stat{background:var(--white);border-radius:12px;padding:20px;border:1px solid var(--border);text-align:center}
-    .stat .number{font-size:1.7rem;font-weight:700;color:var(--green);display:block}
-    .stat .label{font-size:0.74rem;color:var(--mid);margin-top:3px}
-    .team-cards{display:flex;flex-direction:column;gap:16px}
-    .team-card{background:var(--white);border-radius:14px;padding:22px;border:1px solid var(--border);display:flex;align-items:flex-start;gap:16px}
-    .team-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--green-d));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:1rem;flex-shrink:0}
-    .team-info h3{font-weight:600;font-size:0.9rem;margin-bottom:3px}
-    .team-info p{font-size:0.78rem;color:var(--mid);margin:0}
-
-
-
-    /* BOOKING */
-    .booking-box{background:linear-gradient(135deg,var(--black) 0%,#2d2d2d 100%);border-radius:16px;padding:48px;display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
-    .booking-box h3{font-size:1.5rem;font-weight:700;color:white;margin-bottom:8px}
-    .booking-box p{color:rgba(255,255,255,0.65);font-size:0.9rem;max-width:400px}
-    .booking-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
-    .btn-white{background:white;color:var(--black);padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.88rem;transition:opacity 0.2s;display:inline-block}
-    .btn-white:hover{opacity:0.9}
-    .btn-outline-white{border:1.5px solid rgba(255,255,255,0.4);color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:500;font-size:0.88rem;transition:border-color 0.2s;display:inline-block}
-    .btn-outline-white:hover{border-color:white}
-
-    /* CONTACT */
-    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
-    @media(max-width:768px){.contact-grid{grid-template-columns:1fr;gap:36px}}
-    .contact-info p{color:var(--mid);font-size:0.93rem;margin-bottom:28px}
-    .contact-items{display:flex;flex-direction:column;gap:18px}
-    .contact-item{display:flex;align-items:flex-start;gap:12px}
-    .contact-item-icon{width:40px;height:40px;border-radius:10px;background:rgba(39,174,96,0.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
-    .contact-item-text strong{font-size:0.78rem;color:var(--mid);display:block;margin-bottom:1px}
-    .contact-item-text strong[data-lang="de"]{display:none}
-    body.de .contact-item-text strong[data-lang="de"]{display:block}
-    body.de .contact-item-text strong[data-lang="en"]{display:none}
-    .contact-item-text span{font-size:0.88rem;font-weight:500}
-    .contact-form{display:flex;flex-direction:column;gap:14px}
-    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .form-group{display:flex;flex-direction:column;gap:5px}
-    .form-group label{font-size:0.78rem;font-weight:500}
-    .form-group input,.form-group select,.form-group textarea{padding:10px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'Poppins',sans-serif;font-size:0.85rem;color:var(--black);background:var(--white);outline:none;transition:border-color 0.2s}
-    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--green)}
-    .form-group textarea{resize:vertical;min-height:100px}
-    .form-submit{background:var(--green);color:white;border:none;padding:12px 26px;border-radius:8px;font-size:0.9rem;font-weight:600;font-family:'Poppins',sans-serif;cursor:pointer;transition:background 0.2s;align-self:flex-start}
-    .form-submit:hover{background:var(--green-d)}
-
-    /* FOOTER */
-    footer{background:var(--black);color:rgba(255,255,255,0.55);padding:48px 5% 32px}
-    .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
-    @media(max-width:768px){.footer-top{grid-template-columns:1fr 1fr}}
-    .footer-brand .logo{color:white;font-size:1.05rem;display:block;margin-bottom:10px}
-    .footer-brand p{font-size:0.8rem;line-height:1.7;max-width:260px}
-    .footer-col h3{color:white;font-size:0.82rem;font-weight:600;margin-bottom:14px}
-    .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:8px}
-    .footer-col ul li a{color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.78rem;transition:color 0.2s}
-    .footer-col ul li a:hover{color:white}
-    .footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:0.76rem}
-    .footer-bottom .logo{color:white;font-size:0.95rem}
-
-    /* WHATSAPP BUBBLE */
-    .wa-bubble{position:fixed;bottom:24px;right:24px;z-index:999;background:#25d366;color:white;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;text-decoration:none;box-shadow:0 4px 16px rgba(37,211,102,0.4);transition:transform 0.2s}
-    .wa-bubble:hover{transform:scale(1.1)}
-
-    /* RESPONSIVE — TABLET (up to 1024px) */
-    @media(max-width:1024px){
-      section{padding:72px 5%}
-      .footer-top{grid-template-columns:1fr 1fr;gap:32px}
-      .services-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
-      .steps{grid-template-columns:repeat(2,1fr);gap:16px}
-      .step:not(:last-child)::after{display:none}
-      .booking-box{padding:36px;flex-direction:column;align-items:flex-start}
-      nav{padding:0 3%}
-      .nav-links{gap:14px}
-      .nav-links a{font-size:0.78rem}
-      .nav-cta{padding:7px 13px;font-size:0.78rem}
-      .lang-toggle button{padding:4px 10px;font-size:0.72rem}
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --grey: #f7f8fa;
+      --grey-100: #f1f3f5;
+      --grey-200: #e5e7eb;
+      --grey-300: #d1d5db;
+      --grey-500: #6b7280;
+      --grey-600: #4b5563;
+      --grey-700: #374151;
+      --grey-800: #1f2937;
+      --grey-900: #111827;
+      --green: #0d9e5f;
+      --green-dark: #0a7d4b;
+      --green-light: rgba(13,158,95,0.08);
+      --green-glow: rgba(13,158,95,0.15);
+      --accent: #10b981;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+      --shadow-green: 0 4px 24px rgba(13,158,95,0.25);
+      --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* RESPONSIVE — TABLET PORTRAIT / LARGE MOBILE (up to 868px) */
-    @media(max-width:868px){
-      .nav-links li:nth-child(2){display:none}
+    * { box-sizing: border-box; margin: 0; padding: 0 }
+    html { scroll-behavior: smooth }
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: var(--grey-900); background: var(--white); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      display: flex; align-items: center; justify-content: space-between; height: 72px;
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+    nav.scrolled { box-shadow: 0 1px 12px rgba(0,0,0,0.08) }
+    .logo { font-weight: 800; font-size: 1.15rem; color: var(--grey-900); text-decoration: none; letter-spacing: -0.02em }
+    .logo span { color: var(--green) }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none }
+    .nav-links a { text-decoration: none; color: var(--grey-600); font-size: 0.875rem; font-weight: 500; transition: color var(--transition); position: relative }
+    .nav-links a:hover { color: var(--green) }
+    .nav-cta {
+      background: var(--green) !important; color: white !important;
+      padding: 10px 22px; border-radius: var(--radius-full); font-weight: 600 !important;
+      white-space: nowrap; transition: all var(--transition); cursor: pointer;
+      box-shadow: var(--shadow-green);
+    }
+    .nav-cta:hover { background: var(--green-dark) !important; transform: translateY(-1px) }
+    .lang-toggle { display: flex; background: var(--grey-100); border-radius: var(--radius-full); overflow: hidden; border: 1px solid var(--grey-200) }
+    .lang-toggle button {
+      border: none; background: transparent; padding: 6px 14px; font-size: 0.75rem;
+      font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
+      color: var(--grey-500); transition: all var(--transition); border-radius: var(--radius-full);
+    }
+    .lang-toggle button.active { background: var(--grey-900); color: white }
+
+    /* ── HERO ── */
+    #home {
+      min-height: auto; display: flex; flex-direction: column; align-items: center;
+      padding: 120px clamp(1.5rem, 5vw, 4rem) 0;
+      background: linear-gradient(135deg, var(--grey-900) 0%, #0f1b2d 50%, #0a1628 100%);
+      position: relative; overflow: hidden; color: white;
+    }
+    #home::before {
+      content: ''; position: absolute; top: -30%; right: -10%; width: 700px; height: 700px;
+      border-radius: 50%; background: radial-gradient(circle, rgba(13,158,95,0.12) 0%, transparent 70%);
+      pointer-events: none; animation: pulse 8s ease-in-out infinite alternate;
+    }
+    #home::after {
+      content: ''; position: absolute; bottom: -20%; left: -5%; width: 500px; height: 500px;
+      border-radius: 50%; background: radial-gradient(circle, rgba(13,158,95,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    @keyframes pulse { 0% { transform: scale(1); opacity: 0.6 } 100% { transform: scale(1.15); opacity: 1 } }
+    .hero-inner { max-width: 720px; position: relative; z-index: 1; text-align: center; margin: 0 auto; padding-bottom: 40px }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(13,158,95,0.15); color: var(--accent);
+      border: 1px solid rgba(13,158,95,0.25);
+      border-radius: var(--radius-full); padding: 6px 18px;
+      font-size: 0.8rem; font-weight: 600; margin-bottom: 28px;
+      letter-spacing: 0.04em; backdrop-filter: blur(8px);
+    }
+    .hero-tag svg { width: 8px; height: 8px; fill: var(--accent) }
+    h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 800; line-height: 1.1; margin-bottom: 24px; letter-spacing: -0.03em }
+    h1 em { font-style: normal; color: var(--accent) }
+    .hero-sub { font-size: 1.05rem; color: rgba(255,255,255,0.65); max-width: 560px; margin: 0 auto 40px; font-weight: 400; line-height: 1.7 }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center }
+    .btn-primary {
+      background: var(--green); color: white; padding: 14px 32px; border-radius: var(--radius-full);
+      text-decoration: none; font-weight: 600; font-size: 0.95rem;
+      transition: all var(--transition); display: inline-flex; align-items: center; gap: 8px;
+      box-shadow: var(--shadow-green); cursor: pointer; border: none;
+    }
+    .btn-primary:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(13,158,95,0.35) }
+    .btn-primary svg { width: 18px; height: 18px }
+    .btn-secondary {
+      border: 1.5px solid rgba(255,255,255,0.2); color: white; padding: 14px 32px;
+      border-radius: var(--radius-full); text-decoration: none; font-weight: 500;
+      font-size: 0.95rem; transition: all var(--transition); display: inline-block;
+      backdrop-filter: blur(4px); cursor: pointer;
+    }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.05) }
+
+    /* ── VERTICAL ROADMAP TIMELINE ── */
+    .roadmap-container {
+      position: relative; width: 100%; max-width: 700px; margin: 0 auto;
+      padding: 40px clamp(1rem, 3vw, 2rem) 20px;
+    }
+    .roadmap-line-wrap {
+      position: relative; padding: 0;
+    }
+    /* The vertical track (faint background line) */
+    .roadmap-track {
+      position: absolute; left: 50%; top: 0; bottom: 0; width: 3px;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.06); border-radius: 3px;
+    }
+    /* The animated green progress line */
+    .roadmap-progress {
+      position: absolute; left: 50%; top: 0; width: 3px; height: 0%;
+      transform: translateX(-50%);
+      background: var(--green); border-radius: 3px;
+      transition: none; z-index: 1;
+    }
+    .roadmap-progress-glow {
+      position: absolute; left: 50%; top: 0; width: 8px; height: 0%;
+      transform: translateX(-50%);
+      background: rgba(13,158,95,0.3); border-radius: 4px; filter: blur(4px);
+      transition: none;
+    }
+    /* Each milestone row */
+    .milestone {
+      position: relative; display: flex; align-items: center;
+      padding: 28px 0;
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+    }
+    .milestone.visible { opacity: 1; transform: translateY(0) }
+    /* Alternate sides via explicit classes */
+    .milestone .ms-left, .milestone .ms-right {
+      flex: 1; min-width: 0;
+    }
+    .milestone.ms-label-left .ms-left { text-align: right; padding-right: 28px }
+    .milestone.ms-label-left .ms-right { padding-left: 28px }
+    .milestone.ms-label-right .ms-left { padding-right: 28px }
+    .milestone.ms-label-right .ms-right { text-align: left; padding-left: 28px }
+    /* Dot sits in the centre on the line */
+    .milestone-dot {
+      position: relative; width: 44px; height: 44px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2;
+    }
+    .milestone-dot-inner {
+      width: 16px; height: 16px; border-radius: 50%; border: 2.5px solid;
+      position: relative; z-index: 1;
+    }
+    .milestone-dot-ring {
+      position: absolute; inset: 0; border-radius: 50%;
+      background: rgba(13,158,95,0.12);
+    }
+    .milestone.complete .milestone-dot-inner { background: var(--green); border-color: var(--green-dark) }
+    .milestone.in-progress .milestone-dot-inner { background: #3b82f6; border-color: #2563eb; animation: ms-pulse 2s ease-in-out infinite }
+    .milestone.pending .milestone-dot-inner { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.25) }
+    .milestone.pending.visible .milestone-dot-inner { background: var(--green); border-color: var(--green-dark) }
+    .milestone.pending .milestone-label { border-color: rgba(255,255,255,0.08) }
+    .milestone.pending.visible .milestone-label { border-color: rgba(13,158,95,0.3); background: rgba(13,158,95,0.12) }
+    @keyframes ms-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(59,130,246,0.4) } 50% { box-shadow: 0 0 0 8px rgba(59,130,246,0) } }
+    .milestone-label {
+      display: inline-block;
+      background: rgba(255,255,255,0.08); backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-full); padding: 10px 22px;
+      font-size: 0.85rem; font-weight: 600; color: white;
+      white-space: nowrap; box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    }
+    .milestone-step {
+      display: block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--green); margin-bottom: 4px;
+    }
+    .milestone.complete .milestone-label { border-color: rgba(13,158,95,0.3); background: rgba(13,158,95,0.12) }
+    .milestone.in-progress .milestone-label { border-color: rgba(59,130,246,0.3); background: rgba(59,130,246,0.12) }
+    .milestone.in-progress .milestone-step { color: #60a5fa }
+
+    /* Mobile: all labels appear after the dot */
+    @media(max-width:640px) {
+      .roadmap-track, .roadmap-progress, .roadmap-progress-glow { left: 22px }
+      .milestone { flex-direction: row !important }
+      .milestone.ms-label-left { flex-direction: row-reverse !important }
+      .milestone.ms-label-left .ms-left { text-align: left !important; padding-left: 20px !important; padding-right: 0 !important }
+      .milestone.ms-label-left .ms-right { display: none }
+      .milestone.ms-label-right .ms-left { display: none }
+      .milestone.ms-label-right .ms-right { text-align: left !important; padding-left: 20px !important }
+      .milestone-dot { width: 36px; height: 36px }
+      .milestone-dot-inner { width: 12px; height: 12px }
+      .milestone-label { font-size: 0.78rem; padding: 8px 16px }
     }
 
-    /* RESPONSIVE — TABLET PORTRAIT / LARGE MOBILE (up to 768px) */
-    @media(max-width:768px){
-      .about-grid{grid-template-columns:1fr;gap:36px}
-      .contact-grid{grid-template-columns:1fr;gap:36px}
-      .nav-links{gap:12px}
-      .nav-links a{font-size:0.76rem}
-      #home{padding:90px 5% 50px}
-      .trust-bar{gap:20px;padding:14px 5%}
+    /* ── TRUST BAR ── */
+    .trust-bar {
+      background: var(--white); border-bottom: 1px solid var(--grey-200);
+      padding: 20px clamp(1.5rem, 5vw, 4rem);
+      display: flex; gap: 40px; flex-wrap: wrap; align-items: center; justify-content: center;
+    }
+    .trust-item { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--grey-600); font-weight: 500 }
+    .trust-item svg { width: 20px; height: 20px; color: var(--green); flex-shrink: 0 }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px clamp(1.5rem, 5vw, 4rem) }
+    section.alt { background: var(--grey) }
+    .section-label {
+      text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.75rem;
+      font-weight: 700; color: var(--green); margin-bottom: 12px;
+    }
+    h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; margin-bottom: 16px; letter-spacing: -0.02em; line-height: 1.15 }
+    .section-sub { font-size: 1rem; color: var(--grey-500); max-width: 520px; margin-bottom: 56px; font-weight: 400 }
+
+    /* ── SERVICES ── */
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px }
+    .service-card {
+      background: var(--white); border-radius: var(--radius-lg); padding: 36px 28px;
+      border: 1px solid var(--grey-200); transition: all var(--transition); position: relative;
+      cursor: default;
+    }
+    .service-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); border-color: transparent }
+    .service-badge {
+      position: absolute; top: 20px; right: 20px;
+      background: var(--green-light); color: var(--green-dark);
+      border-radius: var(--radius-full); padding: 4px 12px;
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .service-icon {
+      width: 52px; height: 52px; border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--green), var(--accent));
+      display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+    }
+    .service-icon svg { width: 24px; height: 24px; color: white }
+    .service-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.01em }
+    .service-card p { font-size: 0.88rem; color: var(--grey-500); line-height: 1.7 }
+    .service-langs { margin-top: 16px; display: flex; gap: 6px; flex-wrap: wrap }
+    .service-lang {
+      background: var(--green-light); color: var(--green-dark);
+      border-radius: var(--radius-full); padding: 3px 10px;
+      font-size: 0.72rem; font-weight: 600;
     }
 
-    /* RESPONSIVE — MOBILE (up to 640px) */
-    @media(max-width:640px){
-      .nav-links{display:none}
-      .form-row{grid-template-columns:1fr}
-      .booking-box{padding:24px}
-      .footer-top{grid-template-columns:1fr}
-      .services-grid{grid-template-columns:1fr}
-      .steps{grid-template-columns:1fr}
-      .about-stats{grid-template-columns:1fr 1fr}
-      #home{padding:80px 5% 40px}
-      .trust-bar{flex-direction:column;gap:12px;align-items:flex-start}
+    /* ── HOW IT WORKS ── */
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative }
+    .steps::before {
+      content: ''; position: absolute; top: 32px; left: 15%; right: 15%;
+      height: 2px; background: var(--grey-200);
+    }
+    .step { padding: 0 20px; text-align: center; position: relative }
+    .step-num {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--grey-900); color: white;
+      font-weight: 700; font-size: 0.95rem;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px; position: relative; z-index: 1;
+      box-shadow: 0 0 0 6px var(--white);
+    }
+    .step h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px }
+    .step p { font-size: 0.84rem; color: var(--grey-500) }
+
+    /* ── ABOUT ── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start }
+    .about-text p { color: var(--grey-500); margin-bottom: 18px; font-size: 0.95rem }
+    .about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 36px }
+    .stat {
+      background: var(--white); border-radius: var(--radius); padding: 24px 16px;
+      border: 1px solid var(--grey-200); text-align: center;
+      transition: all var(--transition);
+    }
+    .stat:hover { border-color: var(--green); box-shadow: 0 0 0 1px var(--green) }
+    .stat .number { font-size: 1.8rem; font-weight: 800; color: var(--grey-900); display: block; letter-spacing: -0.02em }
+    .stat .label { font-size: 0.75rem; color: var(--grey-500); margin-top: 4px; font-weight: 500 }
+    .team-cards { display: flex; flex-direction: column; gap: 16px }
+    .team-card {
+      background: var(--white); border-radius: var(--radius-lg); padding: 24px;
+      border: 1px solid var(--grey-200); display: flex; align-items: flex-start; gap: 16px;
+      transition: all var(--transition);
+    }
+    .team-card:hover { box-shadow: var(--shadow-md); border-color: transparent }
+    .team-icon {
+      width: 48px; height: 48px; border-radius: var(--radius);
+      background: var(--green-light); display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .team-icon svg { width: 22px; height: 22px; color: var(--green) }
+    .team-info h3 { font-weight: 700; font-size: 0.95rem; margin-bottom: 4px }
+    .team-info p { font-size: 0.84rem; color: var(--grey-500); margin: 0; line-height: 1.6 }
+
+    /* ── FAQ ── */
+    .faq-item {
+      border: 1px solid var(--grey-200); border-radius: var(--radius); margin-bottom: 12px;
+      background: var(--white); overflow: hidden; transition: all var(--transition);
+    }
+    .faq-item:hover { border-color: var(--grey-300) }
+    .faq-item summary {
+      font-weight: 600; font-size: 0.95rem; cursor: pointer; list-style: none;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 24px; transition: color var(--transition);
+    }
+    .faq-item summary:hover { color: var(--green) }
+    .faq-item summary::-webkit-details-marker { display: none }
+    .faq-icon { width: 24px; height: 24px; flex-shrink: 0; margin-left: 12px; color: var(--green); transition: transform var(--transition) }
+    .faq-item[open] .faq-icon { transform: rotate(45deg) }
+    .faq-answer { padding: 0 24px 20px; color: var(--grey-500); font-size: 0.9rem; line-height: 1.7 }
+
+    /* ── BOOKING ── */
+    .booking-box {
+      background: var(--grey-900); border-radius: var(--radius-lg); padding: 56px;
+      display: flex; justify-content: space-between; align-items: center; gap: 40px;
+      flex-wrap: wrap; position: relative; overflow: hidden;
+    }
+    .booking-box::before {
+      content: ''; position: absolute; top: -50%; right: -10%; width: 400px; height: 400px;
+      border-radius: 50%; background: radial-gradient(circle, rgba(13,158,95,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .booking-box h3 { font-size: 1.6rem; font-weight: 800; color: white; margin-bottom: 10px; letter-spacing: -0.02em }
+    .booking-box p { color: rgba(255,255,255,0.55); font-size: 0.95rem; max-width: 420px; line-height: 1.7 }
+    .booking-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px }
+    .btn-white {
+      background: white; color: var(--grey-900); padding: 13px 28px;
+      border-radius: var(--radius-full); text-decoration: none; font-weight: 600;
+      font-size: 0.9rem; transition: all var(--transition); display: inline-block; cursor: pointer;
+    }
+    .btn-white:hover { transform: translateY(-1px); box-shadow: var(--shadow-md) }
+    .btn-outline-white {
+      border: 1.5px solid rgba(255,255,255,0.25); color: white;
+      padding: 13px 28px; border-radius: var(--radius-full); text-decoration: none;
+      font-weight: 500; font-size: 0.9rem; transition: all var(--transition);
+      display: inline-block; cursor: pointer;
+    }
+    .btn-outline-white:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.05) }
+
+    /* ── CONTACT ── */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start }
+    .contact-info p { color: var(--grey-500); font-size: 0.95rem; margin-bottom: 32px }
+    .contact-items { display: flex; flex-direction: column; gap: 20px }
+    .contact-item { display: flex; align-items: flex-start; gap: 14px }
+    .contact-item-icon {
+      width: 44px; height: 44px; border-radius: var(--radius);
+      background: var(--green-light); display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-item-icon svg { width: 20px; height: 20px; color: var(--green) }
+    .contact-item-text strong { font-size: 0.78rem; color: var(--grey-500); display: block; margin-bottom: 2px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em }
+    .contact-item-text strong[data-lang="de"] { display: none }
+    body.de .contact-item-text strong[data-lang="de"] { display: block }
+    body.de .contact-item-text strong[data-lang="en"] { display: none }
+    .contact-item-text span { font-size: 0.9rem; font-weight: 600 }
+    .contact-item-text span a { color: inherit; text-decoration: none; transition: color var(--transition) }
+    .contact-item-text span a:hover { color: var(--green) }
+    .contact-form { display: flex; flex-direction: column; gap: 16px }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px }
+    .form-group { display: flex; flex-direction: column; gap: 6px }
+    .form-group label { font-size: 0.8rem; font-weight: 600; color: var(--grey-700) }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 12px 16px; border: 1.5px solid var(--grey-200); border-radius: var(--radius);
+      font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--grey-900);
+      background: var(--white); outline: none; transition: all var(--transition);
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--green); box-shadow: 0 0 0 3px var(--green-glow);
+    }
+    .form-group textarea { resize: vertical; min-height: 110px }
+    .form-submit {
+      background: var(--green); color: white; border: none; padding: 14px 32px;
+      border-radius: var(--radius-full); font-size: 0.95rem; font-weight: 600;
+      font-family: 'Inter', sans-serif; cursor: pointer; transition: all var(--transition);
+      align-self: flex-start; box-shadow: var(--shadow-green);
+    }
+    .form-submit:hover { background: var(--green-dark); transform: translateY(-1px) }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--grey-900); color: rgba(255,255,255,0.5);
+      padding: 64px clamp(1.5rem, 5vw, 4rem) 32px;
+    }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; margin-bottom: 48px }
+    .footer-brand .logo { color: white; font-size: 1.05rem; display: block; margin-bottom: 12px }
+    .footer-brand p { font-size: 0.84rem; line-height: 1.7; max-width: 280px }
+    .footer-col h3 { color: white; font-size: 0.82rem; font-weight: 700; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.08em }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px }
+    .footer-col ul li a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.84rem; transition: color var(--transition) }
+    .footer-col ul li a:hover { color: white }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08); padding-top: 28px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px; font-size: 0.78rem;
+    }
+    .footer-bottom .logo { color: white; font-size: 0.95rem }
+
+    /* ── WHATSAPP BUBBLE ── */
+    .wa-bubble {
+      position: fixed; bottom: 28px; right: 28px; z-index: 999;
+      background: #25d366; color: white; width: 60px; height: 60px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      text-decoration: none; box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+      transition: all var(--transition);
+    }
+    .wa-bubble:hover { transform: scale(1.08) translateY(-2px); box-shadow: 0 8px 28px rgba(37,211,102,0.5) }
+    .wa-bubble svg { width: 28px; height: 28px }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:1024px) {
+      section { padding: 80px clamp(1.5rem, 5vw, 4rem) }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 32px }
+      .services-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) }
+      .steps { grid-template-columns: repeat(2, 1fr); gap: 32px }
+      .steps::before { display: none }
+      .step-num { box-shadow: none }
+      .booking-box { padding: 40px; flex-direction: column; align-items: flex-start }
+      .about-stats { grid-template-columns: repeat(3, 1fr) }
+    }
+    @media(max-width:868px) {
+      .nav-links li:nth-child(2) { display: none }
+    }
+    @media(max-width:768px) {
+      .about-grid { grid-template-columns: 1fr; gap: 40px }
+      .contact-grid { grid-template-columns: 1fr; gap: 40px }
+      #home { padding: 100px clamp(1.5rem, 5vw, 4rem) 60px }
+      .trust-bar { gap: 20px; padding: 16px clamp(1.5rem, 5vw, 4rem) }
+    }
+    @media(max-width:640px) {
+      .nav-links { display: none }
+      .form-row { grid-template-columns: 1fr }
+      .booking-box { padding: 28px }
+      .footer-top { grid-template-columns: 1fr }
+      .services-grid { grid-template-columns: 1fr }
+      .steps { grid-template-columns: 1fr; gap: 24px }
+      .about-stats { grid-template-columns: 1fr 1fr 1fr }
+      #home { min-height: auto; padding: 90px 5% 50px }
+      .trust-bar { flex-direction: column; gap: 14px; align-items: flex-start }
+      h1 { font-size: 2rem }
     }
 
-    /* LANG */
-    [data-lang="de"]{display:none}
-    body.de [data-lang="de"]{display:block}
-    body.de [data-lang="en"]{display:none}
-    span[data-lang="de"]{display:none}
-    body.de span[data-lang="de"]{display:inline}
-    body.de span[data-lang="en"]{display:none}
-    a[data-lang="de"],li[data-lang="de"]{display:none}
-    body.de a[data-lang="de"],body.de li[data-lang="de"]{display:inline-flex}
-    body.de a[data-lang="en"],body.de li[data-lang="en"]{display:none}
+    /* ── LANG ── */
+    [data-lang="de"] { display: none }
+    body.de [data-lang="de"] { display: block }
+    body.de [data-lang="en"] { display: none }
+    span[data-lang="de"] { display: none }
+    body.de span[data-lang="de"] { display: inline }
+    body.de span[data-lang="en"] { display: none }
+    a[data-lang="de"], li[data-lang="de"] { display: none }
+    body.de a[data-lang="de"], body.de li[data-lang="de"] { display: inline-flex }
+    body.de a[data-lang="en"], body.de li[data-lang="en"] { display: none }
 
-    /* REVEAL */
-    .reveal{opacity:0;transform:translateY(18px);transition:opacity 0.6s ease,transform 0.6s ease}
-    .reveal.visible{opacity:1;transform:none}
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease }
+    .reveal.visible { opacity: 1; transform: none }
+    @media(prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none }
+      @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8 } }
+    }
 
-    /* WELCOME POPUP */
-    .welcome-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s}
-    .welcome-overlay.show{opacity:1;pointer-events:auto}
-    .welcome-box{background:var(--white);border-radius:18px;max-width:420px;width:90%;padding:36px 32px;text-align:center;transform:translateY(20px);transition:transform 0.3s}
-    .welcome-overlay.show .welcome-box{transform:none}
-    .welcome-box h3{font-size:1.2rem;margin-bottom:6px}
-    .welcome-box p{font-size:0.88rem;color:var(--mid);margin-bottom:24px;line-height:1.6}
-    .welcome-options{display:flex;flex-direction:column;gap:10px}
-    .welcome-opt{display:flex;align-items:center;gap:12px;padding:14px 18px;border:1px solid var(--border);border-radius:12px;text-decoration:none;color:var(--black);font-size:0.88rem;font-weight:500;transition:border-color 0.2s,background 0.2s}
-    .welcome-opt:hover{border-color:var(--green);background:rgba(39,174,96,0.04)}
-    .welcome-opt-icon{font-size:1.3rem;flex-shrink:0}
-    .welcome-close{margin-top:18px;background:none;border:none;color:var(--mid);font-size:0.8rem;cursor:pointer;padding:6px}
-    .welcome-close:hover{color:var(--black)}
+    /* ── WELCOME POPUP ── */
+    .welcome-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+      z-index: 2000; display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    .welcome-overlay.show { opacity: 1; pointer-events: auto }
+    .welcome-box {
+      background: var(--white); border-radius: var(--radius-lg); max-width: 440px;
+      width: 90%; padding: 40px 36px; text-align: center;
+      transform: translateY(16px) scale(0.98); transition: transform 0.3s;
+      box-shadow: var(--shadow-lg);
+    }
+    .welcome-overlay.show .welcome-box { transform: none }
+    .welcome-box h3 { font-size: 1.3rem; margin-bottom: 8px; font-weight: 800; letter-spacing: -0.02em }
+    .welcome-box p { font-size: 0.9rem; color: var(--grey-500); margin-bottom: 28px; line-height: 1.6 }
+    .welcome-options { display: flex; flex-direction: column; gap: 10px }
+    .welcome-opt {
+      display: flex; align-items: center; gap: 14px; padding: 16px 20px;
+      border: 1px solid var(--grey-200); border-radius: var(--radius);
+      text-decoration: none; color: var(--grey-900); font-size: 0.9rem;
+      font-weight: 500; transition: all var(--transition); cursor: pointer;
+    }
+    .welcome-opt:hover { border-color: var(--green); background: var(--green-light) }
+    .welcome-opt-icon {
+      width: 40px; height: 40px; border-radius: 10px; background: var(--green-light);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .welcome-opt-icon svg { width: 20px; height: 20px; color: var(--green) }
+    .welcome-close {
+      margin-top: 20px; background: none; border: none; color: var(--grey-500);
+      font-size: 0.82rem; cursor: pointer; padding: 8px; font-family: 'Inter', sans-serif;
+      transition: color var(--transition);
+    }
+    .welcome-close:hover { color: var(--grey-900) }
 
-    /* GDPR COOKIE BANNER */
-    .cookie-banner{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);padding:18px 5%;display:flex;align-items:center;justify-content:space-between;gap:20px;z-index:1999;box-shadow:0 -4px 20px rgba(0,0,0,0.08);transform:translateY(100%);transition:transform 0.4s;flex-wrap:wrap}
-    .cookie-banner.show{transform:none}
-    .cookie-text{font-size:0.82rem;color:var(--mid);line-height:1.6;flex:1;min-width:250px}
-    .cookie-text a{color:var(--green);text-decoration:underline}
-    .cookie-btns{display:flex;gap:10px;flex-shrink:0}
-    .cookie-btn{padding:10px 20px;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;border:none;transition:background 0.2s}
-    .cookie-accept{background:var(--green);color:var(--white)}
-    .cookie-accept:hover{background:var(--green-d)}
-    .cookie-decline{background:var(--grey);color:var(--mid)}
-    .cookie-decline:hover{background:var(--border)}
+    /* ── COOKIE BANNER ── */
+    .cookie-banner {
+      position: fixed; bottom: 0; left: 0; right: 0; background: var(--white);
+      border-top: 1px solid var(--grey-200);
+      padding: 20px clamp(1.5rem, 5vw, 4rem);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 20px; z-index: 1999; box-shadow: 0 -4px 24px rgba(0,0,0,0.1);
+      transform: translateY(100%); transition: transform 0.4s; flex-wrap: wrap;
+    }
+    .cookie-banner.show { transform: none }
+    .cookie-text { font-size: 0.84rem; color: var(--grey-500); line-height: 1.6; flex: 1; min-width: 250px }
+    .cookie-text a { color: var(--green); text-decoration: underline }
+    .cookie-btns { display: flex; gap: 10px; flex-shrink: 0 }
+    .cookie-btn {
+      padding: 10px 22px; border-radius: var(--radius-full); font-size: 0.84rem;
+      font-weight: 600; cursor: pointer; border: none; transition: all var(--transition);
+      font-family: 'Inter', sans-serif;
+    }
+    .cookie-accept { background: var(--green); color: white }
+    .cookie-accept:hover { background: var(--green-dark) }
+    .cookie-decline { background: var(--grey-100); color: var(--grey-600) }
+    .cookie-decline:hover { background: var(--grey-200) }
   </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav>
+<nav id="main-nav">
   <a href="#home" class="logo">Docu<span>Assist</span> Germany</a>
   <ul class="nav-links">
     <li><a href="#services" data-lang="en">Services</a><a href="#services" data-lang="de">Leistungen</a></li>
@@ -333,7 +622,7 @@
     <li><a href="#about" data-lang="en">About</a><a href="#about" data-lang="de">Über uns</a></li>
     <li><a href="#" class="nav-cta" data-lang="en" onclick="openCalendly(event)">Book a Call</a><a href="#" class="nav-cta" data-lang="de" onclick="openCalendly(event)">Termin buchen</a></li>
   </ul>
-  <div style="display:flex;align-items:center;gap:10px">
+  <div style="display:flex;align-items:center;gap:12px">
     <div class="lang-toggle">
       <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
       <button id="btn-de" onclick="setLang('de')">DE</button>
@@ -343,29 +632,103 @@
 
 <!-- HERO -->
 <section id="home">
+  <!-- Hero Text -->
   <div class="hero-inner">
-    <div class="hero-tag" data-lang="en">Berlin's Immigration Document Specialists</div>
-    <div class="hero-tag" data-lang="de">Berlins Einwanderungsdokumentspezialisten</div>
+    <div class="hero-tag" data-lang="en"><svg viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg> Berlin's Immigration Document Specialists</div>
+    <div class="hero-tag" data-lang="de"><svg viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg> Berlins Einwanderungsdokumentspezialisten</div>
 
-    <h1 data-lang="en">Relocating to <em>Germany?</em><br/>We Handle the Paperwork</h1>
-    <h1 data-lang="de">Sie ziehen nach <em>Deutschland?</em><br/>Wir übernehmen den Papierkram</h1>
+    <h1 data-lang="en">Relocating to <em>Germany?</em><br/>We Handle the Paperwork.</h1>
+    <h1 data-lang="de">Sie ziehen nach <em>Deutschland?</em><br/>Wir übernehmen den Papierkram.</h1>
 
-    <p class="hero-sub" data-lang="en">End-to-end immigration document assistance, certified translations and administrative support for expats and immigrants building their life in Germany. Multilingual support available.</p>
-    <p class="hero-sub" data-lang="de">Umfassende Unterstützung bei Einwanderungsdokumenten, beglaubigte Übersetzungen und Verwaltungsassistenz für Expats und Einwanderer in Deutschland. Mehrsprachige Unterstützung verfügbar.</p>
+    <p class="hero-sub" data-lang="en">End-to-end immigration document assistance, certified translations and administrative support for expats and immigrants building their life in Germany.</p>
+    <p class="hero-sub" data-lang="de">Umfassende Unterstützung bei Einwanderungsdokumenten, beglaubigte Übersetzungen und Verwaltungsassistenz für Expats und Einwanderer in Deutschland.</p>
 
     <div class="hero-btns">
-      <a href="#" class="btn-primary" onclick="openCalendly(event)"><span data-lang="en">Book Free Consultation</span><span data-lang="de">Kostenlose Beratung buchen</span></a>
+      <a href="#" class="btn-primary" onclick="openCalendly(event)">
+        <span data-lang="en">Book Free Consultation</span><span data-lang="de">Kostenlose Beratung buchen</span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+      </a>
       <a href="#services" class="btn-secondary"><span data-lang="en">Our Services</span><span data-lang="de">Unsere Leistungen</span></a>
+    </div>
+  </div>
+
+  <!-- Vertical Animated Roadmap -->
+  <div class="roadmap-container" id="roadmap" aria-label="Animated roadmap showing our 4-step process">
+    <div class="roadmap-line-wrap">
+      <div class="roadmap-track"></div>
+      <div class="roadmap-progress-glow" id="roadmap-glow"></div>
+      <div class="roadmap-progress" id="roadmap-progress"></div>
+
+      <!-- Step 1: label on left -->
+      <div class="milestone in-progress ms-label-left">
+        <div class="ms-left">
+          <div class="milestone-label">
+            <span class="milestone-step" data-lang="en">Step 1</span><span class="milestone-step" data-lang="de">Schritt 1</span>
+            <span data-lang="en">Free Consultation</span><span data-lang="de">Kostenlose Beratung</span>
+          </div>
+        </div>
+        <div class="milestone-dot"><div class="milestone-dot-inner"></div><div class="milestone-dot-ring"></div></div>
+        <div class="ms-right"></div>
+      </div>
+
+      <!-- Step 2: label on right -->
+      <div class="milestone complete ms-label-right">
+        <div class="ms-left"></div>
+        <div class="milestone-dot"><div class="milestone-dot-inner"></div><div class="milestone-dot-ring"></div></div>
+        <div class="ms-right">
+          <div class="milestone-label">
+            <span class="milestone-step" data-lang="en">Step 2</span><span class="milestone-step" data-lang="de">Schritt 2</span>
+            <span data-lang="en">Document Checklist</span><span data-lang="de">Dokumentencheckliste</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: label on left -->
+      <div class="milestone in-progress ms-label-left">
+        <div class="ms-left">
+          <div class="milestone-label">
+            <span class="milestone-step" data-lang="en">Step 3</span><span class="milestone-step" data-lang="de">Schritt 3</span>
+            <span data-lang="en">We Prepare Everything</span><span data-lang="de">Wir bereiten alles vor</span>
+          </div>
+        </div>
+        <div class="milestone-dot"><div class="milestone-dot-inner"></div><div class="milestone-dot-ring"></div></div>
+        <div class="ms-right"></div>
+      </div>
+
+      <!-- Step 4: label on right -->
+      <div class="milestone complete ms-label-right">
+        <div class="ms-left"></div>
+        <div class="milestone-dot"><div class="milestone-dot-inner"></div><div class="milestone-dot-ring"></div></div>
+        <div class="ms-right">
+          <div class="milestone-label">
+            <span class="milestone-step" data-lang="en">Step 4</span><span class="milestone-step" data-lang="de">Schritt 4</span>
+            <span data-lang="en">Submit & Follow Up</span><span data-lang="de">Einreichen & Nachverfolgen</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
 <!-- TRUST BAR -->
 <div class="trust-bar">
-  <div class="trust-item"><span class="dot"></span><span data-lang="en">Certified Translations</span><span data-lang="de">Beglaubigte Übersetzungen</span></div>
-  <div class="trust-item"><span class="dot"></span><span data-lang="en">Multilingual Support</span><span data-lang="de">Mehrsprachige Unterstützung</span></div>
-  <div class="trust-item"><span class="dot"></span><span data-lang="en">Expat & Immigrant Focus</span><span data-lang="de">Fokus auf Expats & Einwanderer</span></div>
-  <div class="trust-item"><span class="dot"></span><span data-lang="en">Accepted by German Courts & LEA</span><span data-lang="de">Anerkannt von Gerichten & LEA</span></div>
+  <div class="trust-item">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+    <span data-lang="en">Certified Translations</span><span data-lang="de">Beglaubigte Übersetzungen</span>
+  </div>
+  <div class="trust-item">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5a17.92 17.92 0 0 1-8.716-2.247m0 0A8.966 8.966 0 0 1 3 12c0-1.264.26-2.467.732-3.559"/></svg>
+    <span data-lang="en">Multilingual Support</span><span data-lang="de">Mehrsprachige Unterstützung</span>
+  </div>
+  <div class="trust-item">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/></svg>
+    <span data-lang="en">Expat & Immigrant Focus</span><span data-lang="de">Fokus auf Expats & Einwanderer</span>
+  </div>
+  <div class="trust-item">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z"/></svg>
+    <span data-lang="en">Accepted by German Courts & LEA</span><span data-lang="de">Anerkannt von Gerichten & LEA</span>
+  </div>
 </div>
 
 <!-- SERVICES -->
@@ -381,7 +744,9 @@
     <div class="services-grid">
       <div class="service-card" id="svc-immigration">
         <span class="service-badge">Available</span>
-        <div class="service-icon" role="img" aria-label="Immigration documents">🛂</div>
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z"/></svg>
+        </div>
         <h3 data-lang="en">Immigration Document Assistance</h3>
         <h3 data-lang="de">Einwanderungsdokumente</h3>
         <p data-lang="en">Residence permits, visa applications, family reunification, Niederlassungserlaubnis — we organise, prepare and compile your complete document package for the Berlin LEA.</p>
@@ -391,7 +756,9 @@
 
       <div class="service-card" id="svc-translation">
         <span class="service-badge">Available</span>
-        <div class="service-icon" role="img" aria-label="Certified translations">🌐</div>
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"/></svg>
+        </div>
         <h3 data-lang="en">Certified Translations</h3>
         <h3 data-lang="de">Beglaubigte Übersetzungen</h3>
         <p data-lang="en">Certified translations accepted by German courts, immigration offices and civil registries. Birth certificates, diplomas, marriage certificates, legal documents — from any language into German.</p>
@@ -401,7 +768,9 @@
 
       <div class="service-card">
         <span class="service-badge">Available</span>
-        <div class="service-icon" role="img" aria-label="Administrative support">🗂️</div>
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776"/></svg>
+        </div>
         <h3 data-lang="en">Administrative Support</h3>
         <h3 data-lang="de">Verwaltungsunterstützung</h3>
         <p data-lang="en">Anmeldung assistance, form filling, official correspondence with German authorities, appointment preparation — we handle the bureaucracy so you don't have to.</p>
@@ -411,14 +780,15 @@
 
       <div class="service-card">
         <span class="service-badge">Available</span>
-        <div class="service-icon" role="img" aria-label="Credential recognition">🎓</div>
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a23.54 23.54 0 0 0-2.688 5.953 23.244 23.244 0 0 1 2.459.386m.229-6.339a48.078 48.078 0 0 1 7.74-.78 48.085 48.085 0 0 1 7.74.78m-15.48 0A23.442 23.442 0 0 1 12 3.366a23.422 23.422 0 0 1 7.74 6.781M12 3.366V1.5m0 1.866a23.534 23.534 0 0 1 2.459.386"/></svg>
+        </div>
         <h3 data-lang="en">Credential Recognition</h3>
         <h3 data-lang="de">Qualifikationsanerkennung</h3>
         <p data-lang="en">We prepare your foreign degree and diploma recognition applications (Anabin, KMK, anabin database). Essential for skilled workers and professionals migrating to Germany.</p>
         <p data-lang="de">Wir bereiten Ihre Anerkennungsanträge für ausländische Abschlüsse vor (Anabin, KMK). Unverzichtbar für Fachkräfte.</p>
         <div class="service-langs"><span class="service-lang">Foreign degrees</span><span class="service-lang">German recognition</span></div>
       </div>
-
     </div>
   </div>
 </section>
@@ -478,36 +848,42 @@
         <p data-lang="en">DocuAssist Germany was built by people with first-hand experience of navigating German immigration — immigrants who have lived it themselves.</p>
         <p data-lang="de">DocuAssist Germany wurde von Menschen aufgebaut, die den deutschen Einwanderungsprozess aus eigener Erfahrung kennen – Einwanderer, die ihn selbst durchlebt haben.</p>
         <p data-lang="en">We are a Berlin-based multilingual team connected to a network of certified translators. We handle your documents with care, accuracy and full understanding of the German system — no matter where you come from or what language you speak.</p>
-        <p data-lang="de">Wir sind ein mehrsprachiges Berliner Team mit Zugang zu einem Netzwerk zertifizierter Übersetzer. Wir bearbeiten Ihre Dokumente mit Sorgfalt und umfassendem Verständnis des deutschen Systems – egal woher Sie kommen oder welche Sprache Sie sprechen.</p>
+        <p data-lang="de">Wir sind ein mehrsprachiges Berliner Team mit Zugang zu einem Netzwerk zertifizierter Übersetzer. Wir bearbeiten Ihre Dokumente mit Sorgfalt und umfassendem Verständnis des deutschen Systems.</p>
         <p data-lang="en">Our mission: make German bureaucracy accessible to every expat arriving in Germany — regardless of which language they speak or where they come from.</p>
         <p data-lang="de">Unsere Mission: Die deutsche Bürokratie für jeden Expat zugänglich machen – unabhängig von Sprache und Herkunft.</p>
         <div class="about-stats">
-          <div class="stat"><span class="number">10+</span><span class="label" data-lang="en">Years Documentation Experience</span><span class="label" data-lang="de">Jahre Dokumentationserfahrung</span></div>
-          <div class="stat"><span class="number">🇩🇪</span><span class="label" data-lang="en">Berlin Based</span><span class="label" data-lang="de">Berlin</span></div>
+          <div class="stat"><span class="number">10+</span><span class="label" data-lang="en">Years Experience</span><span class="label" data-lang="de">Jahre Erfahrung</span></div>
+          <div class="stat"><span class="number" style="font-size:1.4rem">Berlin</span><span class="label" data-lang="en">Based</span><span class="label" data-lang="de">Standort</span></div>
           <div class="stat"><span class="number">100%</span><span class="label" data-lang="en">Transparent</span><span class="label" data-lang="de">Transparent</span></div>
         </div>
       </div>
       <div class="team-cards">
-        <div class="team-card" style="background:rgba(39,174,96,0.04);border-color:rgba(39,174,96,0.2)">
-          <div style="font-size:1.4rem">🇮🇳</div>
+        <div class="team-card">
+          <div class="team-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/></svg>
+          </div>
           <div class="team-info">
             <h3 data-lang="en">Indian Roots</h3>
             <h3 data-lang="de">Indische Wurzeln</h3>
             <p data-lang="en">We understand the immigrant experience in Germany — because we've lived it. Multilingual support, all under one roof.</p>
-            <p data-lang="de">Wir verstehen die Erfahrung von Einwanderern in Deutschland – weil wir sie selbst gemacht haben. Mehrsprachige Unterstützung aus einer Hand.</p>
+            <p data-lang="de">Wir verstehen die Erfahrung von Einwanderern in Deutschland – weil wir sie selbst gemacht haben.</p>
           </div>
         </div>
-        <div class="team-card" style="background:rgba(39,174,96,0.04);border-color:rgba(39,174,96,0.2)">
-          <div style="font-size:1.4rem">🏛️</div>
+        <div class="team-card">
+          <div class="team-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z"/></svg>
+          </div>
           <div class="team-info">
             <h3 data-lang="en">German System Experts</h3>
             <h3 data-lang="de">Deutsche Systemexperten</h3>
             <p data-lang="en">Berlin-based, connected to certified translators, and deeply familiar with the LEA, Standesamt and every German authority that matters.</p>
-            <p data-lang="de">In Berlin ansässig, mit Zugang zu zertifizierten Übersetzern und tiefer Kenntnis des LEA, Standesamts und aller relevanten deutschen Behörden.</p>
+            <p data-lang="de">In Berlin ansässig, mit Zugang zu zertifizierten Übersetzern und tiefer Kenntnis des LEA, Standesamts und aller relevanten Behörden.</p>
           </div>
         </div>
-        <div class="team-card" style="background:rgba(39,174,96,0.04);border-color:rgba(39,174,96,0.2)">
-          <div style="font-size:1.4rem">🌍</div>
+        <div class="team-card">
+          <div class="team-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5a17.92 17.92 0 0 1-8.716-2.247m0 0A8.966 8.966 0 0 1 3 12c0-1.264.26-2.467.732-3.559"/></svg>
+          </div>
           <div class="team-info">
             <h3 data-lang="en">Our Mission</h3>
             <h3 data-lang="de">Unsere Mission</h3>
@@ -520,8 +896,6 @@
   </div>
 </section>
 
-
-
 <!-- FAQ -->
 <section id="faq">
   <div class="reveal">
@@ -533,34 +907,49 @@
     <p class="section-sub" data-lang="de">Schnelle Antworten auf die häufigsten Fragen von Expats.</p>
 
     <div style="max-width:720px">
-      <details style="border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:12px;background:var(--white)">
-        <summary style="font-weight:600;font-size:0.92rem;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center"><span data-lang="en">How much does a certified translation cost?</span><span data-lang="de">Was kostet eine beglaubigte Übersetzung?</span><span style="color:var(--green);font-size:1.2rem;margin-left:12px">+</span></summary>
-        <p style="margin-top:12px;color:var(--mid);font-size:0.88rem;line-height:1.7" data-lang="en">Pricing depends on the document type, language pair and urgency. We offer a free initial consultation where we assess your documents and give you a clear, upfront quote — no hidden fees.</p>
-        <p style="margin-top:12px;color:var(--mid);font-size:0.88rem;line-height:1.7" data-lang="de">Die Kosten hängen vom Dokumententyp, Sprachpaar und der Dringlichkeit ab. Wir bieten eine kostenlose Erstberatung, bei der wir Ihre Dokumente prüfen und Ihnen ein transparentes Angebot machen — ohne versteckte Kosten.</p>
+      <details class="faq-item">
+        <summary>
+          <span><span data-lang="en">How much does a certified translation cost?</span><span data-lang="de">Was kostet eine beglaubigte Übersetzung?</span></span>
+          <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+        </summary>
+        <div class="faq-answer" data-lang="en">Pricing depends on the document type, language pair and urgency. We offer a free initial consultation where we assess your documents and give you a clear, upfront quote — no hidden fees.</div>
+        <div class="faq-answer" data-lang="de">Die Kosten hängen vom Dokumententyp, Sprachpaar und der Dringlichkeit ab. Wir bieten eine kostenlose Erstberatung mit transparentem Angebot — ohne versteckte Kosten.</div>
       </details>
 
-      <details style="border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:12px;background:var(--white)">
-        <summary style="font-weight:600;font-size:0.92rem;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center"><span data-lang="en">How long does the translation process take?</span><span data-lang="de">Wie lange dauert der Übersetzungsprozess?</span><span style="color:var(--green);font-size:1.2rem;margin-left:12px">+</span></summary>
-        <p style="margin-top:12px;color:var(--mid);font-size:0.88rem;line-height:1.7" data-lang="en">Standard translations take 3–5 business days. Express service is available for urgent cases. We'll confirm the timeline during your free consultation.</p>
-        <p style="margin-top:12px;color:var(--mid);font-size:0.88rem;line-height:1.7" data-lang="de">Standardübersetzungen dauern 3–5 Werktage. Für dringende Fälle bieten wir einen Expressservice an. Den genauen Zeitrahmen bestätigen wir in der kostenlosen Erstberatung.</p>
+      <details class="faq-item">
+        <summary>
+          <span><span data-lang="en">How long does the translation process take?</span><span data-lang="de">Wie lange dauert der Übersetzungsprozess?</span></span>
+          <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+        </summary>
+        <div class="faq-answer" data-lang="en">Standard translations take 3–5 business days. Express service is available for urgent cases. We'll confirm the timeline during your free consultation.</div>
+        <div class="faq-answer" data-lang="de">Standardübersetzungen dauern 3–5 Werktage. Für dringende Fälle bieten wir einen Expressservice an.</div>
       </details>
 
-      <details style="border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:12px;background:var(--white)">
-        <summary style="font-weight:600;font-size:0.92rem;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center"><span data-lang="en">Are your translations accepted by German authorities?</span><span data-lang="de">Werden Ihre Übersetzungen von deutschen Behörden anerkannt?</span><span style="color:var(--green);font-size:1.2rem;margin-left:12px">+</span></summary>
-        <p style="margin-top:12px;color:var(--mid);font-size:0.88rem;line-height:1.7" data-lang="en">Yes. All our certified translations are produced by court-sworn translators and are accepted by German courts, the LEA (immigration office), civil registries (Standesamt), and all other German authorities.</p>
-        <p style="margin-top:12px;color:var(--mid);font-size:0.88rem;line-height:1.7" data-lang="de">Ja. Alle unsere beglaubigten Übersetzungen werden von vereidigten Übersetzern erstellt und sind bei deutschen Gerichten, dem LEA, Standesämtern und allen anderen Behörden anerkannt.</p>
+      <details class="faq-item">
+        <summary>
+          <span><span data-lang="en">Are your translations accepted by German authorities?</span><span data-lang="de">Werden Ihre Übersetzungen von deutschen Behörden anerkannt?</span></span>
+          <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+        </summary>
+        <div class="faq-answer" data-lang="en">Yes. All our certified translations are produced by court-sworn translators and are accepted by German courts, the LEA (immigration office), civil registries (Standesamt), and all other German authorities.</div>
+        <div class="faq-answer" data-lang="de">Ja. Alle unsere beglaubigten Übersetzungen werden von vereidigten Übersetzern erstellt und sind bei allen deutschen Behörden anerkannt.</div>
       </details>
 
-      <details style="border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:12px;background:var(--white)">
-        <summary style="font-weight:600;font-size:0.92rem;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center"><span data-lang="en">Can you help if I don't speak German at all?</span><span data-lang="de">Können Sie mir helfen, wenn ich kein Deutsch spreche?</span><span style="color:var(--green);font-size:1.2rem;margin-left:12px">+</span></summary>
-        <p style="margin-top:12px;color:var(--mid);font-size:0.88rem;line-height:1.7" data-lang="en">Absolutely. That's exactly why we exist. We handle all German correspondence, form-filling and authority communication on your behalf. You can work with us entirely in English or Tamil.</p>
-        <p style="margin-top:12px;color:var(--mid);font-size:0.88rem;line-height:1.7" data-lang="de">Auf jeden Fall. Genau dafür sind wir da. Wir übernehmen die gesamte deutsche Korrespondenz, Formulare und Behördenkommunikation für Sie. Sie können komplett auf Englisch oder Tamil mit uns arbeiten.</p>
+      <details class="faq-item">
+        <summary>
+          <span><span data-lang="en">Can you help if I don't speak German at all?</span><span data-lang="de">Können Sie mir helfen, wenn ich kein Deutsch spreche?</span></span>
+          <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+        </summary>
+        <div class="faq-answer" data-lang="en">Absolutely. That's exactly why we exist. We handle all German correspondence, form-filling and authority communication on your behalf. You can work with us entirely in English or Tamil.</div>
+        <div class="faq-answer" data-lang="de">Auf jeden Fall. Genau dafür sind wir da. Wir übernehmen die gesamte deutsche Korrespondenz und Behördenkommunikation für Sie.</div>
       </details>
 
-      <details style="border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:12px;background:var(--white)">
-        <summary style="font-weight:600;font-size:0.92rem;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center"><span data-lang="en">Do I need to come to your office in person?</span><span data-lang="de">Muss ich persönlich in Ihr Büro kommen?</span><span style="color:var(--green);font-size:1.2rem;margin-left:12px">+</span></summary>
-        <p style="margin-top:12px;color:var(--mid);font-size:0.88rem;line-height:1.7" data-lang="en">No. We work entirely remotely via WhatsApp, email and video calls. You can send us your documents digitally and we handle everything from there — whether you're in Berlin or still abroad.</p>
-        <p style="margin-top:12px;color:var(--mid);font-size:0.88rem;line-height:1.7" data-lang="de">Nein. Wir arbeiten komplett remote per WhatsApp, E-Mail und Videoanrufe. Sie können uns Ihre Dokumente digital zusenden — egal ob Sie in Berlin oder noch im Ausland sind.</p>
+      <details class="faq-item">
+        <summary>
+          <span><span data-lang="en">Do I need to come to your office in person?</span><span data-lang="de">Muss ich persönlich in Ihr Büro kommen?</span></span>
+          <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+        </summary>
+        <div class="faq-answer" data-lang="en">No. We work entirely remotely via WhatsApp, email and video calls. You can send us your documents digitally and we handle everything from there — whether you're in Berlin or still abroad.</div>
+        <div class="faq-answer" data-lang="de">Nein. Wir arbeiten komplett remote per WhatsApp, E-Mail und Videoanrufe — egal ob Sie in Berlin oder noch im Ausland sind.</div>
       </details>
     </div>
   </div>
@@ -572,55 +961,20 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How much does a certified translation cost?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Pricing depends on the document type, language pair and urgency. We offer a free initial consultation where we assess your documents and give you a clear, upfront quote — no hidden fees."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How long does the translation process take?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Standard translations take 3–5 business days. Express service is available for urgent cases. We'll confirm the timeline during your free consultation."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Are your translations accepted by German authorities?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. All certified translations are produced by court-sworn translators and are accepted by German courts, the LEA (immigration office), civil registries (Standesamt), and all other German authorities."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can you help if I don't speak German at all?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Absolutely. We handle all German correspondence, form-filling and authority communication on your behalf. You can work with us entirely in English or Tamil."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Do I need to come to your office in person?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. We work entirely remotely via WhatsApp, email and video calls. You can send us your documents digitally and we handle everything from there — whether you're in Berlin or still abroad."
-      }
-    }
+    { "@type": "Question", "name": "How much does a certified translation cost?", "acceptedAnswer": { "@type": "Answer", "text": "Pricing depends on the document type, language pair and urgency. We offer a free initial consultation where we assess your documents and give you a clear, upfront quote — no hidden fees." } },
+    { "@type": "Question", "name": "How long does the translation process take?", "acceptedAnswer": { "@type": "Answer", "text": "Standard translations take 3–5 business days. Express service is available for urgent cases." } },
+    { "@type": "Question", "name": "Are your translations accepted by German authorities?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. All certified translations are produced by court-sworn translators and accepted by German courts, the LEA, Standesamt, and all other German authorities." } },
+    { "@type": "Question", "name": "Can you help if I don't speak German at all?", "acceptedAnswer": { "@type": "Answer", "text": "Absolutely. We handle all German correspondence, form-filling and authority communication on your behalf. You can work with us entirely in English or Tamil." } },
+    { "@type": "Question", "name": "Do I need to come to your office in person?", "acceptedAnswer": { "@type": "Answer", "text": "No. We work entirely remotely via WhatsApp, email and video calls." } }
   ]
 }
 </script>
 
 <!-- BOOKING CTA -->
-<section style="padding:60px 5%">
+<section style="padding:80px clamp(1.5rem, 5vw, 4rem)">
   <div class="reveal">
     <div class="booking-box">
-      <div>
+      <div style="position:relative;z-index:1">
         <h3 data-lang="en">Ready to get started?</h3>
         <h3 data-lang="de">Bereit loszulegen?</h3>
         <p data-lang="en">Book a free 15-minute consultation. We'll assess your situation, tell you exactly what documents you need and give you a clear quote — in Tamil, English or German.</p>
@@ -630,7 +984,6 @@
           <a href="https://wa.me/4915563671657" class="btn-outline-white" target="_blank"><span data-lang="en">WhatsApp Us</span><span data-lang="de">WhatsApp schreiben</span></a>
         </div>
       </div>
-      <div style="font-size:4rem;opacity:0.15">📋</div>
     </div>
   </div>
 </section>
@@ -648,28 +1001,36 @@
         <p data-lang="de">Schreiben Sie uns auf Tamil, Englisch oder Deutsch. Wir bieten kostenlose Erstberatungen an.</p>
         <div class="contact-items">
           <div class="contact-item">
-            <div class="contact-item-icon" role="img" aria-label="Email">✉️</div>
+            <div class="contact-item-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/></svg>
+            </div>
             <div class="contact-item-text">
               <strong>Email</strong>
-              <span><a href="mailto:info@docuassistgermany.de" style="color:inherit;text-decoration:none">info@docuassistgermany.de</a></span>
+              <span><a href="mailto:info@docuassistgermany.de">info@docuassistgermany.de</a></span>
             </div>
           </div>
           <div class="contact-item">
-            <div class="contact-item-icon" role="img" aria-label="Phone">📞</div>
+            <div class="contact-item-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/></svg>
+            </div>
             <div class="contact-item-text">
               <strong data-lang="en">Phone / WhatsApp</strong><strong data-lang="de">Telefon / WhatsApp</strong>
-              <span><a href="tel:+4915563671657" style="color:inherit;text-decoration:none">+49 155 6367 1657</a></span>
+              <span><a href="tel:+4915563671657">+49 155 6367 1657</a></span>
             </div>
           </div>
           <div class="contact-item">
-            <div class="contact-item-icon" role="img" aria-label="Location">📍</div>
+            <div class="contact-item-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/></svg>
+            </div>
             <div class="contact-item-text">
               <strong data-lang="en">Location</strong><strong data-lang="de">Standort</strong>
               <span>Berlin, Germany</span>
             </div>
           </div>
           <div class="contact-item">
-            <div class="contact-item-icon" role="img" aria-label="Languages">🗣️</div>
+            <div class="contact-item-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg>
+            </div>
             <div class="contact-item-text">
               <strong data-lang="en">We speak</strong><strong data-lang="de">Wir sprechen</strong>
               <span>Tamil · English · German</span>
@@ -678,7 +1039,6 @@
         </div>
       </div>
       <form class="contact-form" id="contact-form" onsubmit="handleSubmit(event)">
-        <!-- ═══ WEB3FORMS — Replace YOUR_ACCESS_KEY_HERE with your key from https://web3forms.com ═══ -->
         <input type="hidden" name="access_key" value="4f2213f5-87ff-457f-84b8-b8c0de25fd29"/>
         <input type="hidden" name="subject" value="New enquiry from DocuAssist Germany website"/>
         <input type="hidden" name="from_name" value="DocuAssist Germany Website"/>
@@ -700,9 +1060,7 @@
         <div class="form-group">
           <label for="pref-lang" data-lang="en">Preferred Language</label><label for="pref-lang" data-lang="de">Bevorzugte Sprache</label>
           <select id="pref-lang" name="preferred_language">
-            <option>English</option>
-            <option>German</option>
-            <option>Tamil</option>
+            <option>English</option><option>German</option><option>Tamil</option>
           </select>
         </div>
         <div class="form-group">
@@ -749,9 +1107,9 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <a href="#home" class="logo footer-logo">Docu<span style="color:var(--green)">Assist</span> Germany</a>
+    <a href="#home" class="logo">Docu<span style="color:var(--green)">Assist</span> Germany</a>
     <p>&copy; 2026 DocuAssist Germany · Berlin, Deutschland</p>
-    <p><a href="privacy.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.78rem"><span data-lang="en">Privacy Policy</span><span data-lang="de">Datenschutzerklärung</span></a></p>
+    <p><a href="privacy.html" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.78rem"><span data-lang="en">Privacy Policy</span><span data-lang="de">Datenschutzerklärung</span></a></p>
   </div>
 </footer>
 
@@ -761,25 +1119,33 @@
     <h3 data-lang="en">Before you go — can we help?</h3>
     <h3 data-lang="de">Bevor Sie gehen — können wir helfen?</h3>
     <p data-lang="en">Many expats feel overwhelmed by German paperwork. Pick what you need and we'll take it from there.</p>
-    <p data-lang="de">Viele Expats fühlen sich von deutscher Bürokratie überfordert. Wählen Sie, was Sie brauchen — wir kümmern uns darum.</p>
+    <p data-lang="de">Viele Expats fühlen sich von deutscher Bürokratie überfordert. Wählen Sie, was Sie brauchen.</p>
     <div class="welcome-options">
       <a href="#svc-immigration" class="welcome-opt" onclick="closeWelcome()">
-        <span class="welcome-opt-icon">🛂</span>
+        <div class="welcome-opt-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z"/></svg>
+        </div>
         <span data-lang="en">I need help with immigration documents</span>
         <span data-lang="de">Ich brauche Hilfe bei Einwanderungsdokumenten</span>
       </a>
       <a href="#svc-translation" class="welcome-opt" onclick="closeWelcome()">
-        <span class="welcome-opt-icon">📄</span>
+        <div class="welcome-opt-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+        </div>
         <span data-lang="en">I need a certified translation</span>
         <span data-lang="de">Ich brauche eine beglaubigte Übersetzung</span>
       </a>
       <a href="#" class="welcome-opt" onclick="closeWelcome();openCalendly(event)">
-        <span class="welcome-opt-icon">💬</span>
+        <div class="welcome-opt-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg>
+        </div>
         <span data-lang="en">I'd like a free consultation</span>
         <span data-lang="de">Ich möchte eine kostenlose Beratung</span>
       </a>
       <a href="#about" class="welcome-opt" onclick="closeWelcome()">
-        <span class="welcome-opt-icon">👋</span>
+        <div class="welcome-opt-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>
+        </div>
         <span data-lang="en">Just browsing — tell me more</span>
         <span data-lang="de">Ich schaue mich nur um — erzählen Sie mehr</span>
       </a>
@@ -790,135 +1156,174 @@
   </div>
 </div>
 
-<!-- GDPR COOKIE BANNER -->
+<!-- COOKIE BANNER -->
 <div class="cookie-banner" id="cookie-banner">
   <p class="cookie-text">
     <span data-lang="en">We use cookies to analyse site traffic and improve your experience. By clicking "Accept", you consent to the use of analytics cookies. <a href="privacy.html">Privacy Policy</a></span>
-    <span data-lang="de">Wir verwenden Cookies, um den Website-Traffic zu analysieren und Ihr Erlebnis zu verbessern. Mit „Akzeptieren" stimmen Sie der Verwendung von Analyse-Cookies zu. <a href="privacy.html">Datenschutzerklärung</a></span>
+    <span data-lang="de">Wir verwenden Cookies, um den Website-Traffic zu analysieren. Mit „Akzeptieren" stimmen Sie Analyse-Cookies zu. <a href="privacy.html">Datenschutzerklärung</a></span>
   </p>
   <div class="cookie-btns">
-    <button class="cookie-btn cookie-decline" onclick="handleCookies(false)">
-      <span data-lang="en">Decline</span><span data-lang="de">Ablehnen</span>
-    </button>
-    <button class="cookie-btn cookie-accept" onclick="handleCookies(true)">
-      <span data-lang="en">Accept</span><span data-lang="de">Akzeptieren</span>
-    </button>
+    <button class="cookie-btn cookie-decline" onclick="handleCookies(false)"><span data-lang="en">Decline</span><span data-lang="de">Ablehnen</span></button>
+    <button class="cookie-btn cookie-accept" onclick="handleCookies(true)"><span data-lang="en">Accept</span><span data-lang="de">Akzeptieren</span></button>
   </div>
 </div>
 
 <!-- WHATSAPP BUBBLE -->
-<a href="https://wa.me/4915563671657" class="wa-bubble" target="_blank" title="WhatsApp">💬</a>
+<a href="https://wa.me/4915563671657" class="wa-bubble" target="_blank" title="WhatsApp" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
 
 <script>
-  const serviceOptions={
-    en:['Immigration Document Assistance','Certified Translation (Any Language → German)','Administrative Support','Credential Recognition','Free Consultation'],
-    de:['Einwanderungsdokumente','Beglaubigte Übersetzung (Alle Sprachen → Deutsch)','Verwaltungsunterstützung','Qualifikationsanerkennung','Kostenlose Beratung']
+  // ── Service Options ──
+  const serviceOptions = {
+    en: ['Immigration Document Assistance','Certified Translation (Any Language → German)','Administrative Support','Credential Recognition','Free Consultation'],
+    de: ['Einwanderungsdokumente','Beglaubigte Übersetzung (Alle Sprachen → Deutsch)','Verwaltungsunterstützung','Qualifikationsanerkennung','Kostenlose Beratung']
   };
-  function updateServiceSelect(lang){
-    const sel=document.getElementById('service-select');
-    const opts=serviceOptions[lang]||serviceOptions.en;
-    sel.innerHTML='';
-    opts.forEach(t=>{const o=document.createElement('option');o.textContent=t;sel.appendChild(o)});
+
+  function updateServiceSelect(lang) {
+    const sel = document.getElementById('service-select');
+    const opts = serviceOptions[lang] || serviceOptions.en;
+    sel.innerHTML = '';
+    opts.forEach(t => { const o = document.createElement('option'); o.textContent = t; sel.appendChild(o) });
   }
-  function setLang(lang){
-    document.body.classList.toggle('de',lang==='de');
-    document.getElementById('btn-en').classList.toggle('active',lang==='en');
-    document.getElementById('btn-de').classList.toggle('active',lang==='de');
-    document.documentElement.lang=lang;
-    localStorage.setItem('lang',lang);
+
+  function setLang(lang) {
+    document.body.classList.toggle('de', lang === 'de');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-de').classList.toggle('active', lang === 'de');
+    document.documentElement.lang = lang;
+    localStorage.setItem('lang', lang);
     updateServiceSelect(lang);
   }
-  const saved=localStorage.getItem('lang');
-  if(saved==='de') setLang('de'); else updateServiceSelect('en');
 
-  const reveals=document.querySelectorAll('.reveal');
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{if(e.isIntersecting) e.target.classList.add('visible')});
-  },{threshold:0.08});
-  reveals.forEach(r=>obs.observe(r));
+  const saved = localStorage.getItem('lang');
+  if (saved === 'de') setLang('de'); else updateServiceSelect('en');
 
-  async function handleSubmit(e){
+  // ── Scroll Reveal ──
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') });
+  }, { threshold: 0.08 });
+  reveals.forEach(r => obs.observe(r));
+
+  // ── Nav Shadow on Scroll ──
+  window.addEventListener('scroll', () => {
+    document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // ── Animated Roadmap (scroll-driven SVG path + milestones) ──
+  (function initRoadmap() {
+    const progressBar = document.getElementById('roadmap-progress');
+    const glowBar = document.getElementById('roadmap-glow');
+    const container = document.getElementById('roadmap');
+    const milestones = container ? container.querySelectorAll('.milestone') : [];
+    if (!progressBar || !container || !milestones.length) return;
+
+    // Each milestone reveals when it scrolls into the viewport
+    const msObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.25, rootMargin: '0px 0px -60px 0px' });
+    milestones.forEach(m => msObs.observe(m));
+
+    // Vertical progress line grows as user scrolls through the section
+    function updateProgress() {
+      const rect = container.getBoundingClientRect();
+      const windowH = window.innerHeight;
+      const start = windowH * 0.8;      // starts when container is 80% into view
+      const end = -rect.height * 0.2;   // ends when mostly scrolled past
+      const progress = Math.min(1, Math.max(0, (start - rect.top) / (start - end)));
+      const pct = (progress * 100).toFixed(2) + '%';
+      progressBar.style.height = pct;
+      if (glowBar) glowBar.style.height = pct;
+      requestAnimationFrame(updateProgress);
+    }
+    requestAnimationFrame(updateProgress);
+  })();
+
+  // ── Form Submit ──
+  async function handleSubmit(e) {
     e.preventDefault();
-    const form=e.target;
-    const btn=form.querySelector('.form-submit');
-    const isDE=document.body.classList.contains('de');
-    btn.textContent=isDE?'Senden...':'Sending...';
-    btn.disabled=true;
-    /* Collect only the visible textarea (EN or DE based on active lang) */
-    const visibleTA=form.querySelector('textarea'+(isDE?'[data-lang="de"]':'[data-lang="en"]'));
-    const hiddenTA=form.querySelector('textarea'+(isDE?'[data-lang="en"]':'[data-lang="de"]'));
-    if(hiddenTA) hiddenTA.removeAttribute('name');
-    if(visibleTA) visibleTA.setAttribute('name','message');
-    const data=new FormData(form);
-    try{
-      const res=await fetch('https://api.web3forms.com/submit',{method:'POST',body:data});
-      const json=await res.json();
-      if(json.success){
-        btn.textContent=isDE?'Gesendet ✓':'Sent ✓';
-        btn.style.background='#1e8449';
+    const form = e.target;
+    const btn = form.querySelector('.form-submit');
+    const isDE = document.body.classList.contains('de');
+    btn.textContent = isDE ? 'Senden...' : 'Sending...';
+    btn.disabled = true;
+    const visibleTA = form.querySelector('textarea' + (isDE ? '[data-lang="de"]' : '[data-lang="en"]'));
+    const hiddenTA = form.querySelector('textarea' + (isDE ? '[data-lang="en"]' : '[data-lang="de"]'));
+    if (hiddenTA) hiddenTA.removeAttribute('name');
+    if (visibleTA) visibleTA.setAttribute('name', 'message');
+    const data = new FormData(form);
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data });
+      const json = await res.json();
+      if (json.success) {
+        btn.textContent = isDE ? 'Gesendet ✓' : 'Sent ✓';
+        btn.style.background = '#0a7d4b';
         form.reset();
-        updateServiceSelect(isDE?'de':'en');
-        setTimeout(()=>{
-          btn.innerHTML=isDE?'<span data-lang="de">Nachricht senden</span>':'<span data-lang="en">Send Message</span>';
-          btn.style.background='';btn.disabled=false;
-        },3000);
-      }else{
-        throw new Error(json.message||'Submission failed');
-      }
-    }catch(err){
-      btn.textContent=isDE?'Fehler – erneut versuchen':'Error – try again';
-      btn.style.background='#c0392b';btn.disabled=false;
-      setTimeout(()=>{
-        btn.innerHTML=isDE?'<span data-lang="de">Nachricht senden</span>':'<span data-lang="en">Send Message</span>';
-        btn.style.background='';
-      },3000);
+        updateServiceSelect(isDE ? 'de' : 'en');
+        setTimeout(() => {
+          btn.innerHTML = isDE ? '<span data-lang="de">Nachricht senden</span>' : '<span data-lang="en">Send Message</span>';
+          btn.style.background = ''; btn.disabled = false;
+        }, 3000);
+      } else { throw new Error(json.message || 'Submission failed'); }
+    } catch (err) {
+      btn.textContent = isDE ? 'Fehler – erneut versuchen' : 'Error – try again';
+      btn.style.background = '#dc2626'; btn.disabled = false;
+      setTimeout(() => {
+        btn.innerHTML = isDE ? '<span data-lang="de">Nachricht senden</span>' : '<span data-lang="en">Send Message</span>';
+        btn.style.background = '';
+      }, 3000);
     }
   }
 
-  /* ═══ EXIT-INTENT POPUP ═══ */
-  function closeWelcome(){
+  // ── Exit-Intent Popup ──
+  function closeWelcome() {
     document.getElementById('welcome-popup').classList.remove('show');
-    sessionStorage.setItem('welcome-seen','true');
+    sessionStorage.setItem('welcome-seen', 'true');
   }
-  function showWelcome(){
-    if(sessionStorage.getItem('welcome-seen')) return;
+  function showWelcome() {
+    if (sessionStorage.getItem('welcome-seen')) return;
     document.getElementById('welcome-popup').classList.add('show');
   }
-  /* Desktop: mouse leaves viewport (toward close/back button) */
-  document.addEventListener('mouseout',function(e){
-    if(e.clientY<5 && e.relatedTarget===null) showWelcome();
+  document.addEventListener('mouseout', function(e) {
+    if (e.clientY < 5 && e.relatedTarget === null) showWelcome();
   });
-  /* Mobile: user scrolls up quickly (pull-to-leave gesture) or is idle for 45s */
-  let lastScroll=0;
-  let mobileTimer=null;
-  function resetMobileTimer(){
+  let lastScroll = 0;
+  let mobileTimer = null;
+  function resetMobileTimer() {
     clearTimeout(mobileTimer);
-    mobileTimer=setTimeout(showWelcome,45000);
+    mobileTimer = setTimeout(showWelcome, 45000);
   }
-  window.addEventListener('scroll',function(){
-    const curr=window.scrollY;
-    if(curr<lastScroll-80 && curr>300) showWelcome();
-    lastScroll=curr;
+  window.addEventListener('scroll', function() {
+    const curr = window.scrollY;
+    if (curr < lastScroll - 80 && curr > 300) showWelcome();
+    lastScroll = curr;
     resetMobileTimer();
   });
-  if('ontouchstart' in window) resetMobileTimer();
+  resetMobileTimer();
 
-  /* ═══ GDPR COOKIE BANNER ═══ */
-  function handleCookies(accepted){
-    localStorage.setItem('cookie-consent',accepted?'true':'false');
+  // ── Calendly ──
+  function openCalendly(e) {
+    e.preventDefault();
+    if (typeof Calendly !== 'undefined') {
+      Calendly.initPopupWidget({ url: 'https://calendly.com/docuassistgermany/15min' });
+    } else {
+      window.open('https://calendly.com/docuassistgermany/15min', '_blank');
+    }
+  }
+
+  // ── Cookie Banner ──
+  function handleCookies(accept) {
     document.getElementById('cookie-banner').classList.remove('show');
-    if(accepted) loadGA();
+    if (accept) { localStorage.setItem('cookie-consent', 'true'); loadGA(); }
+    else { localStorage.setItem('cookie-consent', 'false'); }
   }
-  if(!localStorage.getItem('cookie-consent')){
-    setTimeout(()=>{document.getElementById('cookie-banner').classList.add('show')},2000);
-  }
-
-  /* ═══ CALENDLY POPUP ═══ */
-  function openCalendly(e){
-    if(e) e.preventDefault();
-    Calendly.initPopupWidget({url:'https://calendly.com/docuassistgermany/15-minute-docu-assist-consulation'});
+  if (!localStorage.getItem('cookie-consent')) {
+    setTimeout(() => document.getElementById('cookie-banner').classList.add('show'), 1500);
   }
 </script>
-<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 </body>
 </html>

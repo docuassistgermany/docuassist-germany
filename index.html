@@ -1210,7 +1210,7 @@
       <div class="intake-wrap" id="intake-wrap">
 
         <div class="intake-cfg-warn" id="ii-cfg-warn">
-          Setup required: EmailJS credentials not yet configured — see the setup guide.
+          Setup required: Firebase Cloud Function not yet deployed — deploy functions to enable email notifications.
         </div>
 
         <!-- Service selection -->
@@ -1638,14 +1638,10 @@
 
 // ══════════════════════════════════════════════════════════════
 //  INTAKE FORM — embedded in index.html
-//  Fill in your credentials in INTAKE_CFG below
 // ══════════════════════════════════════════════════════════════
 const INTAKE_CFG = {
-  EMAILJS_PUBLIC_KEY:      'avRXkrPi7J6v3HqLm',
-  EMAILJS_SERVICE_ID:      'service_686zzip',
-  EMAILJS_TEMPLATE_CLIENT: 'template_su0pq47',
-  EMAILJS_TEMPLATE_TEAM:   'template_xw2kbjy',
-  SHEETS_WEBHOOK:          'REPLACE_GOOGLE_APPS_SCRIPT_URL',
+  CLOUD_FUNCTION_URL: 'https://submit-lead-524865389220.europe-west1.run.app',
+  SHEETS_WEBHOOK:     'REPLACE_GOOGLE_APPS_SCRIPT_URL',
 };
 
 // ── Case data ─────────────────────────────────────────────────
@@ -2203,8 +2199,8 @@ let iiSvc = null, iiCaseType = null, iiPreviewOpen = false;
 // ── Init ──────────────────────────────────────────────────────
 (function iiInit() {
   function run() {
-    // Config warning
-    if (INTAKE_CFG.EMAILJS_PUBLIC_KEY === 'REPLACE_EMAILJS_PUBLIC_KEY') {
+    // Config warning (shown only if Cloud Function URL is still a placeholder)
+    if (!INTAKE_CFG.CLOUD_FUNCTION_URL || INTAKE_CFG.CLOUD_FUNCTION_URL.includes('REPLACE_')) {
       const w = document.getElementById('ii-cfg-warn');
       if (w) w.classList.add('visible');
     }
@@ -2228,10 +2224,6 @@ let iiSvc = null, iiCaseType = null, iiPreviewOpen = false;
         });
         ctSel.appendChild(og);
       });
-    }
-    // Init EmailJS
-    if (INTAKE_CFG.EMAILJS_PUBLIC_KEY !== 'REPLACE_EMAILJS_PUBLIC_KEY') {
-      try { if (typeof emailjs !== 'undefined') emailjs.init(INTAKE_CFG.EMAILJS_PUBLIC_KEY); } catch(e) {}
     }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
@@ -2340,67 +2332,47 @@ async function iiHandleSubmit() {
       createdAt: now, updatedAt: now
     };
 
-    // 1. Firebase
-    if (window._iiSaveLead) await window._iiSaveLead(lead);
+    // 1. Build document lists for the Cloud Function
+    const caseLabel   = ct ? ct.label : 'General Consultation';
+    const requiredDocs = ct ? ct.docs.filter(d => d.required).map(d => d.label)  : [];
+    const optionalDocs = ct ? ct.docs.filter(d => !d.required).map(d => d.label) : [];
 
-    // 2. Build email params
-    let requiredList = '', optionalList = '';
-    if (ct) {
-      const reqDocs = ct.docs.filter(d => d.required);
-      const optDocs = ct.docs.filter(d => !d.required);
-      requiredList = reqDocs.map((d,i) =>
-        (i+1) + '. ' + d.label + (d.labelDe ? '\n   (DE: ' + d.labelDe + ')' : '')
-      ).join('\n\n');
-      optionalList = optDocs.length
-        ? optDocs.map((d,i) => (i+1) + '. ' + d.label + (d.labelDe ? '\n   (DE: ' + d.labelDe + ')' : '')).join('\n\n')
-        : 'None / Keine';
+    // 2. Call Cloud Function (saves to Firestore + sends both emails via Brevo)
+    let cfSuccess = false;
+    if (INTAKE_CFG.CLOUD_FUNCTION_URL && !INTAKE_CFG.CLOUD_FUNCTION_URL.includes('REPLACE_')) {
+      try {
+        const cfRes = await fetch(INTAKE_CFG.CLOUD_FUNCTION_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name, email, phone,
+            nationality:  nat,
+            caseType:     iiCaseType || iiSvc,
+            caseLabel,
+            authority:    ct ? ct.authority : 'LEA Berlin',
+            service:      iiSvc === 'docs' ? 'Document Checklist & Preparation' : iiSvc,
+            notes,
+            documents:    docs,
+            shareToken:   lead.shareToken,
+            source:       'website-contact',
+            requiredDocs,
+            optionalDocs,
+          })
+        });
+        const cfData = await cfRes.json();
+        if (cfRes.ok && cfData.success) {
+          cfSuccess = true;
+        } else {
+          throw new Error(cfData.error || 'Cloud Function returned error');
+        }
+      } catch(e) {
+        console.error('Cloud Function:', e);
+      }
     }
 
-    const caseLabel = ct ? ct.label : 'General Consultation';
-    const reqCount  = ct ? ct.docs.filter(d=>d.required).length : 0;
-    const messageBody = [
-      ct ? 'Case Type: ' + caseLabel : '',
-      ct ? 'Authority: ' + ct.authority : '',
-      '',
-      requiredList ? 'REQUIRED DOCUMENTS (' + reqCount + '):\n' + requiredList : 'Required documents: Please contact us for your personalised list.',
-      optionalList && optionalList !== 'None / Keine' ? '\nOPTIONAL DOCUMENTS:\n' + optionalList : '',
-      notes ? '\nClient Notes: ' + notes : '',
-    ].filter(Boolean).join('\n');
-
-    const emailParams = {
-      to_email:       email,
-      to_name:        name,
-      name:           'DocuAssist Germany',
-      subject:        'Your Document Checklist — DocuAssist Germany',
-      message:        messageBody,
-      reply_to:       'info@docuassistgermany.de',
-      service_type:   iiSvc === 'docs' ? 'Document Checklist & Preparation' : iiSvc,
-      case_label:     caseLabel,
-      case_label_de:  ct ? (ct.labelDe || ct.label) : 'Allgemeine Beratung',
-      authority:      ct ? ct.authority : 'LEA Berlin',
-      official_url:   ct ? (ct.officialUrl || '') : '',
-      required_docs:  requiredList || 'Please contact us for your personalised list.',
-      optional_docs:  optionalList || 'None / Keine',
-      client_notes:   notes || 'None provided',
-      doc_count:      ct ? ct.docs.length.toString() : '0',
-      req_count:      reqCount.toString(),
-    };
-
-    const teamParams = {
-      ...emailParams,
-      to_email: 'info@docuassistgermany.de',
-      client_email: email, client_phone: phone || 'Not provided',
-      client_nat: nat || 'Not specified', lead_id: leadId,
-    };
-
-    // 3. EmailJS
-    if (INTAKE_CFG.EMAILJS_PUBLIC_KEY !== 'REPLACE_EMAILJS_PUBLIC_KEY' && typeof emailjs !== 'undefined') {
-      try {
-        await emailjs.send(INTAKE_CFG.EMAILJS_SERVICE_ID, INTAKE_CFG.EMAILJS_TEMPLATE_CLIENT, emailParams);
-        if (INTAKE_CFG.EMAILJS_TEMPLATE_TEAM !== 'REPLACE_EMAILJS_TEMPLATE_TEAM') {
-          emailjs.send(INTAKE_CFG.EMAILJS_SERVICE_ID, INTAKE_CFG.EMAILJS_TEMPLATE_TEAM, teamParams).catch(() => {});
-        }
-      } catch(e) { console.error('EmailJS:', e); }
+    // 3. Fallback: save directly to Firestore if Cloud Function failed (no email, but lead preserved)
+    if (!cfSuccess && window._iiSaveLead) {
+      await window._iiSaveLead(lead);
     }
 
     // 4. Google Sheets
@@ -2435,8 +2407,6 @@ async function iiHandleSubmit() {
 
 </script>
 <script src="https://assets.calendly.com/assets/external/widget.js"></script>
-<!-- INTAKE: EMAILJS SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 
 <!-- INTAKE: FIREBASE (saves leads to Firestore) -->

@@ -19,8 +19,8 @@
   <!-- OPEN GRAPH -->
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="https://www.docuassistgermany.de/"/>
-  <meta property="og:title" content="DocuAssist Germany – Certified Translation & Immigration Documents Berlin"/
-  <meta property="og:description" content="Certified multilingual translations and immigration document assistance for expats and immigrats in Berlin. All languages supported."/>
+  <meta property="og:title" content="DocuAssist Germany – Certified Translation & Immigration Documents Berlin"/>
+  <meta property="og:description" content="Certified multilingual translations and immigration document assistance for expats and immigrants in Berlin. All languages supported."/>
   <meta property="og:image" content="https://www.docuassistgermany.de/og-image.jpg"/>
   <meta property="og:locale" content="en_GB"/>
   <meta property="og:locale:alternate" content="de_DE"/>
@@ -2204,7 +2204,7 @@ let iiSvc = null, iiCaseType = null, iiPreviewOpen = false;
 (function iiInit() {
   function run() {
     // Config warning
-    if (INTAKE_CFG.EMAILJS_PUBLIC_KEY === 'avRXkrPi7J6v3HqLm') {
+    if (INTAKE_CFG.EMAILJS_PUBLIC_KEY === 'REPLACE_EMAILJS_PUBLIC_KEY') {
       const w = document.getElementById('ii-cfg-warn');
       if (w) w.classList.add('visible');
     }
@@ -2230,7 +2230,7 @@ let iiSvc = null, iiCaseType = null, iiPreviewOpen = false;
       });
     }
     // Init EmailJS
-    if (INTAKE_CFG.EMAILJS_PUBLIC_KEY !== 'avRXkrPi7J6v3HqLm') {
+    if (INTAKE_CFG.EMAILJS_PUBLIC_KEY !== 'REPLACE_EMAILJS_PUBLIC_KEY') {
       try { if (typeof emailjs !== 'undefined') emailjs.init(INTAKE_CFG.EMAILJS_PUBLIC_KEY); } catch(e) {}
     }
   }
@@ -2380,10 +2380,10 @@ async function iiHandleSubmit() {
     };
 
     // 3. EmailJS
-    if (INTAKE_CFG.EMAILJS_PUBLIC_KEY !== 'avRXkrPi7J6v3HqLm' && typeof emailjs !== 'undefined') {
+    if (INTAKE_CFG.EMAILJS_PUBLIC_KEY !== 'REPLACE_EMAILJS_PUBLIC_KEY' && typeof emailjs !== 'undefined') {
       try {
         await emailjs.send(INTAKE_CFG.EMAILJS_SERVICE_ID, INTAKE_CFG.EMAILJS_TEMPLATE_CLIENT, emailParams);
-        if (INTAKE_CFG.EMAILJS_TEMPLATE_TEAM !== 'template_cl926c6') {
+        if (INTAKE_CFG.EMAILJS_TEMPLATE_TEAM !== 'REPLACE_EMAILJS_TEMPLATE_TEAM') {
           emailjs.send(INTAKE_CFG.EMAILJS_SERVICE_ID, INTAKE_CFG.EMAILJS_TEMPLATE_TEAM, teamParams).catch(() => {});
         }
       } catch(e) { console.error('EmailJS:', e); }

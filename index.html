@@ -1644,7 +1644,7 @@ const INTAKE_CFG = {
   EMAILJS_PUBLIC_KEY:      'avRXkrPi7J6v3HqLm',
   EMAILJS_SERVICE_ID:      'service_686zzip',
   EMAILJS_TEMPLATE_CLIENT: 'template_su0pq47',
-  EMAILJS_TEMPLATE_TEAM:   'template_su0pq47',
+  EMAILJS_TEMPLATE_TEAM:   'template_xw2kbjy',
   SHEETS_WEBHOOK:          'REPLACE_GOOGLE_APPS_SCRIPT_URL',
 };
 
@@ -2356,12 +2356,26 @@ async function iiHandleSubmit() {
         : 'None / Keine';
     }
 
+    const caseLabel = ct ? ct.label : 'General Consultation';
+    const reqCount  = ct ? ct.docs.filter(d=>d.required).length : 0;
+    const messageBody = [
+      ct ? 'Case Type: ' + caseLabel : '',
+      ct ? 'Authority: ' + ct.authority : '',
+      '',
+      requiredList ? 'REQUIRED DOCUMENTS (' + reqCount + '):\n' + requiredList : 'Required documents: Please contact us for your personalised list.',
+      optionalList && optionalList !== 'None / Keine' ? '\nOPTIONAL DOCUMENTS:\n' + optionalList : '',
+      notes ? '\nClient Notes: ' + notes : '',
+    ].filter(Boolean).join('\n');
+
     const emailParams = {
       to_email:       email,
       to_name:        name,
+      name:           'DocuAssist Germany',
+      subject:        'Your Document Checklist — DocuAssist Germany',
+      message:        messageBody,
       reply_to:       'info@docuassistgermany.de',
       service_type:   iiSvc === 'docs' ? 'Document Checklist & Preparation' : iiSvc,
-      case_label:     ct ? ct.label : 'General Consultation',
+      case_label:     caseLabel,
       case_label_de:  ct ? (ct.labelDe || ct.label) : 'Allgemeine Beratung',
       authority:      ct ? ct.authority : 'LEA Berlin',
       official_url:   ct ? (ct.officialUrl || '') : '',
@@ -2369,12 +2383,12 @@ async function iiHandleSubmit() {
       optional_docs:  optionalList || 'None / Keine',
       client_notes:   notes || 'None provided',
       doc_count:      ct ? ct.docs.length.toString() : '0',
-      req_count:      ct ? ct.docs.filter(d=>d.required).length.toString() : '0',
+      req_count:      reqCount.toString(),
     };
 
     const teamParams = {
       ...emailParams,
-      to_email: 'info@docuassistgermany.de', to_name: 'DocuAssist Team',
+      to_email: 'info@docuassistgermany.de',
       client_email: email, client_phone: phone || 'Not provided',
       client_nat: nat || 'Not specified', lead_id: leadId,
     };
@@ -2430,12 +2444,12 @@ async function iiHandleSubmit() {
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getFirestore, collection, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 const II_FIREBASE_CFG = {
-  apiKey:            'REPLACE_API_KEY',
-  authDomain:        'REPLACE_AUTH_DOMAIN',
-  projectId:         'REPLACE_PROJECT_ID',
-  storageBucket:     'REPLACE_STORAGE_BUCKET',
-  messagingSenderId: 'REPLACE_MESSAGING_SENDER_ID',
-  appId:             'REPLACE_APP_ID'
+  apiKey:            'AIzaSyDPBXMIc_oEJXWtdJc3hE45c-Q_aIDsEJk',
+  authDomain:        'docuassist-germany.firebaseapp.com',
+  projectId:         'docuassist-germany',
+  storageBucket:     'docuassist-germany.firebasestorage.app',
+  messagingSenderId: '524865389220',
+  appId:             '1:524865389220:web:d2d9f755fa13d8b8415c31'
 };
 let iiDB = null;
 try {

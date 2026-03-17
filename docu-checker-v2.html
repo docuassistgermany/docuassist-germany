@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>DocuAssist — Document Checker</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<style>
+:root{
+  --green:#0d9e5f;--green-dark:#0a7d4b;--green-light:rgba(13,158,95,0.08);--green-glow:rgba(13,158,95,0.18);
+  --grey-50:#f9fafb;--grey-100:#f3f4f6;--grey-200:#e5e7eb;--grey-300:#d1d5db;
+  --grey-500:#6b7280;--grey-600:#4b5563;--grey-700:#374151;--grey-800:#1f2937;--grey-900:#111827;
+  --blue:#3b82f6;--blue-light:rgba(59,130,246,0.1);
+  --amber:#f59e0b;--amber-light:rgba(245,158,11,0.1);
+  --red:#ef4444;--red-light:rgba(239,68,68,0.1);
+  --radius:10px;--radius-lg:16px;--radius-full:9999px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.06);--shadow-md:0 4px 16px rgba(0,0,0,0.08);--shadow-lg:0 12px 40px rgba(0,0,0,0.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--grey-50);color:var(--grey-900);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* ── LOGIN ── */
+#login-screen{position:fixed;inset:0;background:linear-gradient(135deg,var(--grey-900) 0%,#0f1b2d 50%,#0a1628 100%);display:flex;align-items:center;justify-content:center;z-index:9999}
+#login-screen::before{content:'';position:absolute;top:-30%;right:-10%;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(13,158,95,0.12) 0%,transparent 70%);pointer-events:none}
+.login-box{background:#fff;border-radius:var(--radius-lg);padding:40px 36px;width:100%;max-width:400px;box-shadow:var(--shadow-lg);position:relative;z-index:1}
+.login-logo{font-weight:800;font-size:1.3rem;color:var(--grey-900);letter-spacing:-0.02em;margin-bottom:6px}
+.login-logo span{color:var(--green)}
+.login-sub{font-size:0.82rem;color:var(--grey-500);margin-bottom:28px}
+.login-error{background:var(--red-light);color:var(--red);border-radius:var(--radius);padding:10px 14px;font-size:0.82rem;margin-bottom:16px;display:none}
+
+/* ── NAV ── */
+nav{background:#fff;border-bottom:1px solid var(--grey-200);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm)}
+.nav-brand{font-weight:800;font-size:1rem;color:var(--grey-900);letter-spacing:-0.02em;cursor:pointer}
+.nav-brand span{color:var(--green)}
+.nav-brand small{font-weight:500;font-size:0.72rem;color:var(--grey-500);margin-left:8px;background:var(--grey-100);padding:2px 8px;border-radius:var(--radius-full)}
+.nav-center{display:flex;gap:4px}
+.nav-link{padding:6px 14px;border-radius:var(--radius-full);font-size:0.82rem;font-weight:500;color:var(--grey-600);cursor:pointer;border:none;background:none;transition:all .15s;font-family:'Inter',sans-serif}
+.nav-link:hover{background:var(--grey-100);color:var(--grey-900)}
+.nav-link.active{background:var(--green-light);color:var(--green);font-weight:600}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-btn{background:var(--green);color:#fff;border:none;padding:8px 18px;border-radius:var(--radius-full);font-size:0.82rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+.nav-btn:hover{background:var(--green-dark)}
+.nav-user{font-size:0.78rem;color:var(--grey-500)}
+.nav-signout{background:none;border:none;font-size:0.78rem;color:var(--grey-500);cursor:pointer;font-family:'Inter',sans-serif;padding:4px 8px;border-radius:var(--radius-full);transition:all .15s}
+.nav-signout:hover{background:var(--grey-100);color:var(--grey-900)}
+
+/* ── LAYOUT ── */
+#app{max-width:1100px;margin:0 auto;padding:28px 20px}
+#share-view{max-width:720px;margin:0 auto;padding:40px 20px}
+
+/* ── CARDS ── */
+.card{background:#fff;border:1px solid var(--grey-200);border-radius:var(--radius-lg);padding:24px;margin-bottom:20px;box-shadow:var(--shadow-sm)}
+.card-sm{padding:16px 20px}
+
+/* ── STATS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat-card{background:#fff;border:1px solid var(--grey-200);border-radius:var(--radius-lg);padding:20px;text-align:center;box-shadow:var(--shadow-sm)}
+.stat-card .num{font-size:2rem;font-weight:800;color:var(--grey-900);letter-spacing:-0.03em;line-height:1}
+.stat-card .lbl{font-size:0.75rem;color:var(--grey-500);margin-top:6px;font-weight:500}
+
+/* ── PAGE HEADER ── */
+.page-header{margin-bottom:24px}
+.page-header h1{font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:4px}
+.page-header p{color:var(--grey-500);font-size:0.88rem}
+
+/* ── TABLE ── */
+.lead-table{width:100%;border-collapse:collapse}
+.lead-table th{text-align:left;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--grey-500);padding:10px 16px;border-bottom:1px solid var(--grey-200)}
+.lead-table td{padding:14px 16px;border-bottom:1px solid var(--grey-100);font-size:0.88rem;vertical-align:middle}
+.lead-table tr:last-child td{border-bottom:none}
+.lead-table tr:hover td{background:var(--grey-50);cursor:pointer}
+.lead-name{font-weight:600;color:var(--grey-900)}
+.lead-meta{font-size:0.78rem;color:var(--grey-500);margin-top:2px}
+
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:var(--radius-full);font-size:0.72rem;font-weight:600;white-space:nowrap}
+.badge-grey{background:var(--grey-100);color:var(--grey-600)}
+.badge-blue{background:var(--blue-light);color:var(--blue)}
+.badge-amber{background:var(--amber-light);color:var(--amber)}
+.badge-green{background:var(--green-light);color:var(--green)}
+.badge-red{background:var(--red-light);color:var(--red)}
+
+/* ── FORMS ── */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group.full{grid-column:1/-1}
+label{font-size:0.8rem;font-weight:600;color:var(--grey-700)}
+input,select,textarea{padding:10px 14px;border:1.5px solid var(--grey-200);border-radius:var(--radius);font-family:'Inter',sans-serif;font-size:0.88rem;color:var(--grey-900);background:#fff;outline:none;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--green-glow)}
+textarea{resize:vertical;min-height:80px}
+
+/* ── BUTTONS ── */
+.btn{padding:10px 22px;border-radius:var(--radius-full);font-size:0.85rem;font-weight:600;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .15s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:var(--green);color:#fff}.btn-primary:hover{background:var(--green-dark)}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:var(--green-dark)}
+.btn-secondary{background:var(--grey-100);color:var(--grey-700)}.btn-secondary:hover{background:var(--grey-200)}
+.btn-outline{background:transparent;border:1.5px solid var(--grey-200);color:var(--grey-600)}.btn-outline:hover{border-color:var(--grey-400);background:var(--grey-50)}
+.btn-danger{background:var(--red-light);color:var(--red)}.btn-danger:hover{background:rgba(239,68,68,0.18)}
+.btn-blue{background:var(--blue-light);color:var(--blue)}.btn-blue:hover{background:rgba(59,130,246,0.18)}
+.btn-sm{padding:6px 14px;font-size:0.78rem}
+.btn-xs{padding:4px 10px;font-size:0.72rem}
+.btn[disabled]{opacity:0.5;cursor:not-allowed}
+
+/* ── DOCUMENT ITEMS ── */
+.doc-category{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--grey-400);padding:14px 0 6px;border-top:1px solid var(--grey-100);margin-top:4px}
+.doc-category:first-of-type{border-top:none;padding-top:0;margin-top:0}
+.doc-item{display:flex;align-items:flex-start;gap:14px;padding:14px;border:1.5px solid var(--grey-200);border-radius:var(--radius);margin-bottom:8px;background:#fff;transition:all .15s}
+.doc-item.verified{border-color:rgba(13,158,95,0.3);background:rgba(13,158,95,0.03)}
+.doc-item.issue{border-color:rgba(239,68,68,0.35);background:rgba(239,68,68,0.03)}
+.doc-item.uploaded{border-color:rgba(59,130,246,0.3);background:rgba(59,130,246,0.03)}
+.doc-item.processing{border-color:rgba(245,158,11,0.35);background:rgba(245,158,11,0.03)}
+.doc-status-icon{width:34px;height:34px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem}
+.dsi-pending{background:var(--grey-100)}
+.dsi-uploaded{background:var(--blue-light)}
+.dsi-verified{background:var(--green-light)}
+.dsi-issue{background:var(--red-light)}
+.dsi-processing{background:var(--amber-light)}
+.doc-info{flex:1;min-width:0}
+.doc-title{font-weight:600;font-size:0.87rem;line-height:1.3}
+.doc-label-de{font-size:0.79rem;color:var(--grey-500);font-style:italic;margin-top:2px}
+.doc-req-badge{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;padding:2px 6px;border-radius:4px;margin-left:6px}
+.req-yes{background:var(--red-light);color:var(--red)}
+.req-no{background:var(--grey-100);color:var(--grey-500)}
+.doc-notes{font-size:0.76rem;color:var(--grey-500);margin-top:3px;line-height:1.5}
+.doc-filename{font-size:0.74rem;color:var(--blue);margin-top:4px;font-weight:500}
+.doc-extracted{margin-top:8px;padding:8px 12px;background:var(--grey-50);border-radius:8px;font-size:0.74rem;color:var(--grey-600);line-height:1.6}
+.doc-extracted strong{color:var(--grey-800)}
+.doc-issue-list{margin-top:6px}
+.doc-issue-item{font-size:0.74rem;color:var(--red);margin-top:2px;display:flex;align-items:flex-start;gap:4px}
+.doc-official-link{font-size:0.73rem;margin-top:5px}
+.doc-official-link a{color:var(--green);text-decoration:none}
+.doc-official-link a:hover{text-decoration:underline}
+.doc-actions{display:flex;flex-direction:column;gap:6px;flex-shrink:0;align-items:flex-end}
+.upload-btn-wrap{position:relative;overflow:hidden}
+.upload-btn-wrap input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:200px}
+.ocr-msg{padding:7px 10px;background:var(--amber-light);border-radius:8px;font-size:0.73rem;color:var(--amber);margin-top:6px;display:flex;align-items:center;gap:6px}
+.spinner{width:11px;height:11px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── PROGRESS ── */
+.progress-wrap{background:var(--grey-100);border-radius:var(--radius-full);height:7px;overflow:hidden}
+.progress-bar{height:100%;background:var(--green);border-radius:var(--radius-full);transition:width .5s}
+
+/* ── LEAD HEADER ── */
+.lead-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:16px;flex-wrap:wrap}
+.lead-header h2{font-size:1.3rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:5px}
+.lead-header-meta{display:flex;gap:10px;flex-wrap:wrap;font-size:0.8rem;color:var(--grey-500);align-items:center}
+.lead-header-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.open{opacity:1;pointer-events:auto}
+.modal-box{background:#fff;border-radius:var(--radius-lg);padding:32px;max-width:520px;width:90%;box-shadow:var(--shadow-lg);transform:translateY(10px) scale(0.98);transition:transform .2s}
+.modal-overlay.open .modal-box{transform:none}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.modal-header h3{font-size:1.05rem;font-weight:700}
+.modal-close{background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--grey-500);padding:4px;line-height:1}
+
+/* ── INFO/WARN BOXES ── */
+.info-box{padding:11px 14px;background:var(--green-light);border-radius:var(--radius);border-left:3px solid var(--green);font-size:0.81rem;color:var(--grey-700);margin-bottom:16px}
+.warn-box{padding:11px 14px;background:var(--amber-light);border-radius:var(--radius);border-left:3px solid var(--amber);font-size:0.81rem;color:var(--grey-700);margin-bottom:12px}
+
+/* ── REPORT TEXT ── */
+.report-output{background:var(--grey-900);color:rgba(255,255,255,0.85);padding:20px;border-radius:var(--radius-lg);font-family:'Courier New',monospace;font-size:0.78rem;line-height:1.8;white-space:pre-wrap;max-height:340px;overflow-y:auto;margin-top:12px}
+
+/* ── SHARE VIEW (public) ── */
+.share-header{background:var(--grey-900);padding:28px 24px;border-radius:var(--radius-lg);margin-bottom:24px;color:#fff}
+.share-header h1{font-size:1.2rem;font-weight:800;margin-bottom:4px}
+.share-header p{font-size:0.84rem;color:rgba(255,255,255,0.6)}
+.share-doc-item{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border:1px solid var(--grey-200);border-radius:var(--radius);margin-bottom:8px;background:#fff}
+.share-status-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.ssd-pending{background:var(--grey-300)}
+.ssd-received{background:var(--green)}
+.ssd-issue{background:var(--red)}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--grey-200);margin-bottom:24px}
+.tab-btn{padding:10px 20px;font-size:0.84rem;font-weight:500;color:var(--grey-500);cursor:pointer;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;background:none;font-family:'Inter',sans-serif;transition:all .15s}
+.tab-btn:hover{color:var(--grey-900)}
+.tab-btn.active{color:var(--green);border-bottom-color:var(--green);font-weight:600}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:60px 20px;color:var(--grey-500)}
+.empty-icon{font-size:2.8rem;margin-bottom:12px;opacity:0.4}
+.empty h3{font-size:1rem;font-weight:600;color:var(--grey-700);margin-bottom:6px}
+
+/* ── LOADING ── */
+#loading-screen{position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;z-index:5000;flex-direction:column;gap:14px}
+.loading-logo{font-weight:800;font-size:1.3rem;color:var(--grey-900);letter-spacing:-0.02em}
+.loading-logo span{color:var(--green)}
+.loading-bar{width:200px;height:4px;background:var(--grey-200);border-radius:var(--radius-full);overflow:hidden}
+.loading-bar-fill{height:100%;background:var(--green);border-radius:var(--radius-full);animation:loadpulse 1.4s ease-in-out infinite}
+@keyframes loadpulse{0%{width:0%;margin-left:0}50%{width:60%;margin-left:0}100%{width:0%;margin-left:100%}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .form-grid{grid-template-columns:1fr}
+  nav{padding:0 14px}
+  .nav-center{display:none}
+  #app{padding:16px 12px}
+}
+@media(max-width:480px){.stats-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loading-screen">
+  <div class="loading-logo">Docu<span>Assist</span> Germany</div>
+  <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+</div>
+
+<!-- LOGIN -->
+<div id="login-screen" style="display:none">
+  <div class="login-box">
+    <div class="login-logo">Docu<span>Assist</span> Germany</div>
+    <p class="login-sub">Document Checker — Internal Portal</p>
+    <form id="login-form">
+      <div class="form-group" style="margin-bottom:14px">
+        <label>Email</label>
+        <input type="email" id="login-email" required placeholder="you@docuassistgermany.de"/>
+      </div>
+      <div class="form-group" style="margin-bottom:20px">
+        <label>Password</label>
+        <input type="password" id="login-password" required placeholder="••••••••"/>
+      </div>
+      <div class="login-error" id="login-error"></div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center" id="login-btn">Sign In</button>
+    </form>
+    <p style="font-size:0.75rem;color:var(--grey-400);text-align:center;margin-top:20px">DocuAssist Germany · Internal Use Only</p>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div id="app-shell" style="display:none">
+  <nav>
+    <div class="nav-brand" onclick="navigate('dashboard')">Docu<span>Assist</span> Germany <small>Doc Checker</small></div>
+    <div class="nav-center">
+      <button class="nav-link" id="nav-dashboard" onclick="navigate('dashboard')">Dashboard</button>
+      <button class="nav-link" id="nav-leads" onclick="navigate('leads')">Leads</button>
+    </div>
+    <div class="nav-right">
+      <button class="nav-btn" onclick="navigate('new-lead')">+ New Lead</button>
+      <span class="nav-user" id="nav-user-email"></span>
+      <button class="nav-signout" onclick="doSignOut()">Sign out</button>
+    </div>
+  </nav>
+  <div id="app"></div>
+</div>
+
+<!-- PUBLIC SHARE VIEW -->
+<div id="share-view" style="display:none"></div>
+
+<!-- EMAIL MODAL -->
+<div class="modal-overlay" id="email-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>📧 Send Document Checklist</h3>
+      <button class="modal-close" onclick="closeModal('email-modal')">✕</button>
+    </div>
+    <div class="form-group" style="margin-bottom:14px">
+      <label>Client Email</label>
+      <input type="email" id="email-to" placeholder="client@example.com"/>
+    </div>
+    <div class="form-group" style="margin-bottom:14px">
+      <label>Message (optional note to client)</label>
+      <textarea id="email-note" rows="3" placeholder="Hi, please find your document checklist below..."></textarea>
+    </div>
+    <div id="email-preview" style="font-size:0.78rem;color:var(--grey-500);background:var(--grey-50);padding:12px;border-radius:var(--radius);max-height:180px;overflow-y:auto;margin-bottom:16px;white-space:pre-wrap;font-family:monospace;line-height:1.6"></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-primary" id="email-send-btn" onclick="sendEmail()">Send Email</button>
+      <button class="btn btn-secondary" onclick="closeModal('email-modal')">Cancel</button>
+    </div>
+    <div id="email-status" style="margin-top:10px;font-size:0.82rem"></div>
+  </div>
+</div>
+
+<!-- WHATSAPP MODAL -->
+<div class="modal-overlay" id="wa-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>💬 WhatsApp Message</h3>
+      <button class="modal-close" onclick="closeModal('wa-modal')">✕</button>
+    </div>
+    <p style="font-size:0.82rem;color:var(--grey-500);margin-bottom:12px">Copy and paste this into WhatsApp:</p>
+    <textarea id="wa-text" style="width:100%;min-height:220px;font-size:0.78rem;font-family:monospace;line-height:1.6;border:1px solid var(--grey-200);border-radius:var(--radius);padding:12px;background:var(--grey-50);resize:vertical"></textarea>
+    <div style="display:flex;gap:10px;margin-top:14px">
+      <button class="btn btn-primary" onclick="copyWA()">📋 Copy Message</button>
+      <button class="btn btn-secondary" onclick="closeModal('wa-modal')">Close</button>
+    </div>
+    <div id="wa-status" style="margin-top:8px;font-size:0.8rem;color:var(--green)"></div>
+  </div>
+</div>
+
+<!-- SHARE LINK MODAL -->
+<div class="modal-overlay" id="share-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>🔗 Shareable Client Link</h3>
+      <button class="modal-close" onclick="closeModal('share-modal')">✕</button>
+    </div>
+    <p style="font-size:0.82rem;color:var(--grey-500);margin-bottom:14px">Share this link with your client so they can track their document status in real time — no login required.</p>
+    <div style="display:flex;gap:8px;align-items:center">
+      <input type="text" id="share-link-input" readonly style="flex:1;font-size:0.8rem;background:var(--grey-50)"/>
+      <button class="btn btn-primary btn-sm" onclick="copyShareLink()">Copy</button>
+    </div>
+    <div id="share-link-status" style="margin-top:8px;font-size:0.8rem;color:var(--green)"></div>
+    <div class="warn-box" style="margin-top:14px;margin-bottom:0">Anyone with this link can view the document checklist for this client. Don't share publicly.</div>
+  </div>
+</div>
+
+<script type="module">
+
+// ══════════════════════════════════════════════
+// ⚙️  CONFIGURATION — REPLACE THESE VALUES
+// ══════════════════════════════════════════════
+const FIREBASE_CONFIG = {
+  apiKey:            "AIzaSyDPBXMIc_oEJXWtdJc3hE45c-Q_aIDsEJk",
+  authDomain:        "docuassist-germany.firebaseapp.com",
+  projectId:         "docuassist-germany",
+  storageBucket:     "docuassist-germany.firebasestorage.app",
+  messagingSenderId: "524865389220",
+  appId:             "1:524865389220:web:d2d9f755fa13d8b8415c31",
+  measurementId:     "G-DF96H599FZ"
+};
+
+const EMAILJS_PUBLIC_KEY  = "avRXkrPi7J6v3HqLm";
+const EMAILJS_SERVICE_ID  = "service_686zzip";
+const EMAILJS_TEMPLATE_ID = "template_cl926c6";
+// ══════════════════════════════════════════════
+
+// ── Firebase imports ──
+import { initializeApp }                                     from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+import { getFirestore, collection, doc, setDoc, getDoc, getDocs, deleteDoc, query, orderBy, where, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js';
+
+// ── Init Firebase ──
+const fbApp = initializeApp(FIREBASE_CONFIG);
+const auth  = getAuth(fbApp);
+const db    = getFirestore(fbApp);
+const storage = getStorage(fbApp);
+
+// ── Init EmailJS ──
+emailjs.init(EMAILJS_PUBLIC_KEY);
+
+// ── Set PDF.js worker ──
+if (window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+// ══════════════════════════════════════════════
+// CASE TYPE DATABASE
+// ══════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════
+// CASE TYPE DATABASE — service.berlin.de verified URLs (March 2026)
+// Appointment booking: LEA abolished OTV system Jan 2025.
+// Applications now submitted digitally via service.berlin.de pages.
+// Appointments are allocated by departments after document upload.
+// LEA appointments info: https://www.berlin.de/einwanderung/en/services/appointments/
+// ══════════════════════════════════════════════════════════════════
+const LEA_APPT = 'https://www.berlin.de/einwanderung/en/services/appointments/';
+const EMBASSY_APPT = 'https://www.auswaertiges-amt.de/en/visa-service/-/2204870';
+
+const CASE_TYPES = {
+  // ── PERMANENT RESIDENCE ──────────────────────────────────────────────────
+  'ne-general': {
+    label: 'Permanent Settlement Permit (General)',
+    labelDe: 'Niederlassungserlaubnis (Allgemein)',
+    short: 'NE General',
+    shortDe: 'NE Allgemein',
+    category: 'Permanent Residence',
+    authority: 'LEA Berlin (Friedrich-Krause-Ufer)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/121864/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp + prior EU residence title if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel + frühere EU-Aufenthaltserlaubnis bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of current residence title', labelDe: 'Kopie des aktuellen Aufenthaltstitels', required: true },
+      { id: 'employer-cert', label: 'Employer certificate confirming ongoing employment (not older than 14 days)', labelDe: 'Arbeitgeberbescheinigung über bestehendes Beschäftigungsverhältnis (nicht älter als 14 Tage)', required: true },
+      { id: 'salary-slips', label: 'Last 6 months salary slips and/or bank statements showing salary credits', labelDe: 'Lohnabrechnungen der letzten 6 Monate und/oder Kontoauszüge mit Gehaltseingängen', required: true },
+      { id: 'pension-record', label: 'Pension insurance record from Deutsche Rentenversicherung (DRV) — 60 months contributions required', labelDe: 'Rentenversicherungsverlauf der Deutschen Rentenversicherung (DRV) — 60 Monate Beitragszeiten erforderlich', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'long-term-care', label: 'Long-term care (Pflegeversicherung) insurance proof', labelDe: 'Pflegeversicherungsnachweis', required: true },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'housing-costs', label: 'Proof of living space size & costs — rental: tenancy agreement + Warmmiete proof; owned: land register (section 3) + charges + loan costs', labelDe: 'Nachweis Wohnfläche und -kosten — Miete: Mietvertrag + Warmmiete-Nachweis; Eigentum: Grundbuchauszug (Abt. 3) + Lasten + Darlehenskosten', required: true },
+      { id: 'language-b1', label: 'German language certificate B1 (or higher)', labelDe: 'Deutschsprachnachweis B1 (oder höher)', required: true },
+      { id: 'civic-knowledge', label: 'Proof of civic knowledge (e.g. "Leben in Deutschland" certificate or Einbürgerungstest)', labelDe: 'Nachweis staatsbürgerlicher Kenntnisse (z. B. Zertifikat „Leben in Deutschland" oder Einbürgerungstest)', required: true },
+      { id: 'audit-report', label: 'Audit report (Prüfungsbericht) by tax advisor/auditor — self-employed only', labelDe: 'Prüfungsbericht durch Steuerberater/Wirtschaftsprüfer — nur für Selbständige', required: false },
+      { id: 'tax-clearance', label: 'Tax clearance certificate (Steuerunbedenklichkeitsbescheinigung) — self-employed only', labelDe: 'Steuerunbedenklichkeitsbescheinigung — nur für Selbständige', required: false },
+      { id: 'medical-cert', label: 'Medical certificate — only if claiming incapacity for work', labelDe: 'Ärztliches Attest — nur bei geltend gemachter Berufsunfähigkeit', required: false }
+    ]
+  },
+
+  'ne-skilled': {
+    label: 'Permanent Settlement Permit (Qualified Skilled Workers)',
+    labelDe: 'Niederlassungserlaubnis (Qualifizierte Fachkräfte)',
+    short: 'NE Skilled Worker',
+    shortDe: 'NE Fachkraft',
+    category: 'Permanent Residence',
+    authority: 'LEA Berlin (Keplerstrasse)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/326558/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of current residence title', labelDe: 'Kopie des aktuellen Aufenthaltstitels', required: true },
+      { id: 'employer-cert', label: 'Employer certificate confirming ongoing employment (not older than 14 days)', labelDe: 'Arbeitgeberbescheinigung über bestehendes Beschäftigungsverhältnis (nicht älter als 14 Tage)', required: true },
+      { id: 'salary-slips', label: 'Last 6 months salary slips and/or bank statements', labelDe: 'Lohnabrechnungen der letzten 6 Monate und/oder Kontoauszüge', required: true },
+      { id: 'pension-record', label: 'Pension insurance record from DRV — 60 months contributions required', labelDe: 'Rentenversicherungsverlauf der DRV — 60 Monate Beitragszeiten erforderlich', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'housing-costs', label: 'Proof of living space size & costs — rental: tenancy + Warmmiete; owned: land register + charges', labelDe: 'Nachweis Wohnfläche und -kosten — Miete: Mietvertrag + Warmmiete; Eigentum: Grundbuchauszug + Lasten', required: true },
+      { id: 'language-b1', label: 'German language certificate B1 (or higher)', labelDe: 'Deutschsprachnachweis B1 (oder höher)', required: true },
+      { id: 'civic-knowledge', label: 'Proof of civic knowledge (e.g. "Leben in Deutschland" or Einbürgerungstest certificate)', labelDe: 'Nachweis staatsbürgerlicher Kenntnisse (z. B. „Leben in Deutschland" oder Einbürgerungstest)', required: true }
+    ]
+  },
+
+  'ne-blue-card': {
+    label: 'Permanent Settlement Permit (Blue Card Holders)',
+    labelDe: 'Niederlassungserlaubnis (Blaue-Karte-EU-Inhaber)',
+    short: 'NE Blue Card',
+    shortDe: 'NE Blaue Karte',
+    category: 'Permanent Residence',
+    authority: 'LEA Berlin (Keplerstrasse)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/326556/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of current EU Blue Card', labelDe: 'Kopie der aktuellen Blauen Karte EU', required: true },
+      { id: 'employer-cert', label: 'Employer certificate confirming ongoing employment (not older than 14 days)', labelDe: 'Arbeitgeberbescheinigung über bestehendes Beschäftigungsverhältnis (nicht älter als 14 Tage)', required: true },
+      { id: 'salary-slips', label: 'Last 6 months salary slips and/or bank statements', labelDe: 'Lohnabrechnungen der letzten 6 Monate und/oder Kontoauszüge', required: true },
+      { id: 'pension-record', label: 'Pension insurance record from DRV (note: 21 months = B1 required; 27 months = A1 sufficient)', labelDe: 'Rentenversicherungsverlauf der DRV (Hinweis: 21 Monate = B1 erforderlich; 27 Monate = A1 ausreichend)', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'housing-costs', label: 'Proof of living space size & costs — rental: tenancy + Warmmiete; owned: land register + charges', labelDe: 'Nachweis Wohnfläche und -kosten — Miete: Mietvertrag + Warmmiete; Eigentum: Grundbuchauszug + Lasten', required: true },
+      { id: 'language-cert', label: 'German language certificate — A1 minimum (B1 if 21+ months employment, A1 if 27+ months)', labelDe: 'Deutschsprachnachweis — mind. A1 (B1 bei 21+ Monaten Beschäftigung, A1 bei 27+ Monaten)', required: true },
+      { id: 'civic-knowledge', label: 'Proof of civic knowledge (e.g. "Leben in Deutschland" or Einbürgerungstest certificate)', labelDe: 'Nachweis staatsbürgerlicher Kenntnisse (z. B. „Leben in Deutschland" oder Einbürgerungstest)', required: true }
+    ]
+  },
+
+  'eu-long-term': {
+    label: 'EU Long-term Residence Permit',
+    labelDe: 'Erlaubnis zum Daueraufenthalt-EU',
+    short: 'EU Long-term',
+    shortDe: 'EU-Daueraufenthalt',
+    category: 'Permanent Residence',
+    authority: 'LEA Berlin (Friedrich-Krause-Ufer)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/324281/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of current residence title', labelDe: 'Kopie des aktuellen Aufenthaltstitels', required: true },
+      { id: 'employer-cert', label: 'Employer certificate confirming ongoing employment (not older than 14 days)', labelDe: 'Arbeitgeberbescheinigung über bestehendes Beschäftigungsverhältnis (nicht älter als 14 Tage)', required: true },
+      { id: 'salary-slips', label: 'Last 6 months salary slips and/or bank statements', labelDe: 'Lohnabrechnungen der letzten 6 Monate und/oder Kontoauszüge', required: true },
+      { id: 'pension-record', label: 'Pension insurance record from DRV — 60 months contributions required', labelDe: 'Rentenversicherungsverlauf der DRV — 60 Monate Beitragszeiten erforderlich', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'long-term-care', label: 'Long-term care (Pflegeversicherung) insurance proof', labelDe: 'Pflegeversicherungsnachweis', required: true },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'housing-costs', label: 'Proof of living space size & costs — rental: tenancy + Warmmiete; owned: land register + charges', labelDe: 'Nachweis Wohnfläche und -kosten — Miete: Mietvertrag + Warmmiete; Eigentum: Grundbuchauszug + Lasten', required: true },
+      { id: 'language-b1', label: 'German language certificate B1 (or higher)', labelDe: 'Deutschsprachnachweis B1 (oder höher)', required: true },
+      { id: 'civic-knowledge', label: 'Proof of civic knowledge (e.g. "Leben in Deutschland" or Einbürgerungstest certificate)', labelDe: 'Nachweis staatsbürgerlicher Kenntnisse (z. B. „Leben in Deutschland" oder Einbürgerungstest)', required: true },
+      { id: 'audit-report', label: 'Audit report (Prüfungsbericht) — self-employed only', labelDe: 'Prüfungsbericht durch Steuerberater/Wirtschaftsprüfer — nur für Selbständige', required: false },
+      { id: 'tax-clearance', label: 'Tax clearance certificate — self-employed only', labelDe: 'Steuerunbedenklichkeitsbescheinigung — nur für Selbständige', required: false }
+    ]
+  },
+
+  // ── SKILLED WORKER ───────────────────────────────────────────────────────
+  'blue-card': {
+    label: 'EU Blue Card',
+    labelDe: 'Blaue Karte EU',
+    short: 'Blue Card',
+    shortDe: 'Blaue Karte',
+    category: 'Skilled Worker',
+    authority: 'LEA Berlin — Business Immigration Service (BIS)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/324659/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp + prior EU residence title if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel + frühere EU-Aufenthaltserlaubnis bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of existing residence title (if applicable)', labelDe: 'Kopie des bestehenden Aufenthaltstitels (falls vorhanden)', required: false },
+      { id: 'employment-contract', label: 'Employment contract or binding job offer (min. 6-month duration)', labelDe: 'Arbeitsvertrag oder verbindliche Stellenzusage (mind. 6 Monate Laufzeit)', required: true },
+      { id: 'qualification', label: 'University / college degree certificate', labelDe: 'Hochschulabschlusszeugnis / Universitätsdiplom', required: true },
+      { id: 'zab-eval', label: 'ZAB degree evaluation — if foreign degree not listed in Anabin database', labelDe: 'ZAB-Gutachten zur Anerkennung des ausländischen Abschlusses — wenn nicht in der Anabin-Datenbank gelistet', required: false },
+      { id: 'employer-form', label: 'Form "Erklärung zum Beschäftigungsverhältnis" — completed and signed by employer', labelDe: 'Formular „Erklärung zum Beschäftigungsverhältnis" — ausgefüllt und vom Arbeitgeber unterzeichnet', required: true },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'housing-costs', label: 'Proof of living space size & costs — rental: tenancy + Warmmiete; owned: land register + charges', labelDe: 'Nachweis Wohnfläche und -kosten — Miete: Mietvertrag + Warmmiete; Eigentum: Grundbuchauszug + Lasten', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'occupation-permit', label: 'Occupation practice permit (e.g. for doctors, engineers) — if applicable', labelDe: 'Berufsausübungserlaubnis (z. B. für Ärzte, Ingenieure) — falls erforderlich', required: false },
+      { id: 'extension-employer-cert', label: 'Extension only: employer confirmation of ongoing employment (max 14 days old)', labelDe: 'Nur Verlängerung: Arbeitgeberbescheinigung über bestehendes Beschäftigungsverhältnis (max. 14 Tage alt)', required: false },
+      { id: 'extension-salary', label: 'Extension only: salary slips for first two and last two months', labelDe: 'Nur Verlängerung: Lohnabrechnungen für die ersten und letzten zwei Monate', required: false }
+    ]
+  },
+
+  'ae-academic': {
+    label: 'Residence Permit — Academic Skilled Worker',
+    labelDe: 'Aufenthaltserlaubnis — Akademische Fachkraft',
+    short: 'AE Academic',
+    shortDe: 'AE Akadem. Fachkraft',
+    category: 'Skilled Worker',
+    authority: 'LEA Berlin — Business Immigration Service (BIS)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/329328/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp + prior EU residence title if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel + frühere EU-Aufenthaltserlaubnis bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of existing residence title (if applicable)', labelDe: 'Kopie des bestehenden Aufenthaltstitels (falls vorhanden)', required: false },
+      { id: 'employment-contract', label: 'Employment contract or binding job offer', labelDe: 'Arbeitsvertrag oder verbindliche Stellenzusage', required: true },
+      { id: 'qualification', label: 'Proof of academic qualification — German degree, Anabin-recognised foreign degree, or ZAB individual evaluation', labelDe: 'Nachweis der akademischen Qualifikation — deutsches Hochschulzeugnis, Anabin-anerkannter ausländischer Abschluss oder ZAB-Einzelbewertung', required: true },
+      { id: 'employer-form', label: 'Form "Erklärung zum Beschäftigungsverhältnis" — completed and signed by employer', labelDe: 'Formular „Erklärung zum Beschäftigungsverhältnis" — ausgefüllt und vom Arbeitgeber unterzeichnet', required: true },
+      { id: 'occupation-permit', label: 'Occupation practice permit — if required for the profession', labelDe: 'Berufsausübungserlaubnis — falls für den Beruf erforderlich', required: false },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'housing-costs', label: 'Proof of living space size & costs — rental: tenancy + Warmmiete; owned: land register + charges', labelDe: 'Nachweis Wohnfläche und -kosten — Miete: Mietvertrag + Warmmiete; Eigentum: Grundbuchauszug + Lasten', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'extension-employer-cert', label: 'Extension only: employer confirmation (max 14 days old)', labelDe: 'Nur Verlängerung: Arbeitgeberbescheinigung (max. 14 Tage alt)', required: false },
+      { id: 'extension-salary', label: 'Extension only: salary slips for first two and last two months', labelDe: 'Nur Verlängerung: Lohnabrechnungen für die ersten und letzten zwei Monate', required: false }
+    ]
+  },
+
+  'ae-vocational': {
+    label: 'Residence Permit — Vocational Skilled Worker',
+    labelDe: 'Aufenthaltserlaubnis — Beruflich Qualifizierte Fachkraft',
+    short: 'AE Vocational',
+    shortDe: 'AE Berufl. Fachkraft',
+    category: 'Skilled Worker',
+    authority: 'LEA Berlin — Business Immigration Service (BIS)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/305304/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp + prior EU residence title if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel + frühere EU-Aufenthaltserlaubnis bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of existing residence title (if applicable)', labelDe: 'Kopie des bestehenden Aufenthaltstitels (falls vorhanden)', required: false },
+      { id: 'employment-contract', label: 'Employment contract or binding job offer', labelDe: 'Arbeitsvertrag oder verbindliche Stellenzusage', required: true },
+      { id: 'qualification', label: 'Proof of vocational qualification — German training certificate (min. 2 years) OR foreign equivalent with official recognition decision', labelDe: 'Nachweis der Berufsqualifikation — deutsches Ausbildungszeugnis (mind. 2 Jahre) ODER ausländisches Äquivalent mit offiziellem Anerkennungsbescheid', required: true },
+      { id: 'employer-form', label: 'Form "Erklärung zum Beschäftigungsverhältnis" — completed and signed by employer', labelDe: 'Formular „Erklärung zum Beschäftigungsverhältnis" — ausgefüllt und vom Arbeitgeber unterzeichnet', required: true },
+      { id: 'occupation-permit', label: 'Occupation practice permit — if required for the profession', labelDe: 'Berufsausübungserlaubnis — falls für den Beruf erforderlich', required: false },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'housing-costs', label: 'Proof of living space size & costs — rental: tenancy + Warmmiete; owned: land register + charges', labelDe: 'Nachweis Wohnfläche und -kosten — Miete: Mietvertrag + Warmmiete; Eigentum: Grundbuchauszug + Lasten', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'extension-employer-cert', label: 'Extension only: employer confirmation (max 14 days old)', labelDe: 'Nur Verlängerung: Arbeitgeberbescheinigung (max. 14 Tage alt)', required: false },
+      { id: 'extension-salary', label: 'Extension only: salary slips for first two and last two months', labelDe: 'Nur Verlängerung: Lohnabrechnungen für die ersten und letzten zwei Monate', required: false }
+    ]
+  },
+
+  // ── STUDY & EDUCATION ────────────────────────────────────────────────────
+  'ae-study': {
+    label: 'Residence Permit — Full-time Studies',
+    labelDe: 'Aufenthaltserlaubnis — Studium (Vollzeit)',
+    short: 'AE Study',
+    shortDe: 'AE Studium',
+    category: 'Study & Education',
+    authority: 'LEA Berlin (Keplerstrasse)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/305244/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of existing residence title (if applicable)', labelDe: 'Kopie des bestehenden Aufenthaltstitels (falls vorhanden)', required: false },
+      { id: 'enrolment', label: 'Certificate of enrolment or conditional admission letter from university', labelDe: 'Immatrikulationsbescheinigung oder vorläufiger Zulassungsbescheid der Hochschule', required: true },
+      { id: 'livelihood-initial', label: 'Initial: proof of livelihood — blocked account (Sperrkonto, min. €992/month / €11,904/year 2026), scholarship, parents notarised income declaration, part-time employment contract, or declaration of commitment', labelDe: 'Erstantrag: Nachweis der Lebensunterhaltssicherung — Sperrkonto (mind. €992/Monat / €11.904/Jahr 2026), Stipendium, notarielle Einkommenserklärung der Eltern, Teilzeitarbeitsvertrag oder Verpflichtungserklärung', required: true },
+      { id: 'livelihood-extension', label: 'Extension: bank statements last 6 months and/or proof of other income', labelDe: 'Verlängerung: Kontoauszüge der letzten 6 Monate und/oder Nachweis sonstiger Einkünfte', required: false },
+      { id: 'study-progress', label: 'Extension only: performance overview or study forecast from university', labelDe: 'Nur Verlängerung: Leistungsübersicht oder Studienprognose der Hochschule', required: false },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'housing-proof', label: 'Proof of residence in Berlin: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis in Berlin: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'hzb', label: 'University entrance qualification (HZB/Abitur) — only if attending preparatory language course', labelDe: 'Hochschulzugangsberechtigung (HZB/Abitur) — nur bei Besuch eines vorbereitenden Sprachkurses', required: false },
+      { id: 'language-contract', label: 'Contract with language school — only if attending preparatory language course', labelDe: 'Vertrag mit Sprachschule — nur bei Besuch eines vorbereitenden Sprachkurses', required: false }
+    ]
+  },
+
+  'ae-training-vocational': {
+    label: 'Residence Permit — School-based Vocational Training',
+    labelDe: 'Aufenthaltserlaubnis — Schulische Berufsausbildung',
+    short: 'AE School Training',
+    shortDe: 'AE Schulausbildung',
+    category: 'Study & Education',
+    authority: 'LEA Berlin (Keplerstrasse)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/328338/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of existing residence title (if applicable)', labelDe: 'Kopie des bestehenden Aufenthaltstitels (falls vorhanden)', required: false },
+      { id: 'training-contract', label: 'School contract or current admission decision — must state vocational qualification pursued and duration of training', labelDe: 'Schulvertrag oder aktueller Zulassungsbescheid — muss den angestrebten Berufsabschluss und die Ausbildungsdauer angeben', required: true },
+      { id: 'livelihood-initial', label: 'Initial: proof of livelihood — blocked account (min. €959/month / €11,508/year 2026), scholarship, parents notarised declaration, part-time contract, or declaration of commitment', labelDe: 'Erstantrag: Nachweis der Lebensunterhaltssicherung — Sperrkonto (mind. €959/Monat / €11.508/Jahr 2026), Stipendium, notarielle Erklärung der Eltern, Teilzeitarbeitsvertrag oder Verpflichtungserklärung', required: true },
+      { id: 'livelihood-extension', label: 'Extension: bank statements last 6 months and/or other income proof', labelDe: 'Verlängerung: Kontoauszüge der letzten 6 Monate und/oder sonstiger Einkommensnachweis', required: false },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'housing-proof', label: 'Proof of residence in Berlin: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis in Berlin: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true }
+    ]
+  },
+
+  'ae-training-company': {
+    label: 'Residence Permit — In-company Training / Further Education',
+    labelDe: 'Aufenthaltserlaubnis — Betriebliche Aus- und Weiterbildung',
+    short: 'AE Company Training',
+    shortDe: 'AE Betriebl. Ausbildung',
+    category: 'Study & Education',
+    authority: 'LEA Berlin (Keplerstrasse)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/329337/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of existing residence title (if applicable)', labelDe: 'Kopie des bestehenden Aufenthaltstitels (falls vorhanden)', required: false },
+      { id: 'training-proof', label: 'Proof of in-company training or further education: employment contract, training contract, or scholarship letter', labelDe: 'Nachweis der betrieblichen Aus- oder Weiterbildung: Arbeitsvertrag, Ausbildungsvertrag oder Stipendienzusage', required: true },
+      { id: 'employer-form', label: 'Form "Erklärung zum Beschäftigungsverhältnis" — completed and signed by employer', labelDe: 'Formular „Erklärung zum Beschäftigungsverhältnis" — ausgefüllt und vom Arbeitgeber unterzeichnet', required: true },
+      { id: 'prior-qualification', label: 'Proof of prior qualification (for further education pathway): prior training / university certificates', labelDe: 'Nachweis der Vorqualifikation (für Weiterbildungsweg): frühere Ausbildungs-/Hochschulzeugnisse', required: false },
+      { id: 'livelihood-initial', label: 'If income below BAföG rate: blocked account (min. €959/month training / €992/month further edu.), scholarship, parents declaration, or declaration of commitment', labelDe: 'Wenn Einkommen unter BAföG-Satz: Sperrkonto (mind. €959/Monat Ausbildung / €992/Monat Weiterbildung), Stipendium, elterliche Erklärung oder Verpflichtungserklärung', required: false },
+      { id: 'livelihood-extension', label: 'Extension: bank statements last 6 months and/or other income proof', labelDe: 'Verlängerung: Kontoauszüge der letzten 6 Monate und/oder sonstiger Einkommensnachweis', required: false },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'housing-proof', label: 'Proof of residence in Berlin: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis in Berlin: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true }
+    ]
+  },
+
+  // ── SELF-EMPLOYMENT & FREELANCE ──────────────────────────────────────────
+  'ae-freelance': {
+    label: 'Residence Permit — Freelance Employment',
+    labelDe: 'Aufenthaltserlaubnis — Freiberufliche Tätigkeit',
+    short: 'AE Freelance',
+    shortDe: 'AE Freiberufler',
+    category: 'Self-Employment & Freelance',
+    authority: 'LEA Berlin (Friedrich-Krause-Ufer)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/328332/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of existing residence title (if applicable)', labelDe: 'Kopie des bestehenden Aufenthaltstitels (falls vorhanden)', required: false },
+      { id: 'cv', label: 'CV / curriculum vitae with proof of qualifications and professional history', labelDe: 'Lebenslauf (CV) mit Qualifikationsnachweisen und beruflichem Werdegang', required: true },
+      { id: 'references', label: 'References or funding commitments (Förderzusagen)', labelDe: 'Referenzen oder Förderzusagen', required: true },
+      { id: 'revenue-forecast', label: 'Revenue forecast — official LEA form (Honorarprognose)', labelDe: 'Honorarprognose — offizielles LEA-Formular', required: true },
+      { id: 'fee-contracts', label: 'Fee-based contracts OR at least 2 letters of intent with description of work type and scope — if working on fee/commission basis', labelDe: 'Honorarverträge ODER mind. 2 Absichtserklärungen mit Beschreibung von Art und Umfang der Tätigkeit — bei Honorar- oder Provisionstätigkeit', required: false },
+      { id: 'occupation-permit', label: 'Professional practice permit (e.g. Approbation for doctors, Anwaltszulassung for lawyers) — if required', labelDe: 'Berufsausübungserlaubnis (z. B. Approbation für Ärzte, Anwaltszulassung für Anwälte) — falls erforderlich', required: false },
+      { id: 'other-income', label: 'Proof of other regular income (assets, parental support, declaration of commitment) — required for artists and language teachers', labelDe: 'Nachweis sonstiger regelmäßiger Einkünfte (Vermögen, elterliche Unterstützung, Verpflichtungserklärung) — erforderlich für Künstler und Sprachlehrer', required: false },
+      { id: 'health-insurance', label: 'Health insurance — statutory: current confirmation with contribution amount OR Künstlersozialkasse registration; private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherung — gesetzlich: aktuelle Bestätigung mit Beitragshöhe ODER Künstlersozialkasse-Anmeldung; privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'housing-proof', label: 'Lease or proof of home ownership', labelDe: 'Mietvertrag oder Nachweis des Wohneigentums', required: true },
+      { id: 'housing-costs', label: 'Proof of monthly living costs (current bank statement or property cost statement)', labelDe: 'Nachweis der monatlichen Lebenshaltungskosten (aktueller Kontoauszug oder Kostennachweise für Eigentum)', required: true }
+    ]
+  },
+
+  'ae-selfemployed': {
+    label: 'Residence Permit — Self-Employment',
+    labelDe: 'Aufenthaltserlaubnis — Selbständige Tätigkeit',
+    short: 'AE Self-Employed',
+    shortDe: 'AE Selbständig',
+    category: 'Self-Employment & Freelance',
+    authority: 'LEA Berlin (Friedrich-Krause-Ufer / BIS)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/305249/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of existing residence title (if applicable)', labelDe: 'Kopie des bestehenden Aufenthaltstitels (falls vorhanden)', required: false },
+      { id: 'cv', label: 'CV / curriculum vitae with proof of qualifications and professional background', labelDe: 'Lebenslauf (CV) mit Qualifikationsnachweisen und beruflichem Hintergrund', required: true },
+      { id: 'references', label: 'References or funding commitments (Förderzusagen)', labelDe: 'Referenzen oder Förderzusagen', required: true },
+      { id: 'business-plan', label: 'Detailed business concept / business plan (Businessplan)', labelDe: 'Detailliertes Unternehmenskonzept / Businessplan', required: true },
+      { id: 'financing-plan', label: 'Financing plan — official LEA form', labelDe: 'Finanzierungsplan — offizielles LEA-Formular', required: true },
+      { id: 'degree', label: 'University degree (Diploma/Bachelor/Master) — for university graduate pathway', labelDe: 'Hochschulabschluss (Diplom/Bachelor/Master) — für den Weg als Hochschulabsolvent', required: false },
+      { id: 'university-statement', label: 'University statement on acquired knowledge and its link to business idea — for university graduate pathway', labelDe: 'Stellungnahme der Hochschule zu den erworbenen Kenntnissen und deren Bezug zur Geschäftsidee — für den Hochschulabsolventenweg', required: false },
+      { id: 'employer-statement', label: 'Previous employer statement on link between prior research/academic work and business idea — for researcher/academic pathway', labelDe: 'Stellungnahme des früheren Arbeitgebers zum Zusammenhang zwischen bisheriger Forschungs-/akademischer Arbeit und Geschäftsidee — für den Forscher-/Akademikerweg', required: false },
+      { id: 'trade-register', label: 'Trade register extract OR notarial filing; OR Gewerbeanmeldung if no register entry required', labelDe: 'Handelsregisterauszug oder notarielle Einreichung; ODER Gewerbeanmeldung (wenn kein Registereintrag erforderlich)', required: true },
+      { id: 'health-insurance', label: 'Health insurance — statutory: current confirmation with contribution; private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherung — gesetzlich: aktuelle Bestätigung mit Beitragshöhe; privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'housing-proof', label: 'Lease or proof of home ownership', labelDe: 'Mietvertrag oder Nachweis des Wohneigentums', required: true },
+      { id: 'housing-costs', label: 'Proof of monthly living costs (current bank statement or property cost statement)', labelDe: 'Nachweis der monatlichen Lebenshaltungskosten (aktueller Kontoauszug oder Kostennachweise für Eigentum)', required: true },
+      { id: 'other-income', label: 'Proof of other income (assets, maintenance, Einstiegsgeld) — if applicable', labelDe: 'Nachweis sonstiger Einkünfte (Vermögen, Unterhalt, Einstiegsgeld) — falls zutreffend', required: false }
+    ]
+  },
+
+  // ── FAMILY REUNIFICATION ─────────────────────────────────────────────────
+  'family-german': {
+    label: 'Family Reunification — Spouse/Child of German Citizen',
+    labelDe: 'Familiennachzug — Ehegatte/Kind eines deutschen Staatsbürgers',
+    short: 'Family of German',
+    shortDe: 'Familie Deutsche/r',
+    category: 'Family Reunification',
+    authority: 'LEA Berlin (Friedrich-Krause-Ufer)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/328191/en/',
+    appointmentUrl: 'https://service.berlin.de/dienstleistung/328191/en/',
+    docs: [
+      { id: 'application-form', label: 'Application form "Antrag auf Erteilung eines Aufenthaltstitels" — one per applicant (not needed for extension)', labelDe: 'Antragsformular „Antrag auf Erteilung eines Aufenthaltstitels" — je ein Formular pro Antragsteller (nicht erforderlich bei Verlängerung)', required: true },
+      { id: 'passport', label: 'Valid passport — each family member (German spouse may use Personalausweis)', labelDe: 'Gültiger Reisepass — jedes Familienmitglied (deutschen Ehegatte kann Personalausweis verwenden)', required: true },
+      { id: 'photo', label: '1 current biometric photo — digital only since May 2025 (taken at government office or certified photo studio)', labelDe: '1 aktuelles biometrisches Lichtbild — seit Mai 2025 ausschließlich digital (aufgenommen beim Amt oder in zertifiziertem Fotostudio)', required: true },
+      { id: 'marriage-cert', label: 'Marriage / partnership certificate — for spouses (not needed for extension)', labelDe: 'Heiratsurkunde / Partnerschaftsurkunde — für Ehegatten (nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'birth-cert', label: 'Birth certificate for underage children (not needed for extension)', labelDe: 'Geburtsurkunde für minderjährige Kinder (nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'custody-cert', label: 'Certificate of legal custody — if foreign father not married to mother, or one parent not resident in Germany', labelDe: 'Sorgerechtsbescheinigung — wenn ausländischer Vater nicht mit der Mutter verheiratet ist oder ein Elternteil nicht in Deutschland wohnt', required: false },
+      { id: 'paternity', label: 'Proof of paternity recognition (Vaterschaftsanerkennung) — if parents not married under German law (not needed for extension)', labelDe: 'Nachweis der Vaterschaftsanerkennung — wenn Eltern nicht nach deutschem Recht verheiratet sind (nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'translations', label: 'Certified German translations of all foreign documents + apostille or authenticity confirmation (where required by country of origin)', labelDe: 'Beglaubigte deutsche Übersetzungen aller ausländischen Dokumente + Apostille oder Echtheitsbestätigung (je nach Herkunftsland)', required: true },
+      { id: 'jugendamt', label: 'Youth Welfare Office (Jugendamt) confirmation of contact with child (max 14 days) — only if foreign father applies without child\'s mother present', labelDe: 'Bestätigung des Jugendamts über Kontakt zum Kind (max. 14 Tage) — nur wenn ausländischer Vater ohne die Kindesmutter antragstellt', required: false },
+      { id: 'school-cert', label: 'Current school attendance certificate (max 14 days) — for school-age children', labelDe: 'Aktuelle Schulbesuchsbescheinigung (max. 14 Tage) — für schulpflichtige Kinder', required: false },
+      { id: 'language-a1', label: 'German language certificate A1 — required for foreign spouse/partner', labelDe: 'Deutschsprachnachweis A1 — erforderlich für ausländischen Ehegatten/eingetragenen Lebenspartner', required: true },
+      { id: 'integration-certs', label: 'All integration course participation certificates — extension only (if course was mandated)', labelDe: 'Alle Teilnahmebescheinigungen über Integrationskurse — nur bei Verlängerung (wenn Kurs angeordnet wurde)', required: false },
+      { id: 'housing-proof', label: 'Proof of main residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Nachweis des Hauptwohnsitzes: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true }
+    ]
+  },
+
+  'family-foreign': {
+    label: 'Family Reunification — Spouse/Child of Foreign National (General)',
+    labelDe: 'Familiennachzug — Ehegatte/Kind eines Ausländers (Allgemein)',
+    short: 'Family of Foreign National',
+    shortDe: 'Familie Ausländer/in',
+    category: 'Family Reunification',
+    authority: 'LEA Berlin (Friedrich-Krause-Ufer / BIS)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/305289/en/',
+    appointmentUrl: 'https://service.berlin.de/dienstleistung/305289/en/',
+    docs: [
+      { id: 'application-form', label: 'Application form "Antrag auf Erteilung eines Aufenthaltstitels" — one per applicant (initial application only)', labelDe: 'Antragsformular „Antrag auf Erteilung eines Aufenthaltstitels" — je ein Formular pro Antragsteller (nur Erstantrag)', required: true },
+      { id: 'passport', label: 'Valid passport — each family member', labelDe: 'Gültiger Reisepass — jedes Familienmitglied', required: true },
+      { id: 'photo', label: '1 current biometric photo — 35mm × 45mm, frontal, neutral expression, light background', labelDe: '1 aktuelles biometrisches Lichtbild — 35 mm × 45 mm, frontal, neutraler Ausdruck, heller Hintergrund', required: true },
+      { id: 'marriage-cert', label: 'Marriage certificate (spouse reunion, initial only)', labelDe: 'Heiratsurkunde (Ehegattenachzug, nur Erstantrag)', required: false },
+      { id: 'partnership-cert', label: 'Partnership certificate (same-sex civil partner, initial only)', labelDe: 'Partnerschaftsurkunde (gleichgeschlechtlicher eingetragener Lebenspartner, nur Erstantrag)', required: false },
+      { id: 'birth-cert', label: 'Birth certificate for underage children (initial only)', labelDe: 'Geburtsurkunde für minderjährige Kinder (nur Erstantrag)', required: false },
+      { id: 'custody-cert', label: 'Certificate of legal custody — if one parent does not live in Germany (initial only)', labelDe: 'Sorgerechtsbescheinigung — wenn ein Elternteil nicht in Deutschland wohnt (nur Erstantrag)', required: false },
+      { id: 'translations', label: 'Certified translations of all foreign documents + apostille/authenticity confirmation where required', labelDe: 'Beglaubigte Übersetzungen aller ausländischen Dokumente + Apostille/Echtheitsbestätigung wo erforderlich', required: true },
+      { id: 'school-cert', label: 'Current school attendance certificate (max 14 days) — for school-age children', labelDe: 'Aktuelle Schulbesuchsbescheinigung (max. 14 Tage) — für schulpflichtige Kinder', required: false },
+      { id: 'language-a1', label: 'German language certificate A1 — for foreign spouse/partner', labelDe: 'Deutschsprachnachweis A1 — für ausländischen Ehegatten/Lebenspartner', required: true },
+      { id: 'integration-certs', label: 'Integration course participation certificates — extension only (if course was mandated)', labelDe: 'Teilnahmebescheinigungen über Integrationskurse — nur bei Verlängerung (wenn Kurs angeordnet wurde)', required: false },
+      { id: 'lease', label: 'Lease agreement with proof of current monthly rent (e.g. bank statement)', labelDe: 'Mietvertrag mit Nachweis der aktuellen monatlichen Miete (z. B. Kontoauszug)', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof (statutory = sufficient; private = check scope and extent, see LEA leaflet)', labelDe: 'Krankenversicherungsnachweis (gesetzlich = ausreichend; privat = Umfang prüfen, LEA-Merkblatt beachten)', required: true },
+      { id: 'livelihood-employed', label: 'Employed sponsor: employment contract + current employment certificate (max 14 days) + last 6 salary slips (+ pension contribution proof for extension)', labelDe: 'Beschäftigter Sponsor: Arbeitsvertrag + aktuelle Arbeitgeberbescheinigung (max. 14 Tage) + letzte 6 Lohnabrechnungen (+ Rentenversicherungsnachweis bei Verlängerung)', required: false },
+      { id: 'livelihood-selfemployed', label: 'Self-employed sponsor: audit report (Prüfungsbericht) by tax consultant or auditor', labelDe: 'Selbständiger Sponsor: Prüfungsbericht durch Steuerberater oder Wirtschaftsprüfer', required: false },
+      { id: 'livelihood-benefits', label: 'If on social benefits: current proof of SGB II/XII, child benefit, etc.', labelDe: 'Bei Sozialleistungsbezug: aktueller Nachweis SGB II/XII, Kindergeld usw.', required: false },
+      { id: 'housing-proof', label: 'Proof of main residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Nachweis des Hauptwohnsitzes: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true }
+    ]
+  },
+
+  'family-skilled': {
+    label: 'Family Reunification — Spouse/Child of Skilled Worker or Student',
+    labelDe: 'Familiennachzug — Ehegatte/Kind einer Fachkraft oder Studierenden',
+    short: 'Family of Skilled Worker',
+    shortDe: 'Familie Fachkraft',
+    category: 'Family Reunification',
+    authority: 'LEA Berlin — Business Immigration Service (BIS)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/327471/en/',
+    appointmentUrl: 'https://service.berlin.de/dienstleistung/327471/en/',
+    docs: [
+      { id: 'application-form', label: 'Application form "Antrag auf Erteilung eines Aufenthaltstitels" — one per applicant (not needed for extension)', labelDe: 'Antragsformular „Antrag auf Erteilung eines Aufenthaltstitels" — je ein Formular pro Antragsteller (nicht erforderlich bei Verlängerung)', required: true },
+      { id: 'passport', label: 'Valid passport — each family member', labelDe: 'Gültiger Reisepass — jedes Familienmitglied', required: true },
+      { id: 'photo', label: '1 current biometric photo — digital only since May 2025 (government office or certified studio)', labelDe: '1 aktuelles biometrisches Lichtbild — seit Mai 2025 ausschließlich digital (Amt oder zertifiziertes Fotostudio)', required: true },
+      { id: 'marriage-cert', label: 'Marriage certificate (to join spouse, not needed for extension)', labelDe: 'Heiratsurkunde (zum Nachzug zum Ehegatten, nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'partnership-cert', label: 'Partnership certificate (to join same-sex partner, not needed for extension)', labelDe: 'Partnerschaftsurkunde (zum Nachzug zum gleichgeschlechtlichen Lebenspartner, nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'birth-cert', label: 'Birth certificate (to join parents, not needed for extension)', labelDe: 'Geburtsurkunde (zum Nachzug zu den Eltern, nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'custody-proof', label: 'Proof of custody — if joining one parent and other parent lives outside Germany (not needed for extension)', labelDe: 'Sorgerechtsnachweise — bei Einzug zu einem Elternteil, wenn der andere Elternteil außerhalb Deutschlands wohnt (nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'translations', label: 'Certified translations of all foreign documents + apostille where required', labelDe: 'Beglaubigte Übersetzungen aller ausländischen Dokumente + Apostille wo erforderlich', required: true },
+      { id: 'lease', label: 'Lease agreement stating current monthly rental cost', labelDe: 'Mietvertrag mit Angabe der aktuellen monatlichen Mietkosten', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof (statutory = sufficient; private = check scope)', labelDe: 'Krankenversicherungsnachweis (gesetzlich = ausreichend; privat = Umfang prüfen)', required: true },
+      { id: 'livelihood-employed', label: 'Employed sponsor: employment contract + employment certificate (max 14 days) + last 6 salary slips', labelDe: 'Beschäftigter Sponsor: Arbeitsvertrag + Arbeitgeberbescheinigung (max. 14 Tage) + letzte 6 Lohnabrechnungen', required: false },
+      { id: 'livelihood-student', label: 'Student/trainee sponsor: bank statements last 6 months, scholarship, blocked account, declaration of commitment, or other income proof', labelDe: 'Studierender/Auszubildender als Sponsor: Kontoauszüge letzte 6 Monate, Stipendium, Sperrkonto, Verpflichtungserklärung oder sonstiger Einkommensnachweis', required: false },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true }
+    ]
+  },
+
+  'family-blue-card': {
+    label: 'Family Reunification — Spouse/Child of EU Blue Card Holder',
+    labelDe: 'Familiennachzug — Ehegatte/Kind eines Blaue-Karte-EU-Inhabers',
+    short: 'Family of Blue Card',
+    shortDe: 'Familie Blaue Karte',
+    category: 'Family Reunification',
+    authority: 'LEA Berlin — Business Immigration Service (BIS)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/328188/en/',
+    appointmentUrl: 'https://service.berlin.de/dienstleistung/328188/en/',
+    docs: [
+      { id: 'application-form', label: 'Application form "Antrag auf Erteilung eines Aufenthaltstitels" — one per applicant (not needed for extension)', labelDe: 'Antragsformular „Antrag auf Erteilung eines Aufenthaltstitels" — je ein Formular pro Antragsteller (nicht erforderlich bei Verlängerung)', required: true },
+      { id: 'passport', label: 'Valid passport — each family member', labelDe: 'Gültiger Reisepass — jedes Familienmitglied', required: true },
+      { id: 'photo', label: '1 current biometric photo — digital only since May 2025 (government office or certified studio)', labelDe: '1 aktuelles biometrisches Lichtbild — seit Mai 2025 ausschließlich digital (Amt oder zertifiziertes Fotostudio)', required: true },
+      { id: 'marriage-cert', label: 'Marriage certificate (to join spouse, not needed for extension)', labelDe: 'Heiratsurkunde (zum Nachzug zum Ehegatten, nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'partnership-cert', label: 'Partnership certificate (to join same-sex partner, not needed for extension)', labelDe: 'Partnerschaftsurkunde (zum Nachzug zum gleichgeschlechtlichen Lebenspartner, nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'birth-cert', label: 'Birth certificate (to join parents, not needed for extension)', labelDe: 'Geburtsurkunde (zum Nachzug zu den Eltern, nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'custody-proof', label: 'Proof of custody — if joining one parent and other parent lives outside Germany (not needed for extension)', labelDe: 'Sorgerechtsnachweise — bei Einzug zu einem Elternteil, wenn der andere Elternteil außerhalb Deutschlands wohnt (nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'translations', label: 'Certified translations of all foreign documents + apostille where required', labelDe: 'Beglaubigte Übersetzungen aller ausländischen Dokumente + Apostille wo erforderlich', required: true },
+      { id: 'lease', label: 'Lease agreement stating current monthly rental cost', labelDe: 'Mietvertrag mit Angabe der aktuellen monatlichen Mietkosten', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof (statutory = sufficient; private = check scope)', labelDe: 'Krankenversicherungsnachweis (gesetzlich = ausreichend; privat = Umfang prüfen)', required: true },
+      { id: 'livelihood', label: 'Proof of livelihood: employment contract + current employment certificate (max 14 days) + last 6 salary slips', labelDe: 'Nachweis der Lebensunterhaltssicherung: Arbeitsvertrag + aktuelle Arbeitgeberbescheinigung (max. 14 Tage) + letzte 6 Lohnabrechnungen', required: true },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true }
+    ]
+  },
+
+  // ── JOB SEEKING & RESEARCH ───────────────────────────────────────────────
+  'job-seeker': {
+    label: 'Residence Permit — Job Seeker (Post-Study/Training)',
+    labelDe: 'Aufenthaltserlaubnis — Arbeitssuche (nach Studium/Ausbildung)',
+    short: 'Job Seeker',
+    shortDe: 'Arbeitssuche',
+    category: 'Job Seeking & Research',
+    authority: 'LEA Berlin (Keplerstrasse)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/324661/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages', labelDe: 'Reisepasskopien (farbig) — Datenseiten', required: true },
+      { id: 'residence-title', label: 'Copy of current residence permit', labelDe: 'Kopie des aktuellen Aufenthaltstitels', required: true },
+      { id: 'degree-cert', label: 'Degree certificate — if post-study pathway', labelDe: 'Abschlusszeugnis — bei Weg nach Studium', required: false },
+      { id: 'training-cert', label: 'Training certificate — if post-vocational-training pathway', labelDe: 'Ausbildungszeugnis — bei Weg nach Berufsausbildung', required: false },
+      { id: 'research-docs', label: 'Documents on terminated research employment — if post-research pathway', labelDe: 'Dokumente über beendetes Forschungsbeschäftigungsverhältnis — bei Weg nach Forschungsaufenthalt', required: false },
+      { id: 'recognition-decision', label: 'Recognition decision OR occupation practice permit OR permission to use professional title — if post-recognition pathway', labelDe: 'Anerkennungsbescheid ODER Berufsausübungserlaubnis ODER Erlaubnis zur Führung der Berufsbezeichnung — bei Weg nach Anerkennung', required: false },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'housing-costs', label: 'Proof of living space size & costs — rental: tenancy + Warmmiete; owned: land register + charges', labelDe: 'Nachweis Wohnfläche und -kosten — Miete: Mietvertrag + Warmmiete; Eigentum: Grundbuchauszug + Lasten', required: true },
+      { id: 'livelihood', label: 'Proof of secure livelihood: bank statements, declaration of commitment by third parties, or scholarship', labelDe: 'Nachweis gesicherter Lebensunterhalt: Kontoauszüge, Verpflichtungserklärung Dritter oder Stipendium', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true }
+    ]
+  },
+
+  'ae-research': {
+    label: 'Residence Permit — Research',
+    labelDe: 'Aufenthaltserlaubnis — Forschung',
+    short: 'AE Research',
+    shortDe: 'AE Forschung',
+    category: 'Job Seeking & Research',
+    authority: 'LEA Berlin (Keplerstrasse)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/328457/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp + prior EU residence title if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel + frühere EU-Aufenthaltserlaubnis bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of existing residence title (if applicable)', labelDe: 'Kopie des bestehenden Aufenthaltstitels (falls vorhanden)', required: false },
+      { id: 'hosting-agreement', label: 'Hosting agreement (Aufnahmevereinbarung) in German (English version may also be included) OR suitable contract with recognised research institution', labelDe: 'Aufnahmevereinbarung in deutscher Sprache (englische Version kann beigefügt werden) ODER geeigneter Vertrag mit anerkannter Forschungseinrichtung', required: true },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'housing-costs', label: 'Proof of living space size & costs — rental: tenancy + Warmmiete; owned: land register + charges', labelDe: 'Nachweis Wohnfläche und -kosten — Miete: Mietvertrag + Warmmiete; Eigentum: Grundbuchauszug + Lasten', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true }
+    ]
+  },
+
+  // ── CITIZENSHIP ──────────────────────────────────────────────────────────
+  'citizenship': {
+    label: 'Einbürgerung — German Citizenship Application',
+    labelDe: 'Einbürgerung — Deutsche Staatsangehörigkeit beantragen',
+    short: 'Citizenship',
+    shortDe: 'Einbürgerung',
+    category: 'Citizenship',
+    authority: 'LEA Berlin (Sellerstrasse)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/318998/',
+    appointmentUrl: 'https://service.berlin.de/dienstleistung/318998/',
+    docs: [
+      { id: 'passport', label: 'Valid passport or national ID card', labelDe: 'Gültiger Reisepass oder Personalausweis', required: true },
+      { id: 'personal-status', label: 'Personal status documents: marriage certificate, divorce decree, adoption order — if applicable', labelDe: 'Personenstandsurkunden: Heiratsurkunde, Scheidungsurteil, Adoptionsbescheid — falls zutreffend', required: false },
+      { id: 'income-employed', label: 'Employees: employment contract + last 6 months salary slips + employer confirmation of ongoing employment', labelDe: 'Arbeitnehmer: Arbeitsvertrag + Lohnabrechnungen der letzten 6 Monate + Arbeitgeberbescheinigung über bestehendes Arbeitsverhältnis', required: false },
+      { id: 'income-selfemployed', label: 'Self-employed / freelancers: last tax assessment + audit report (Prüfungsbericht by tax advisor) + tax clearance certificate (Steuerunbedenklichkeitsbescheinigung) + trade register extract or Gewerbeanmeldung', labelDe: 'Selbständige/Freiberufler: letzter Steuerbescheid + Prüfungsbericht (Steuerberater) + Steuerunbedenklichkeitsbescheinigung + Handelsregisterauszug oder Gewerbeanmeldung', required: false },
+      { id: 'income-nonemployed', label: 'Non-employed: unemployment benefit notice / pension notice / asset proof / SGB II–XII benefit receipts / BAföG notice — as applicable', labelDe: 'Nicht Erwerbstätige: Arbeitslosengeld-/Rentenbescheid / Vermögensnachweis / SGB II–XII-Leistungsnachweise / BAföG-Bescheid — je nach Lage', required: false },
+      { id: 'health-insurance', label: 'Health & long-term care insurance — statutory: health card + current confirmation; private: proof of premium payments + current insurer certificate', labelDe: 'Kranken- und Pflegeversicherung — gesetzlich: Gesundheitskarte + aktuelle Bestätigung; privat: Beitragszahlungsnachweis + aktuelle Versichererbescheinigung', required: true },
+      { id: 'housing-proof', label: 'Rental agreement with proof of current rent level OR land register extract for owners', labelDe: 'Mietvertrag mit Nachweis der aktuellen Mietkosten ODER Grundbuchauszug für Eigentümer', required: true },
+      { id: 'language-b1', label: 'German language proof at B1 or higher — DTZ certificate, B1 certificate, German school/university qualification', labelDe: 'Deutschsprachnachweis B1 oder höher — DTZ-Zertifikat, B1-Zertifikat oder deutsches Schul-/Hochschulzeugnis', required: true },
+      { id: 'civic-knowledge', label: 'Civic knowledge proof — Einbürgerungstest certificate OR "Leben in Deutschland" certificate OR qualifying German school/university completion', labelDe: 'Nachweis staatsbürgerlicher Kenntnisse — Einbürgerungstestzertifikat ODER „Leben in Deutschland"-Zertifikat ODER qualifizierender deutsches Schul-/Hochschulabschluss', required: true },
+      { id: 'meldebestatigung', label: 'Registration certificate (Meldebestätigung)', labelDe: 'Meldebestätigung (Anmeldebestätigung beim Einwohnermeldeamt)', required: true },
+      { id: 'consent-joint-custody', label: 'Signed consent of other parent with joint custody — for children under 16 with shared parental custody', labelDe: 'Unterzeichnete Zustimmung des anderen gemeinsam sorgeberechtigten Elternteils — für Kinder unter 16 Jahren bei gemeinsamer elterlicher Sorge', required: false }
+    ]
+  },
+
+  // ── NATIONAL VISAS D (Embassy — pre-entry) ───────────────────────────────
+  'visa-work': {
+    label: 'National Visa D — Work (Skilled Worker)',
+    labelDe: 'Nationales Visum D — Arbeit (Fachkraft)',
+    short: 'Visa D Work',
+    shortDe: 'Visum D Arbeit',
+    category: 'National Visas D (Embassy)',
+    authority: 'German Embassy / Consulate in home country',
+    officialUrl: 'https://www.make-it-in-germany.com/en/visa-residence/types/work-qualified-professionals',
+    appointmentUrl: 'https://www.make-it-in-germany.com/en/visa-residence/types/work-qualified-professionals',
+    docs: [
+      { id: 'passport', label: 'Valid passport — min. 6 months valid beyond intended stay', labelDe: 'Gültiger Reisepass — mind. 6 Monate über das geplante Aufenthaltsende hinaus gültig', required: true },
+      { id: 'application-form', label: 'Completed national visa application form (from German embassy website)', labelDe: 'Ausgefülltes nationales Visumantragformular (von der Website der deutschen Botschaft)', required: true },
+      { id: 'photo', label: 'Biometric passport photo (digital, from certified photo studio)', labelDe: 'Biometrisches Lichtbild (digital, aus zertifiziertem Fotostudio)', required: true },
+      { id: 'employment-contract', label: 'Employment contract or binding job offer from German employer', labelDe: 'Arbeitsvertrag oder verbindliche Stellenzusage eines deutschen Arbeitgebers', required: true },
+      { id: 'qualification', label: 'Degree or vocational training certificate proving the qualification', labelDe: 'Hochschulabschluss- oder Berufsausbildungszeugnis als Qualifikationsnachweis', required: true },
+      { id: 'recognition-decision', label: 'Qualification recognition decision from competent German authority — for regulated professions', labelDe: 'Anerkennungsbescheid der zuständigen deutschen Behörde — für reglementierte Berufe', required: false },
+      { id: 'cv', label: 'Curriculum vitae (CV)', labelDe: 'Lebenslauf (CV)', required: true },
+      { id: 'health-insurance', label: 'Health insurance confirmation covering at least the duration of the visa', labelDe: 'Krankenversicherungsbestätigung für mindestens die Dauer des Visums', required: true }
+    ]
+  },
+
+  'visa-study': {
+    label: 'National Visa D — Study',
+    labelDe: 'Nationales Visum D — Studium',
+    short: 'Visa D Study',
+    shortDe: 'Visum D Studium',
+    category: 'National Visas D (Embassy)',
+    authority: 'German Embassy / Consulate in home country',
+    officialUrl: 'https://www.make-it-in-germany.com/en/visa-residence/types/studying',
+    appointmentUrl: 'https://www.make-it-in-germany.com/en/visa-residence/types/studying',
+    docs: [
+      { id: 'passport', label: 'Valid passport — min. 6 months valid beyond intended stay', labelDe: 'Gültiger Reisepass — mind. 6 Monate über das geplante Aufenthaltsende hinaus gültig', required: true },
+      { id: 'application-form', label: 'Completed national visa application form (from German embassy website)', labelDe: 'Ausgefülltes nationales Visumantragformular (von der Website der deutschen Botschaft)', required: true },
+      { id: 'photo', label: 'Biometric passport photo (digital, from certified photo studio)', labelDe: 'Biometrisches Lichtbild (digital, aus zertifiziertem Fotostudio)', required: true },
+      { id: 'admission-letter', label: 'University admission letter or conditional admission from a German state-recognised institution', labelDe: 'Zulassungsschreiben oder vorläufiger Zulassungsbescheid einer staatlich anerkannten deutschen Hochschule', required: true },
+      { id: 'livelihood', label: 'Proof of funding — blocked account (Sperrkonto) min. €11,904/year (2026), scholarship, or parents\' certified financial guarantee', labelDe: 'Finanzierungsnachweis — Sperrkonto (mind. €11.904/Jahr 2026), Stipendium oder beglaubigte Finanzierungsgarantie der Eltern', required: true },
+      { id: 'language-cert', label: 'Language skills proof — German B2/C1 for German-taught programmes; English for English-taught programmes', labelDe: 'Sprachkenntnisnachweis — Deutsch B2/C1 für deutschsprachige Studiengänge; Englisch für englischsprachige Studiengänge', required: true },
+      { id: 'academic-records', label: 'Academic qualifications and transcripts', labelDe: 'Schulische und akademische Zeugnisse und Notennachweise', required: true },
+      { id: 'health-insurance', label: 'Health insurance confirmation for the duration of studies', labelDe: 'Krankenversicherungsbestätigung für die Dauer des Studiums', required: true }
+    ]
+  },
+
+  'visa-family': {
+    label: 'National Visa D — Family Reunification',
+    labelDe: 'Nationales Visum D — Familiennachzug',
+    short: 'Visa D Family',
+    shortDe: 'Visum D Familie',
+    category: 'National Visas D (Embassy)',
+    authority: 'German Embassy / Consulate in home country',
+    officialUrl: 'https://www.auswaertiges-amt.de/en/visa-service/familienvisum',
+    appointmentUrl: 'https://www.auswaertiges-amt.de/en/visa-service',
+    docs: [
+      { id: 'passport', label: 'Valid passport — min. 6 months valid beyond intended stay', labelDe: 'Gültiger Reisepass — mind. 6 Monate über das geplante Aufenthaltsende hinaus gültig', required: true },
+      { id: 'application-form', label: 'Completed national visa application form (from German embassy website)', labelDe: 'Ausgefülltes nationales Visumantragformular (von der Website der deutschen Botschaft)', required: true },
+      { id: 'photo', label: 'Biometric passport photo (digital, from certified photo studio)', labelDe: 'Biometrisches Lichtbild (digital, aus zertifiziertem Fotostudio)', required: true },
+      { id: 'relationship-cert', label: 'Marriage certificate or birth certificate with certified German translation + apostille/legalisation', labelDe: 'Heiratsurkunde oder Geburtsurkunde mit beglaubigter deutscher Übersetzung + Apostille/Legalisation', required: true },
+      { id: 'sponsor-docs', label: 'Sponsor\'s residence permit copy or German passport copy', labelDe: 'Kopie der Aufenthaltserlaubnis oder des deutschen Reisepasses des Einladenden (Sponsors)', required: true },
+      { id: 'sponsor-income', label: 'Sponsor\'s proof of income: employment contract + last 3–6 salary slips', labelDe: 'Einkommensnachweis des Sponsors: Arbeitsvertrag + letzte 3–6 Lohnabrechnungen', required: true },
+      { id: 'housing-proof', label: 'Proof of adequate housing in Germany (lease agreement)', labelDe: 'Nachweis angemessenen Wohnraums in Deutschland (Mietvertrag)', required: true },
+      { id: 'language-a1', label: 'German language certificate A1 — required for spouses joining German citizens or holders of standard residence permits', labelDe: 'Deutschsprachnachweis A1 — erforderlich für Ehegatten, die zu deutschen Staatsangehörigen oder Inhabern einer Aufenthaltserlaubnis einreisen', required: true },
+      { id: 'health-insurance', label: 'Health insurance confirmation for at least the duration of the visa', labelDe: 'Krankenversicherungsbestätigung für mindestens die Dauer des Visums', required: true }
+    ]
+  }
+};
+
+
+const NATIONALITIES = ['Afghan','Albanian','Algerian','American','Bangladeshi','Brazilian','British','Bulgarian','Chinese','Croatian','Czech','Danish','Dutch','Egyptian','Ethiopian','Filipino','Finnish','French','Georgian','Ghanaian','Greek','Hungarian','Indian','Indonesian','Iranian','Iraqi','Irish','Israeli','Italian','Japanese','Jordanian','Kenyan','Korean','Lebanese','Malaysian','Mexican','Moroccan','Nepali','Nigerian','Norwegian','Pakistani','Polish','Portuguese','Romanian','Russian','Saudi Arabian','Serbian','Singaporean','South African','Spanish','Sri Lankan','Swedish','Swiss','Syrian','Taiwanese','Thai','Tunisian','Turkish','Ukrainian','Vietnamese','Other'];
+
+// ══════════════════════════════════════════════
+// DATABASE OPERATIONS (Firestore)
+// ══════════════════════════════════════════════
+async function getLeads() {
+  try {
+    const q = query(collection(db,'leads'), orderBy('createdAt','desc'));
+    const snap = await getDocs(q);
+    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  } catch(e) { console.error('getLeads:', e); return []; }
+}
+async function getLead(id) {
+  try {
+    const snap = await getDoc(doc(db,'leads',id));
+    return snap.exists() ? { id: snap.id, ...snap.data() } : null;
+  } catch(e) { console.error('getLead:', e); return null; }
+}
+async function saveLead(lead) {
+  try {
+    const { id, ...data } = lead;
+    await setDoc(doc(db,'leads',id), data);
+    // Also update public share if share token exists
+    if (data.shareToken) await updatePublicShare(lead);
+  } catch(e) { console.error('saveLead:', e); }
+}
+async function deleteLead(id) {
+  try {
+    const lead = await getLead(id);
+    await deleteDoc(doc(db,'leads',id));
+    if (lead?.shareToken) await deleteDoc(doc(db,'public_shares',lead.shareToken));
+  } catch(e) { console.error('deleteLead:', e); }
+}
+async function updatePublicShare(lead) {
+  const ct = CASE_TYPES[lead.caseType];
+  const publicData = {
+    name: lead.name, caseType: lead.caseType, caseLabel: ct?.label || lead.caseType,
+    caseLabelDe: ct?.labelDe || ct?.label || lead.caseType,
+    authority: ct?.authority || 'LEA Berlin', officialUrl: ct?.officialUrl || '',
+    appointmentUrl: ct?.appointmentUrl || '',
+    documents: (lead.documents||[]).map(d => {
+      const def = ct?.docs.find(cd => cd.id === d.id) || {};
+      return { id: d.id, label: def.label||d.id, labelDe: def.labelDe||'', required: def.required||false,
+               notes: def.notes||'', officialInfo: def.officialInfo||'',
+               status: d.status, filename: d.filename||null, issues: d.issues||[] };
+    }),
+    updatedAt: Date.now()
+  };
+  await setDoc(doc(db,'public_shares',lead.shareToken), publicData);
+}
+async function getPublicShare(token) {
+  try {
+    const snap = await getDoc(doc(db,'public_shares',token));
+    return snap.exists() ? snap.data() : null;
+  } catch(e) { return null; }
+}
+
+// ══════════════════════════════════════════════
+// FILE UPLOAD (Firebase Storage)
+// ══════════════════════════════════════════════
+async function uploadFile(leadId, docId, file) {
+  try {
+    const fileRef = storageRef(storage, `leads/${leadId}/${docId}/${file.name}`);
+    const snap = await uploadBytes(fileRef, file);
+    return await getDownloadURL(snap.ref);
+  } catch(e) {
+    console.warn('Storage upload failed (check CORS/rules):', e);
+    return null; // fallback: no URL but metadata still saved
+  }
+}
+
+// ══════════════════════════════════════════════
+// OCR + FIELD EXTRACTION (reused from v1)
+// ══════════════════════════════════════════════
+async function extractText(file) {
+  if (file.type === 'application/pdf') return await extractPDF(file);
+  if (file.type.startsWith('image/')) return await extractImage(file);
+  return '';
+}
+async function extractPDF(file) {
+  try {
+    const ab = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
+    let t = '';
+    for (let i = 1; i <= Math.min(pdf.numPages, 5); i++) {
+      const page = await pdf.getPage(i);
+      const c = await page.getTextContent();
+      t += c.items.map(x => x.str).join(' ') + '\n';
+    }
+    return t;
+  } catch(e) { return ''; }
+}
+async function extractImage(file) {
+  try {
+    const r = await Tesseract.recognize(file, 'eng+deu', { logger: () => {} });
+    return r.data.text || '';
+  } catch(e) { return ''; }
+}
+function extractFields(text) {
+  if (!text) return {};
+  const namePatterns = [
+    /(?:name|full\s*name|surname|nachname|familienname)[:\s]+([A-ZÄÖÜa-zäöüß\-]+(?:\s+[A-ZÄÖÜa-zäöüß\-]+)*)/i,
+    /(?:mitarbeiter|employee|employee\s*name)[:\s]+([A-ZÄÖÜa-zäöüß\-]+(?:\s+[A-ZÄÖÜa-zäöüß\-]+)*)/i,
+    /P[<A-Z][A-Z]{3}([A-Z<]{1,20})<<([A-Z<]{1,20})/
+  ];
+  let detectedName = null;
+  for (const p of namePatterns) {
+    const m = text.match(p);
+    if (m) {
+      detectedName = p.toString().includes('P[<A-Z]')
+        ? (m[2].replace(/</g,' ').trim()+' '+m[1].replace(/</g,' ').trim()).trim()
+        : m[1].trim();
+      if (detectedName.length > 2) break;
+    }
+  }
+  const expiryPatterns = [
+    /(?:gültig\s*bis|valid\s*until|expiry\s*date|expires?|ablaufdatum)[:\s]+(\d{1,2}[.\/-]\d{1,2}[.\/-]\d{2,4})/i
+  ];
+  let expiryDate = null;
+  for (const p of expiryPatterns) { const m = text.match(p); if (m) { expiryDate = m[1]; break; } }
+  const mrzM = text.match(/\d{9}[A-Z<]{3}(\d{6})[MF<]/);
+  if (!expiryDate && mrzM) {
+    const d = mrzM[1], yy = parseInt(d.slice(0,2));
+    expiryDate = `${d.slice(4,6)}.${d.slice(2,4)}.${yy > 50 ? 1900+yy : 2000+yy}`;
+  }
+  const docNumM = text.match(/(?:pass(?:port)?\s*(?:no|nr|number|nummer)?|ausweisnummer)[:\s#.]+([A-Z0-9]{6,12})/i);
+  const docType = detectDocType(text);
+  return { detectedName, expiryDate, docNumber: docNumM?.[1]||null, docType };
+}
+function detectDocType(t) {
+  const s = t.toLowerCase();
+  if (/reisepass|passport/.test(s)) return 'Passport';
+  if (/personalausweis|national id/.test(s)) return 'ID Card';
+  if (/niederlassungserlaubnis/.test(s)) return 'Niederlassungserlaubnis';
+  if (/aufenthaltserlaubnis|aufenthaltstitel/.test(s)) return 'Aufenthaltserlaubnis';
+  if (/blue card/.test(s)) return 'Blue Card';
+  if (/gehaltsabrechnung|lohnabrechnung|entgeltabrechnung/.test(s)) return 'Payslip';
+  if (/arbeitsvertrag|employment agreement/.test(s)) return 'Employment Contract';
+  if (/arbeitgeberbescheinigung/.test(s)) return 'Employer Confirmation';
+  if (/meldebescheinigung|anmeldebestätigung/.test(s)) return 'Anmeldung';
+  if (/mietvertrag/.test(s)) return 'Rental Contract';
+  if (/krankenversicherung|health insurance/.test(s)) return 'Health Insurance';
+  if (/rentenversicherung|versicherungsverlauf/.test(s)) return 'Pension Record';
+  if (/geburtsurkunde|birth certificate/.test(s)) return 'Birth Certificate';
+  if (/heiratsurkunde|marriage certificate/.test(s)) return 'Marriage Certificate';
+  if (/führungszeugnis/.test(s)) return 'Criminal Record Certificate';
+  if (/goethe|telc|testdaf|dsh/.test(s)) return 'Language Certificate';
+  if (/einbürgerungstest/.test(s)) return 'Einbürgerungstest Certificate';
+  if (/immatrikulationsbescheinigung/.test(s)) return 'Enrolment Certificate';
+  return null;
+}
+function validateDoc(def, leadName, fields) {
+  const issues = [];
+  if (!fields) return issues;
+  if (fields.expiryDate) {
+    const m = fields.expiryDate.match(/(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2,4})/);
+    if (m) {
+      let [,d,mo,y] = m; if (y.length===2) y = parseInt(y)>50?'19'+y:'20'+y;
+      const exp = new Date(parseInt(y), parseInt(mo)-1, parseInt(d));
+      const now = new Date(), soon = new Date(); soon.setMonth(now.getMonth()+3);
+      if (exp < now) issues.push('⚠️ Document appears EXPIRED ('+fields.expiryDate+')');
+      else if (exp < soon) issues.push('⚠️ Expires within 3 months — may be rejected');
+    }
+  }
+  if (def.verify?.includes('name') && fields.detectedName && leadName) {
+    const ex = fields.detectedName.toLowerCase().replace(/[^a-zäöüß\s]/g,'');
+    const lp = leadName.toLowerCase().replace(/[^a-zäöüß\s]/g,'').split(/\s+/);
+    if (!lp.some(p => p.length > 2 && ex.includes(p)))
+      issues.push('⚠️ Name on document ("'+fields.detectedName+'") may not match client name');
+  }
+  return issues;
+}
+
+// ══════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════
+function genId() { return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmtDate(ts) { if (!ts) return '—'; return new Date(ts).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}); }
+function fmtSize(b) { if (b<1024) return b+'B'; if (b<1048576) return Math.round(b/1024)+'KB'; return (b/1048576).toFixed(1)+'MB'; }
+function statusBadge(s) {
+  const m = {pending:['badge-grey','○ Pending'],uploaded:['badge-blue','↑ Uploaded'],processing:['badge-amber','⟳ Processing'],verified:['badge-green','✓ Extracted'],issue:['badge-red','! Issue']};
+  const [cls,txt] = m[s]||m.pending; return `<span class="badge ${cls}">${txt}</span>`;
+}
+function leadProgress(lead) {
+  const docs = lead.documents||[], total = docs.length, up = docs.filter(d=>d.status!=='pending').length, iss = docs.filter(d=>d.status==='issue').length;
+  if (iss>0) return `<span class="badge badge-red">! ${iss} Issue${iss>1?'s':''}</span>`;
+  if (!total) return `<span class="badge badge-grey">New</span>`;
+  if (up===total) return `<span class="badge badge-green">✓ All Uploaded</span>`;
+  if (up>0) return `<span class="badge badge-amber">${up}/${total} Docs</span>`;
+  return `<span class="badge badge-grey">Pending</span>`;
+}
+function initDocs(caseType) {
+  return (CASE_TYPES[caseType]?.docs||[]).map(d => ({ id:d.id, status:'pending', filename:null, fileSize:null, fileUrl:null, uploadedAt:null, extractedFields:null, issues:[], notes:'' }));
+}
+function openModal(id) { document.getElementById(id)?.classList.add('open'); }
+function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
+window.closeModal = closeModal;
+
+// ══════════════════════════════════════════════
+// STATE + NAVIGATION
+// ══════════════════════════════════════════════
+let state = { view:'dashboard', leadId:null };
+let currentUser = null;
+
+function navigate(view, params={}) {
+  state = { view, leadId:null, ...params };
+  render();
+  document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+  const nm = {dashboard:'nav-dashboard',leads:'nav-leads','new-lead':'nav-leads','edit-lead':'nav-leads','lead-detail':'nav-leads',report:'nav-leads'};
+  const el = document.getElementById(nm[view]); if(el) el.classList.add('active');
+  window.scrollTo(0,0);
+}
+window.navigate = navigate;
+
+// ══════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════
+async function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = `<div style="padding:40px;text-align:center;color:var(--grey-400)"><div class="spinner" style="width:24px;height:24px;margin:0 auto"></div></div>`;
+  switch(state.view) {
+    case 'dashboard':  app.innerHTML = await renderDashboard(); break;
+    case 'leads':      app.innerHTML = await renderLeads(); break;
+    case 'new-lead':   app.innerHTML = renderLeadForm(null); break;
+    case 'edit-lead':  { const l = await getLead(state.leadId); app.innerHTML = renderLeadForm(l); break; }
+    case 'lead-detail':{ const l = await getLead(state.leadId); app.innerHTML = renderLeadDetail(l); break; }
+    case 'report':     { const l = await getLead(state.leadId); app.innerHTML = renderReport(l); break; }
+  }
+  bindEvents();
+}
+
+// ── DASHBOARD ──
+async function renderDashboard() {
+  const leads = await getLeads();
+  const total = leads.length;
+  const issues = leads.filter(l=>(l.documents||[]).some(d=>d.status==='issue')).length;
+  const complete = leads.filter(l=>{const d=l.documents||[];return d.length>0&&d.every(x=>x.status!=='pending')}).length;
+  const pending = leads.filter(l=>!(l.documents||[]).some(d=>d.status!=='pending')).length;
+  const recent = leads.slice(0,6);
+  return `
+  <div class="page-header"><h1>Dashboard</h1><p>DocuAssist Germany — Internal Document Tracker</p></div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="num">${total}</div><div class="lbl">Total Leads</div></div>
+    <div class="stat-card"><div class="num" style="color:var(--amber)">${pending}</div><div class="lbl">Awaiting Docs</div></div>
+    <div class="stat-card"><div class="num" style="color:var(--red)">${issues}</div><div class="lbl">Issues Found</div></div>
+    <div class="stat-card"><div class="num" style="color:var(--green)">${complete}</div><div class="lbl">Fully Uploaded</div></div>
+  </div>
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+      <strong>Recent Leads</strong>
+      <button class="btn btn-sm btn-secondary" onclick="navigate('leads')">View All →</button>
+    </div>
+    ${recent.length===0 ? `<div class="empty"><div class="empty-icon">📋</div><h3>No leads yet</h3><p>Click "+ New Lead" to add your first client</p></div>` :
+    `<table class="lead-table"><thead><tr><th>Name</th><th>Case Type</th><th>Nationality</th><th>Status</th><th>Added</th><th></th></tr></thead><tbody>
+    ${recent.map(l=>`<tr onclick="navigate('lead-detail',{leadId:'${l.id}'})">
+      <td><div class="lead-name">${esc(l.name)}</div><div class="lead-meta">${esc(l.email||'')}</div></td>
+      <td><span class="badge badge-grey">${CASE_TYPES[l.caseType]?.short||l.caseType}</span></td>
+      <td style="color:var(--grey-500);font-size:0.82rem">${esc(l.nationality||'—')}</td>
+      <td>${leadProgress(l)}</td>
+      <td style="color:var(--grey-500);font-size:0.78rem">${fmtDate(l.createdAt)}</td>
+      <td><button class="btn btn-sm btn-secondary" onclick="event.stopPropagation();navigate('lead-detail',{leadId:'${l.id}'})">Open →</button></td>
+    </tr>`).join('')}
+    </tbody></table>`}
+  </div>`;
+}
+
+// ── LEADS ──
+async function renderLeads() {
+  const leads = await getLeads();
+  return `
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+    <div class="page-header" style="margin:0"><h1>All Leads</h1><p>${leads.length} client${leads.length!==1?'s':''}</p></div>
+    <button class="nav-btn" onclick="navigate('new-lead')">+ New Lead</button>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden">
+    ${leads.length===0 ? `<div class="empty"><div class="empty-icon">👥</div><h3>No leads yet</h3><p>Add your first client lead to get started</p></div>` :
+    `<table class="lead-table"><thead><tr><th>Name</th><th>Case</th><th>Nationality</th><th>Progress</th><th>Status</th><th>Added</th><th></th></tr></thead><tbody>
+    ${leads.map(l=>{
+      const docs=l.documents||[], up=docs.filter(d=>d.status!=='pending').length, pct=docs.length?Math.round(up/docs.length*100):0;
+      return `<tr onclick="navigate('lead-detail',{leadId:'${l.id}'})">
+        <td><div class="lead-name">${esc(l.name)}</div><div class="lead-meta">${esc(l.email||'')}${l.phone?' · '+esc(l.phone):''}</div></td>
+        <td><span class="badge badge-grey">${CASE_TYPES[l.caseType]?.short||l.caseType}</span></td>
+        <td style="color:var(--grey-500);font-size:0.82rem">${esc(l.nationality||'—')}</td>
+        <td style="min-width:130px"><div style="font-size:0.73rem;color:var(--grey-500);margin-bottom:3px">${up}/${docs.length} documents</div><div class="progress-wrap"><div class="progress-bar" style="width:${pct}%"></div></div></td>
+        <td>${leadProgress(l)}</td>
+        <td style="color:var(--grey-500);font-size:0.78rem">${fmtDate(l.createdAt)}</td>
+        <td style="white-space:nowrap" onclick="event.stopPropagation()">
+          <button class="btn btn-xs btn-secondary" onclick="navigate('lead-detail',{leadId:'${l.id}'})" style="margin-right:4px">Open</button>
+          <button class="btn btn-xs btn-danger" onclick="confirmDelete('${l.id}')">✕</button>
+        </td>
+      </tr>`;
+    }).join('')}</tbody></table>`}
+  </div>`;
+}
+
+// ── LEAD FORM ──
+function renderLeadForm(lead) {
+  const isEdit = !!lead;
+  const CASE_GROUPS = [
+    { label:'Permanent Residence', keys:['ne-general','ne-skilled','ne-blue-card','eu-long-term'] },
+    { label:'Skilled Worker', keys:['blue-card','ae-academic','ae-vocational'] },
+    { label:'Study & Education', keys:['ae-study','ae-training-vocational','ae-training-company'] },
+    { label:'Self-Employment & Freelance', keys:['ae-freelance','ae-selfemployed'] },
+    { label:'Family Reunification (in Germany)', keys:['family-german','family-foreign','family-skilled','family-blue-card'] },
+    { label:'Job Seeking & Research', keys:['job-seeker','ae-research'] },
+    { label:'Citizenship', keys:['citizenship'] },
+    { label:'National Visas D (Embassy)', keys:['visa-work','visa-study','visa-family'] },
+  ];
+  const caseOptions = CASE_GROUPS.map(g => {
+    const opts = g.keys.map(k => CASE_TYPES[k] ? `<option value="${k}" ${lead?.caseType===k?'selected':''}>${CASE_TYPES[k].label}${CASE_TYPES[k].shortDe?' / '+CASE_TYPES[k].shortDe:''}</option>` : '').join('');
+    return opts ? `<optgroup label="${g.label}">${opts}</optgroup>` : '';
+  }).join('');
+  const natOptions = NATIONALITIES.map(n=>`<option value="${n}" ${lead?.nationality===n?'selected':''}>${n}</option>`).join('');
+  return `
+  <div class="page-header"><h1>${isEdit?'Edit Lead':'New Lead'}</h1><p>${isEdit?'Update client details':'Enter client details and select the case type'}</p></div>
+  <div class="card">
+    <form id="lead-form">
+      <div class="form-grid">
+        <div class="form-group"><label>Full Name *</label><input name="name" value="${esc(lead?.name||'')}" required placeholder="e.g. Priya Sharma"/></div>
+        <div class="form-group"><label>Email</label><input name="email" type="email" value="${esc(lead?.email||'')}" placeholder="client@example.com"/></div>
+        <div class="form-group"><label>Phone / WhatsApp</label><input name="phone" value="${esc(lead?.phone||'')}" placeholder="+49 ..."/></div>
+        <div class="form-group"><label>Nationality *</label><select name="nationality"><option value="">Select...</option>${natOptions}</select></div>
+        <div class="form-group full"><label>Case Type *</label><select name="caseType" id="ct-select" required><option value="">Select case type...</option>${caseOptions}</select></div>
+        <div class="form-group full" id="case-info-box"></div>
+        <div class="form-group full"><label>Notes</label><textarea name="notes" placeholder="Relevant details about the client's situation...">${esc(lead?.notes||'')}</textarea></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:20px">
+        <button type="submit" class="btn btn-primary">${isEdit?'💾 Save Changes':'✓ Create Lead & Generate Checklist'}</button>
+        <button type="button" class="btn btn-secondary" onclick="navigate(${isEdit?`'lead-detail',{leadId:'${lead.id}'}`:`'leads'`})">Cancel</button>
+      </div>
+    </form>
+  </div>`;
+}
+
+// ── LEAD DETAIL ──
+function renderLeadDetail(lead) {
+  if (!lead) return `<div class="empty"><div class="empty-icon">⚠️</div><h3>Lead not found</h3></div>`;
+  const ct = CASE_TYPES[lead.caseType];
+  const docs = lead.documents||[];
+  const reqDocs = docs.filter(d=>ct?.docs.find(cd=>cd.id===d.id)?.required);
+  const reqUp = reqDocs.filter(d=>d.status!=='pending').length;
+  const allUp = docs.filter(d=>d.status!=='pending').length;
+  const iss = docs.filter(d=>d.status==='issue').length;
+  const pct = docs.length ? Math.round(allUp/docs.length*100) : 0;
+
+  const byCategory = {};
+  docs.forEach(d => {
+    const def = ct?.docs.find(cd=>cd.id===d.id);
+    const cat = def?.category||'Other';
+    if (!byCategory[cat]) byCategory[cat]=[];
+    byCategory[cat].push({...d, def});
+  });
+
+  const checklist = Object.entries(byCategory).map(([cat,items])=>`
+    <div class="doc-category">${cat}</div>
+    ${items.map(item=>renderDocRow(item,lead)).join('')}
+  `).join('');
+
+  return `
+  <div class="lead-header">
+    <div>
+      <button class="btn btn-xs btn-outline" onclick="navigate('leads')" style="margin-bottom:10px">← All Leads</button>
+      <h2>${esc(lead.name)}</h2>
+      <div class="lead-header-meta">
+        <span class="badge badge-grey">${ct?.short||lead.caseType}</span>
+        ${lead.nationality?`<span>${lead.nationality}</span>`:''}
+        ${lead.email?`<a href="mailto:${esc(lead.email)}" style="color:var(--grey-500)">${esc(lead.email)}</a>`:''}
+        ${lead.phone?`<span>${esc(lead.phone)}</span>`:''}
+        ${ct?.officialUrl?`<a href="${ct.officialUrl}" target="_blank" style="color:var(--green);font-size:0.78rem">📋 Official Requirements ↗</a>`:''}
+        ${ct?.appointmentUrl?`<a href="${ct.appointmentUrl}" target="_blank" style="color:var(--green);font-size:0.78rem">📅 Book Appointment ↗</a>`:''}
+      </div>
+    </div>
+    <div class="lead-header-actions">
+      <button class="btn btn-sm btn-outline" onclick="navigate('edit-lead',{leadId:'${lead.id}'})">✏️ Edit</button>
+      <button class="btn btn-sm btn-blue" onclick="openWA('${lead.id}')">💬 WhatsApp</button>
+      <button class="btn btn-sm btn-secondary" onclick="openEmailModal('${lead.id}')">📧 Email</button>
+      <button class="btn btn-sm btn-secondary" onclick="openShareModal('${lead.id}')">🔗 Share Link</button>
+      <button class="btn btn-sm btn-primary" onclick="navigate('report',{leadId:'${lead.id}'})">📊 Report</button>
+    </div>
+  </div>
+
+  <div class="card card-sm" style="margin-bottom:20px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px">
+      <div style="font-size:0.84rem;font-weight:600">
+        ${allUp}/${docs.length} documents uploaded &nbsp;·&nbsp; ${reqUp}/${reqDocs.length} required
+        &nbsp;·&nbsp; ${iss>0?`<span style="color:var(--red)">${iss} issue${iss>1?'s':''} found</span>`:'<span style="color:var(--green)">No issues</span>'}
+      </div>
+      <span style="font-size:0.85rem;font-weight:700;color:var(--green)">${pct}%</span>
+    </div>
+    <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+  </div>
+
+  ${lead.notes?`<div class="info-box"><strong>Notes:</strong> ${esc(lead.notes)}</div>`:''}
+
+  <div class="card">
+    <div class="section-label" style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--green);margin-bottom:4px">Document Checklist</div>
+    <p style="font-size:0.8rem;color:var(--grey-500);margin-bottom:16px">Upload each document — text is extracted automatically and issues are flagged.</p>
+    ${checklist}
+  </div>`;
+}
+
+function renderDocRow(item, lead) {
+  const def = item.def||{};
+  const f = item.extractedFields;
+  let extracted = '';
+  if (item.status==='processing') {
+    extracted = `<div class="ocr-msg"><div class="spinner"></div>Extracting — please wait...</div>`;
+  } else if (f && item.status!=='pending') {
+    const pts = [];
+    if (f.docType) pts.push(`<strong>Type:</strong> ${f.docType}`);
+    if (f.detectedName) pts.push(`<strong>Name:</strong> ${f.detectedName}`);
+    if (f.expiryDate) pts.push(`<strong>Expiry:</strong> ${f.expiryDate}`);
+    if (f.docNumber) pts.push(`<strong>No:</strong> ${f.docNumber}`);
+    if (pts.length) extracted = `<div class="doc-extracted">${pts.join(' &nbsp;·&nbsp; ')}</div>`;
+  }
+  const dsiCls = {pending:'dsi-pending',uploaded:'dsi-uploaded',processing:'dsi-processing',verified:'dsi-verified',issue:'dsi-issue'};
+  const dsiIcon = {pending:'📄',uploaded:'📎',processing:'⟳',verified:'✓',issue:'⚠️'};
+  return `
+  <div class="doc-item ${item.status}" id="drow-${lead.id}-${item.id}">
+    <div class="doc-status-icon ${dsiCls[item.status]||'dsi-pending'}">${dsiIcon[item.status]||'📄'}</div>
+    <div class="doc-info">
+      <div class="doc-title">
+        ${esc(def.label||item.id)}
+        ${statusBadge(item.status)}
+        <span class="doc-req-badge ${def.required?'req-yes':'req-no'}">${def.required?'Required / Pflichtdokument':'Optional'}</span>
+      </div>
+      ${def.labelDe?`<div class="doc-label-de">${esc(def.labelDe)}</div>`:''}
+      <div class="doc-notes">${esc(def.notes||'')}</div>
+      ${def.officialInfo?`<div class="doc-official-link"><a href="${def.officialInfo}" target="_blank">🔗 Official guidance ↗</a></div>`:''}
+      ${item.filename?`<div class="doc-filename">📎 ${esc(item.filename)}${item.fileSize?' ('+fmtSize(item.fileSize)+')':''}</div>`:''}
+      ${extracted}
+      ${(item.issues||[]).length?`<div class="doc-issue-list">${item.issues.map(i=>`<div class="doc-issue-item"><span>›</span>${esc(i)}</div>`).join('')}</div>`:''}
+    </div>
+    <div class="doc-actions">
+      <label class="btn btn-sm btn-outline upload-btn-wrap">
+        ${item.status==='pending'?'Upload':'Replace'}
+        <input type="file" accept=".pdf,.jpg,.jpeg,.png,.tiff" data-lid="${lead.id}" data-did="${item.id}" onchange="handleUpload(this)"/>
+      </label>
+      ${item.status!=='pending'?`<button class="btn btn-xs btn-danger" onclick="clearDoc('${lead.id}','${item.id}')">Clear</button>`:''}
+    </div>
+  </div>`;
+}
+
+
+// ══════════════════════════════════════
+// BRANDED PDF GENERATION (print window)
+// ══════════════════════════════════════
+function buildPrintHTML(lead, ct, docs) {
+  const today = new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+  const req  = docs.filter(d => ct?.docs.find(cd=>cd.id===d.id)?.required);
+  const opt  = docs.filter(d => !ct?.docs.find(cd=>cd.id===d.id)?.required);
+  const statusLabel = s => s==='verified'?'✓ Verified':s==='uploaded'?'↑ Uploaded':s==='issue'?'⚠ Issue':'○ Pending';
+  const statusColor = s => s==='verified'?'#2e7d32':s==='uploaded'?'#1565c0':s==='issue'?'#c62828':'#9e9e9e';
+  const docRow = (d,i) => {
+    const def = ct?.docs.find(cd=>cd.id===d.id)||{};
+    const lbl = (def.label||d.id).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+    const lde = (def.labelDe||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+    return `<tr style="background:${i%2?'#fafafa':'#fff'}">
+      <td style="padding:6px 8px 6px 14px;font-size:8.5pt;color:#9e9e9e;width:22px;border-bottom:1px solid #f0f0f0">${i+1}</td>
+      <td style="padding:7px 10px;border-bottom:1px solid #f0f0f0">
+        <div style="font-size:9pt;font-weight:600;color:#212121">${lbl}</div>
+        ${lde?`<div style="font-size:7.5pt;color:#9e9e9e;font-style:italic;margin-top:1px">${lde}</div>`:''}
+      </td>
+      <td style="padding:7px 12px 7px 6px;font-size:8pt;color:${statusColor(d.status)};white-space:nowrap;text-align:right;border-bottom:1px solid #f0f0f0">${statusLabel(d.status)}</td>
+    </tr>`;
+  };
+  const secHeader = (title, color) =>
+    `<tr><td colspan="3" style="background:${color};color:#fff;padding:8px 14px;font-size:8pt;font-weight:700">${title}</td></tr>`;
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"/>
+  <title>DocuAssist Germany — ${(lead.name||'').replace(/"/g,'')}</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Arial,Helvetica,sans-serif;font-size:10pt;color:#212121;background:#fff}
+    @media print{.no-print{display:none!important}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+    .no-print{background:#fff3e0;padding:14px 20px;text-align:center;border-bottom:3px solid #2e7d32;font-family:sans-serif}
+    .no-print p{font-size:11pt;color:#424242;margin-bottom:10px}
+    .no-print button{background:#2e7d32;color:#fff;border:none;padding:9px 22px;border-radius:6px;font-size:11pt;cursor:pointer}
+    table{width:100%;border-collapse:collapse}
+  </style></head><body>
+  <div class="no-print">
+    <p><strong>DocuAssist Germany</strong> — Document Checklist for <strong>${(lead.name||'').replace(/</g,'&lt;')}</strong></p>
+    <button onclick="window.print()">🖨️ Save as PDF</button>
+    <p style="font-size:9pt;margin-top:8px;color:#757575">File → Print → Save as PDF &nbsp;·&nbsp; Use "More settings" to remove headers/footers if needed</p>
+  </div>
+  <!-- HEADER -->
+  <table style="width:100%"><tr>
+    <td style="background:#2e7d32;padding:16px 22px;width:65%">
+      <div style="color:#fff;font-size:15pt;font-weight:800">DocuAssist<span style="font-weight:400"> Germany</span></div>
+      <div style="color:rgba(255,255,255,.7);font-size:8pt;margin-top:2px">Berlin's Immigration Document Specialists</div>
+    </td>
+    <td style="background:#1b5e20;padding:16px 22px;text-align:right;vertical-align:middle">
+      <div style="color:#fff;font-size:9pt;font-weight:700">Document Checklist</div>
+      <div style="color:rgba(255,255,255,.65);font-size:8pt;margin-top:3px">${today}</div>
+    </td>
+  </tr></table>
+  <!-- CLIENT INFO BOX -->
+  <table style="background:#f5f5f5;border-bottom:2px solid #e0e0e0"><tr>
+    <td style="padding:12px 22px;width:30%">
+      <div style="font-size:7pt;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#757575;margin-bottom:3px">Client</div>
+      <div style="font-size:10.5pt;font-weight:700">${(lead.name||'').replace(/</g,'&lt;')}</div>
+    </td>
+    <td style="padding:12px 18px;width:35%;border-left:1px solid #e0e0e0">
+      <div style="font-size:7pt;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#757575;margin-bottom:3px">Case Type</div>
+      <div style="font-size:10pt;font-weight:700">${ct?.short||lead.caseType}</div>
+      ${ct?.shortDe?`<div style="font-size:8pt;color:#757575;font-style:italic">${ct.shortDe}</div>`:''}
+    </td>
+    <td style="padding:12px 18px;border-left:1px solid #e0e0e0">
+      <div style="font-size:7pt;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#757575;margin-bottom:3px">Authority</div>
+      <div style="font-size:8.5pt;font-weight:700">${(ct?.authority||'LEA Berlin').replace(/</g,'&lt;')}</div>
+    </td>
+  </tr></table>
+  <!-- DOCUMENTS TABLE -->
+  <table style="margin-top:16px">
+    ${req.length?secHeader(`📋 Required Documents / Pflichtdokumente (${req.length})`, '#2e7d32')+''+req.map(docRow).join(''):''}
+    ${opt.length?`<tr><td colspan="3" style="padding:8px 0"></td></tr>`+secHeader(`📌 Optional Documents / Optionale Dokumente (${opt.length})`, '#757575')+opt.map(docRow).join(''):''}
+  </table>
+  ${ct?.officialUrl?`<div style="padding:10px 14px 0;font-size:8pt;color:#757575">📋 Official requirements: <span style="color:#2e7d32">${ct.officialUrl}</span></div>`:''}
+  <!-- FOOTER -->
+  <table style="margin-top:24px"><tr>
+    <td style="background:#2e7d32;padding:10px 22px;text-align:center">
+      <span style="color:#fff;font-size:8pt">info@docuassistgermany.de &nbsp;·&nbsp; +49 155 6367 1657 &nbsp;·&nbsp; www.docuassistgermany.de</span>
+    </td>
+  </tr></table>
+  </body></html>`;
+}
+
+function downloadChecklist(leadId) {
+  const lead = (state.leads||[]).find(l=>l.id===leadId);
+  if (!lead) return;
+  const ct   = CASE_TYPES[lead.caseType];
+  const docs = lead.documents||[];
+  const pw   = window.open('','_blank','width=900,height=700');
+  if (!pw) { alert('Please allow pop-ups for this site to generate the PDF.'); return; }
+  pw.document.write(buildPrintHTML(lead, ct, docs));
+  pw.document.close();
+  pw.focus();
+  setTimeout(() => pw.print(), 600);
+}
+
+// ── REPORT ──
+function renderReport(lead) {
+  if (!lead) return '';
+  const ct = CASE_TYPES[lead.caseType];
+  const docs = lead.documents||[];
+  const uploaded = docs.filter(d=>d.status!=='pending');
+  const missing = docs.filter(d=>d.status==='pending'&&ct?.docs.find(cd=>cd.id===d.id)?.required);
+  const optional = docs.filter(d=>d.status==='pending'&&!ct?.docs.find(cd=>cd.id===d.id)?.required);
+  const issues = docs.filter(d=>d.status==='issue');
+  const verified = docs.filter(d=>d.status==='verified');
+  const txt = buildReportText(lead, ct, docs);
+
+  return `
+  <div style="margin-bottom:16px">
+    <button class="btn btn-xs btn-outline" onclick="navigate('lead-detail',{leadId:'${lead.id}'})" style="margin-bottom:10px">← Back to Lead</button>
+    <div class="page-header" style="margin:0"><h1>Gap Analysis</h1><p>${esc(lead.name)} · ${ct?.short||lead.caseType} · ${new Date().toLocaleDateString('en-GB')}</p></div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="num" style="color:var(--green)">${verified.length}</div><div class="lbl">Extracted OK</div></div>
+    <div class="stat-card"><div class="num" style="color:var(--blue)">${uploaded.length-verified.length}</div><div class="lbl">Uploaded</div></div>
+    <div class="stat-card"><div class="num" style="color:var(--red)">${issues.length}</div><div class="lbl">Issues</div></div>
+    <div class="stat-card"><div class="num" style="color:var(--amber)">${missing.length}</div><div class="lbl">Still Missing</div></div>
+  </div>
+  ${issues.length?`<div class="card"><div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--red);margin-bottom:12px">⚠️ Issues Requiring Attention</div>${issues.map(d=>{const df=ct?.docs.find(c=>c.id===d.id)||{};return`<div style="padding:10px 0;border-bottom:1px solid var(--grey-100);font-size:0.85rem"><strong>${esc(df.label||d.id)}</strong>${d.issues.map(i=>`<div style="font-size:0.78rem;color:var(--red);margin-top:2px">› ${esc(i)}</div>`).join('')}</div>`;}).join('')}</div>`:''}
+  ${missing.length?`<div class="card"><div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--amber);margin-bottom:12px">❌ Required — Still Missing (${missing.length})</div>${missing.map(d=>{const df=ct?.docs.find(c=>c.id===d.id)||{};return`<div style="padding:10px 0;border-bottom:1px solid var(--grey-100);font-size:0.85rem"><strong>${esc(df.label||d.id)}</strong><div style="font-size:0.78rem;color:var(--grey-500);margin-top:2px">${esc(df.notes||'')}</div>${df.officialInfo?`<div style="font-size:0.73rem;margin-top:3px"><a href="${df.officialInfo}" target="_blank" style="color:var(--green)">🔗 Official guidance ↗</a></div>`:''}</div>`;}).join('')}</div>`:''}
+  ${uploaded.length?`<div class="card"><div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--green);margin-bottom:12px">✅ Documents Received (${uploaded.length})</div>${uploaded.map(d=>{const df=ct?.docs.find(c=>c.id===d.id)||{};return`<div style="padding:8px 0;border-bottom:1px solid var(--grey-100);font-size:0.84rem;display:flex;align-items:center;gap:8px"><span>${d.status==='issue'?'⚠️':'✅'}</span><div><strong>${esc(df.label||d.id)}</strong>${d.filename?` <span style="font-size:0.75rem;color:var(--grey-400)">— ${esc(d.filename)}</span>`:''}${d.extractedFields?.expiryDate?`<span style="font-size:0.75rem;color:var(--grey-500);margin-left:8px">exp. ${d.extractedFields.expiryDate}</span>`:''}</div></div>`;}).join('')}</div>`:''}
+  ${ct?.officialUrl?`<div class="info-box">📋 <strong>Official requirements:</strong> <a href="${ct.officialUrl}" target="_blank" style="color:var(--green)">${ct.authority} — ${ct.label} ↗</a></div>`:''}
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--green)">Customer Summary</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-xs btn-secondary" onclick="copyReport()">📋 Copy</button>
+        <button class="btn btn-xs btn-green" onclick="downloadChecklist('${lead.id}')">📄 Download PDF</button>
+        <button class="btn btn-xs btn-blue" onclick="downloadChecklist('${lead.id}');setTimeout(()=>openEmailModal('${lead.id}'),800)">📧 Email + PDF</button>
+        <button class="btn btn-xs btn-secondary" onclick="downloadChecklist('${lead.id}');setTimeout(()=>openWA('${lead.id}'),800)">💬 WhatsApp + PDF</button>
+      </div>
+    </div>
+    <div class="report-output" id="report-text">${esc(txt)}</div>
+  </div>`;
+}
+
+function buildReportText(lead, ct, docs) {
+  const today = new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+  const missing = docs.filter(d=>d.status==='pending'&&ct?.docs.find(c=>c.id===d.id)?.required);
+  const issues = docs.filter(d=>d.status==='issue');
+  const received = docs.filter(d=>d.status!=='pending');
+  let t = `DocuAssist Germany — Document Checklist\n${'─'.repeat(40)}\n`;
+  t += `Client:    ${lead.name}\nCase:      ${ct?.label||lead.caseType}${ct?.labelDe?' / '+ct.labelDe:''}\nAuthority: ${ct?.authority||'LEA Berlin'}\nDate:      ${today}\n${'─'.repeat(40)}\n\n`;
+  if (issues.length) {
+    t += `⚠️  DOCUMENTS NEEDING ATTENTION (${issues.length})\n\n`;
+    issues.forEach(d=>{const df=ct?.docs.find(c=>c.id===d.id)||{};t+=`• ${df.label||d.id}${df.labelDe?' / '+df.labelDe:''}\n`;d.issues.forEach(i=>t+=`  → ${i}\n`);});
+    t+='\n';
+  }
+  if (missing.length) {
+    t += `❌  DOCUMENTS STILL NEEDED (${missing.length})\n\n`;
+    missing.forEach(d=>{const df=ct?.docs.find(c=>c.id===d.id)||{};t+=`• ${df.label||d.id}${df.labelDe?' / '+df.labelDe:''}\n  ${df.notes||''}\n\n`;});
+  }
+  if (received.length) {
+    t += `✅  DOCUMENTS RECEIVED (${received.length})\n\n`;
+    received.forEach(d=>{const df=ct?.docs.find(c=>c.id===d.id)||{};t+=`• ${df.label||d.id}${df.labelDe?' / '+df.labelDe:''}${d.extractedFields?.expiryDate?' (exp. '+d.extractedFields.expiryDate+')':''}\n`;});
+    t+='\n';
+  }
+  t += `${'─'.repeat(40)}\n`;
+  t += missing.length>0 ? 'Please provide the missing documents at your earliest convenience.' : issues.length>0 ? 'Please review and resubmit the flagged documents.' : 'All documents received. We will proceed with preparation.';
+  t += `\n\nQuestions? Contact us:\nEmail:    info@docuassistgermany.de\nWhatsApp: +49 155 6367 1657\n`;
+  if (ct?.officialUrl) t += `\nOfficial requirements: ${ct.officialUrl}\n`;
+  return t;
+}
+
+// ── PUBLIC SHARE VIEW ──
+async function renderShareView(token) {
+  const data = await getPublicShare(token);
+  const sv = document.getElementById('share-view');
+  if (!data) {
+    sv.innerHTML = `<div style="text-align:center;padding:60px 20px;color:var(--grey-500)"><div style="font-size:2.5rem;margin-bottom:12px">🔒</div><h3 style="font-size:1rem;color:var(--grey-700)">Link not found or expired</h3><p style="font-size:0.85rem">Please contact DocuAssist Germany for assistance.</p></div>`;
+    return;
+  }
+  const docs = data.documents||[];
+  const received = docs.filter(d=>d.status!=='pending');
+  const missing = docs.filter(d=>d.status==='pending'&&d.required);
+  const issues = docs.filter(d=>d.status==='issue');
+  sv.innerHTML = `
+  <div style="padding:16px 0;margin-bottom:8px">
+    <div style="font-weight:800;font-size:1rem;color:var(--grey-900)">Docu<span style="color:var(--green)">Assist</span> Germany</div>
+  </div>
+  <div class="share-header">
+    <h1>Document Checklist — ${esc(data.name)}</h1>
+    <p>${esc(data.caseLabel)}${data.caseLabelDe?' / '+esc(data.caseLabelDe):''} · ${esc(data.authority)}</p>
+    <p style="margin-top:8px;font-size:0.78rem;color:rgba(255,255,255,0.5)">Last updated: ${fmtDate(data.updatedAt)}</p>
+  </div>
+  ${issues.length?`<div class="warn-box">⚠️ ${issues.length} document${issues.length>1?'s require':'requires'} your attention — see below.</div>`:''}
+  <div class="card">
+    <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--grey-500);margin-bottom:14px">Documents Required for Your Case</div>
+    ${docs.map(d=>`
+    <div class="share-doc-item">
+      <div class="share-status-dot ${d.status==='pending'?'ssd-pending':d.status==='issue'?'ssd-issue':'ssd-received'}"></div>
+      <div style="flex:1">
+        <div style="font-weight:600;font-size:0.88rem">${esc(d.label)}</div>
+        ${d.labelDe?`<div style="font-size:0.78rem;color:var(--grey-500);font-style:italic;margin-top:1px">${esc(d.labelDe)}</div>`:''}
+        ${d.status==='pending'?`<div style="font-size:0.75rem;color:var(--amber);margin-top:2px">Not yet received</div>`:''}
+        ${d.status!=='pending'&&d.status!=='issue'?`<div style="font-size:0.75rem;color:var(--green);margin-top:2px">✓ Received</div>`:''}
+        ${d.status==='issue'?`<div style="font-size:0.75rem;color:var(--red);margin-top:2px">${(d.issues||[]).join('; ')||'Requires attention'}</div>`:''}
+        ${d.notes?`<div style="font-size:0.73rem;color:var(--grey-500);margin-top:2px">${esc(d.notes)}</div>`:''}
+        ${d.officialInfo?`<div style="font-size:0.72rem;margin-top:3px"><a href="${d.officialInfo}" target="_blank" style="color:var(--green)">Official guidance ↗</a></div>`:''}
+      </div>
+      <span class="badge ${d.status==='pending'?'badge-grey':d.status==='issue'?'badge-red':'badge-green'}">${d.status==='pending'?'Pending':d.status==='issue'?'! Issue':'✓ OK'}</span>
+    </div>`).join('')}
+  </div>
+  ${data.officialUrl?`<div class="info-box">📋 Official requirements: <a href="${data.officialUrl}" target="_blank" style="color:var(--green)">${esc(data.authority)} ↗</a>${data.appointmentUrl?` &nbsp;·&nbsp; <a href="${data.appointmentUrl}" target="_blank" style="color:var(--green)">📅 Book Appointment ↗</a>`:''}</div>`:''}
+  <div class="card" style="text-align:center">
+    <div style="font-weight:700;font-size:0.88rem;margin-bottom:8px">Questions? Reach us at:</div>
+    <div style="font-size:0.85rem;color:var(--grey-600)">📧 info@docuassistgermany.de &nbsp;·&nbsp; 📱 +49 155 6367 1657</div>
+    <div style="font-size:0.75rem;color:var(--grey-400);margin-top:8px">DocuAssist Germany — Berlin's Immigration Document Specialists</div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════
+// EVENTS
+// ══════════════════════════════════════════════
+function bindEvents() {
+  // Lead form
+  const form = document.getElementById('lead-form');
+  if (form) {
+    const ctSel = document.getElementById('ct-select');
+    if (ctSel) ctSel.addEventListener('change', function() {
+      const ct = CASE_TYPES[this.value];
+      const box = document.getElementById('case-info-box');
+      if (ct && box) box.innerHTML = `<div class="info-box"><strong>${ct.label}</strong> — ${ct.docs.length} documents · Authority: ${ct.authority} · <a href="${ct.officialUrl}" target="_blank" style="color:var(--green)">Official requirements ↗</a></div>`;
+      else if (box) box.innerHTML = '';
+    });
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const name = fd.get('name').trim(), caseType = fd.get('caseType');
+      if (!name || !caseType) { alert('Please fill in Name and Case Type.'); return; }
+      const isEdit = !!state.leadId;
+      const existing = isEdit ? await getLead(state.leadId) : null;
+      const lead = {
+        id: existing?.id||genId(), name, email:fd.get('email'), phone:fd.get('phone'),
+        nationality:fd.get('nationality'), caseType, notes:fd.get('notes'),
+        createdAt: existing?.createdAt||Date.now(),
+        shareToken: existing?.shareToken||null,
+        documents: (isEdit&&existing?.caseType===caseType) ? existing.documents : initDocs(caseType)
+      };
+      const btn = form.querySelector('[type=submit]'); btn.disabled=true; btn.textContent='Saving...';
+      await saveLead(lead);
+      navigate('lead-detail', {leadId:lead.id});
+    });
+  }
+}
+
+window.handleUpload = async function(input) {
+  const file = input.files[0]; if (!file) return;
+  const lid = input.dataset.lid, did = input.dataset.did;
+  let lead = await getLead(lid); if (!lead) return;
+  const doc = lead.documents?.find(d=>d.id===did); if (!doc) return;
+  doc.status='processing'; doc.filename=file.name; doc.fileSize=file.size; doc.uploadedAt=Date.now();
+  doc.extractedFields=null; doc.issues=[];
+  await saveLead(lead); render();
+  const [text, fileUrl] = await Promise.all([extractText(file), uploadFile(lid, did, file)]);
+  lead = await getLead(lid); if (!lead) return;
+  const doc2 = lead.documents?.find(d=>d.id===did); if (!doc2) return;
+  const ct = CASE_TYPES[lead.caseType];
+  const def = ct?.docs.find(d=>d.id===did)||{};
+  const fields = extractFields(text);
+  const issues = validateDoc(def, lead.name, fields);
+  doc2.extractedFields=fields; doc2.issues=issues;
+  doc2.status=issues.length?'issue':'verified';
+  if (fileUrl) doc2.fileUrl=fileUrl;
+  await saveLead(lead); render();
+};
+
+window.clearDoc = async function(lid, did) {
+  const lead = await getLead(lid); if (!lead) return;
+  const doc = lead.documents?.find(d=>d.id===did); if (!doc) return;
+  doc.status='pending'; doc.filename=null; doc.fileSize=null; doc.fileUrl=null;
+  doc.uploadedAt=null; doc.extractedFields=null; doc.issues=[];
+  await saveLead(lead); render();
+};
+
+window.confirmDelete = async function(id) {
+  const lead = await getLead(id); if (!lead) return;
+  if (confirm(`Delete lead "${lead.name}"? This cannot be undone.`)) { await deleteLead(id); navigate('leads'); }
+};
+
+window.copyReport = function() {
+  const el = document.getElementById('report-text'); if (!el) return;
+  navigator.clipboard.writeText(el.textContent).then(()=>{
+    const btn = document.querySelector('[onclick="copyReport()"]');
+    if (btn) { btn.textContent='✓ Copied'; setTimeout(()=>btn.textContent='📋 Copy',2000); }
+  });
+};
+
+// ── EMAIL ──
+window.openEmailModal = async function(lid) {
+  const lead = await getLead(lid); if (!lead) return;
+  document.getElementById('email-to').value = lead.email||'';
+  const ct = CASE_TYPES[lead.caseType];
+  document.getElementById('email-preview').textContent = buildReportText(lead, ct, lead.documents||[]);
+  document.getElementById('email-status').textContent = '';
+  document.getElementById('email-modal').dataset.lid = lid;
+  openModal('email-modal');
+};
+window.sendEmail = async function() {
+  const modal = document.getElementById('email-modal');
+  const lid = modal.dataset.lid;
+  const lead = await getLead(lid); if (!lead) return;
+  const to = document.getElementById('email-to').value.trim();
+  const note = document.getElementById('email-note').value.trim();
+  const ct = CASE_TYPES[lead.caseType];
+  const body = (note?note+'\n\n':'') + buildReportText(lead, ct, lead.documents||[]);
+  const btn = document.getElementById('email-send-btn');
+  btn.disabled=true; btn.textContent='Sending...';
+  const status = document.getElementById('email-status');
+  try {
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      to_email: to, to_name: lead.name,
+      subject: `Your Document Checklist — DocuAssist Germany`,
+      message: body, from_name: 'DocuAssist Germany', reply_to: 'info@docuassistgermany.de'
+    });
+    status.style.color='var(--green)'; status.textContent='✓ Email sent successfully!';
+    btn.textContent='Sent ✓';
+    setTimeout(()=>closeModal('email-modal'),2000);
+  } catch(e) {
+    status.style.color='var(--red)'; status.textContent='Failed to send. Check EmailJS configuration.';
+    btn.disabled=false; btn.textContent='Send Email';
+  }
+};
+
+// ── WHATSAPP ──
+window.openWA = async function(lid) {
+  const lead = await getLead(lid); if (!lead) return;
+  const ct = CASE_TYPES[lead.caseType];
+  const docs = lead.documents||[];
+  const missing = docs.filter(d=>d.status==='pending'&&ct?.docs.find(c=>c.id===d.id)?.required);
+  const issues = docs.filter(d=>d.status==='issue');
+  let msg = `Hi ${lead.name},\n\nThank you for choosing DocuAssist Germany. Here's your document status update:\n\n*Case:* ${ct?.label||lead.caseType}\n*Authority:* ${ct?.authority||'LEA Berlin'}\n\n`;
+  if (issues.length) { msg+=`*⚠️ Documents Needing Attention (${issues.length}):*\n`; issues.forEach(d=>{const df=ct?.docs.find(c=>c.id===d.id)||{};msg+=`• ${df.label||d.id}: ${d.issues[0]||'please review'}\n`;}); msg+='\n'; }
+  if (missing.length) { msg+=`*❌ Documents Still Needed (${missing.length}):*\n`; missing.forEach(d=>{const df=ct?.docs.find(c=>c.id===d.id)||{};msg+=`• ${df.label||d.id}\n`;}); msg+='\n'; }
+  const received = docs.filter(d=>d.status!=='pending');
+  if (received.length) { msg+=`*✅ Documents Received (${received.length}):*\n`; received.forEach(d=>{const df=ct?.docs.find(c=>c.id===d.id)||{};msg+=`• ${df.label||d.id}\n`;}); msg+='\n'; }
+  msg += missing.length>0 ? 'Please send the missing documents at your earliest convenience.' : issues.length>0 ? 'Please review and resubmit the flagged documents.' : 'All documents received — we will proceed shortly!';
+  msg += '\n\nBest regards,\nDocuAssist Germany\n📧 info@docuassistgermany.de\n📱 +49 155 6367 1657';
+  document.getElementById('wa-text').value = msg;
+  document.getElementById('wa-status').textContent = '';
+  openModal('wa-modal');
+};
+window.copyWA = function() {
+  const el = document.getElementById('wa-text');
+  navigator.clipboard.writeText(el.value).then(()=>{
+    document.getElementById('wa-status').textContent='✓ Copied! Paste into WhatsApp.';
+  });
+};
+
+// ── SHARE LINK ──
+window.openShareModal = async function(lid) {
+  const lead = await getLead(lid); if (!lead) return;
+  let shareToken = lead.shareToken;
+  if (!shareToken) {
+    shareToken = genId()+genId();
+    lead.shareToken = shareToken;
+    await saveLead(lead);
+  }
+  const link = `${window.location.origin}${window.location.pathname}?share=${shareToken}`;
+  document.getElementById('share-link-input').value = link;
+  document.getElementById('share-link-status').textContent = '';
+  openModal('share-modal');
+};
+window.copyShareLink = function() {
+  const el = document.getElementById('share-link-input');
+  navigator.clipboard.writeText(el.value).then(()=>{
+    document.getElementById('share-link-status').textContent='✓ Link copied!';
+  });
+};
+
+// ── AUTH ──
+document.getElementById('login-form')?.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const email = document.getElementById('login-email').value;
+  const pass = document.getElementById('login-password').value;
+  const btn = document.getElementById('login-btn');
+  const err = document.getElementById('login-error');
+  btn.disabled=true; btn.textContent='Signing in...'; err.style.display='none';
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+  } catch(e) {
+    const msgs = {'auth/wrong-password':'Incorrect password.','auth/user-not-found':'No account with this email.','auth/invalid-credential':'Invalid email or password.','auth/too-many-requests':'Too many attempts — try again later.'};
+    err.textContent = msgs[e.code]||'Sign in failed. Check your credentials.';
+    err.style.display='block'; btn.disabled=false; btn.textContent='Sign In';
+  }
+});
+
+window.doSignOut = function() { signOut(auth); };
+
+// ── AUTH STATE ──
+onAuthStateChanged(auth, user => {
+  document.getElementById('loading-screen').style.display='none';
+  if (user) {
+    currentUser = user;
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app-shell').style.display='block';
+    document.getElementById('nav-user-email').textContent = user.email;
+    // Check for share link in URL
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('share')) {
+      document.getElementById('app-shell').style.display='none';
+      document.getElementById('share-view').style.display='block';
+      renderShareView(params.get('share'));
+    } else {
+      render();
+    }
+  } else {
+    currentUser = null;
+    document.getElementById('app-shell').style.display='none';
+    // Check share link even without auth
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('share')) {
+      document.getElementById('share-view').style.display='block';
+      renderShareView(params.get('share'));
+    } else {
+      document.getElementById('login-screen').style.display='flex';
+    }
+  }
+});
+
+</script>
+</body>
+</html>

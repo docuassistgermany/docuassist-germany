@@ -121,6 +121,7 @@
     html { scroll-behavior: smooth }
     body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: var(--grey-900); background: var(--white); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased }
 
+
     /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
@@ -434,184 +435,324 @@
     .btn-outline-white:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.05) }
 
     /* ── CONTACT ── */
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start }
-    .contact-info p { color: var(--grey-500); font-size: 0.95rem; margin-bottom: 32px }
-    .contact-items { display: flex; flex-direction: column; gap: 20px }
-    .contact-item { display: flex; align-items: flex-start; gap: 14px }
-    .contact-item-icon {
-      width: 44px; height: 44px; border-radius: var(--radius);
-      background: var(--green-light); display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
+    .contact-intro { color: var(--grey-500); font-size: 0.95rem; margin-bottom: 48px; max-width: 560px }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 56px; align-items: start }
+    .contact-info { display: flex; flex-direction: column; gap: 14px }
+    .contact-info-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 18px 20px; border-radius: var(--radius);
+      background: var(--white); border: 1px solid var(--grey-200);
+      text-decoration: none; color: inherit; transition: all var(--transition);
     }
-    .contact-item-icon svg { width: 20px; height: 20px; color: var(--green) }
-    .contact-item-text strong { font-size: 0.78rem; color: var(--grey-500); display: block; margin-bottom: 2px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em }
-    .contact-item-text strong[data-lang="de"] { display: none }
-    body.de .contact-item-text strong[data-lang="de"] { display: block }
-    body.de .contact-item-text strong[data-lang="en"] { display: none }
-    .contact-item-text span { font-size: 0.9rem; font-weight: 600 }
-    .contact-item-text span a { color: inherit; text-decoration: none; transition: color var(--transition) }
-    .contact-item-text span a:hover { color: var(--green) }
-    .contact-form { display: flex; flex-direction: column; gap: 16px }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px }
-    .form-group { display: flex; flex-direction: column; gap: 6px }
-    .form-group label { font-size: 0.8rem; font-weight: 600; color: var(--grey-700) }
-    .form-group input, .form-group select, .form-group textarea {
+    .contact-info-item:hover { border-color: var(--green); box-shadow: 0 0 0 1px var(--green) }
+    .contact-info-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--green-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .contact-info-icon svg { width: 18px; height: 18px; color: var(--green) }
+    .contact-info-body { display: flex; flex-direction: column; gap: 3px }
+    .contact-info-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--grey-500) }
+    .contact-info-value { font-size: 0.9rem; font-weight: 500; color: var(--grey-900) }
+    @media(max-width: 900px) { .contact-grid { grid-template-columns: 1fr } }
+
+    /* Trust signals */
+    .intake-trust {
+      display: flex; justify-content: center; gap: 28px; flex-wrap: wrap;
+      margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--grey-200)
+    }
+    .intake-trust-item { display: flex; align-items: center; gap: 7px; font-size: 0.78rem; color: var(--grey-500) }
+    .intake-trust-item svg { width: 14px; height: 14px; color: var(--green); flex-shrink: 0 }
+
+    /* ── INTAKE FORM ─────────────────────────────────────────── */
+    .intake-wrap { display: flex; flex-direction: column; gap: 18px }
+
+    .intake-cfg-warn {
+      background: #fffbeb; border: 1px solid #fde68a; border-radius: var(--radius);
+      padding: 10px 16px; font-size: 0.8rem; color: #92400e; display: none
+    }
+    .intake-cfg-warn.visible { display: block }
+
+    .intake-field { display: flex; flex-direction: column; gap: 6px }
+    .intake-field label[data-lang] { font-size: 0.8rem; font-weight: 600; color: var(--grey-700) }
+    .intake-wrap input,
+    .intake-wrap select,
+    .intake-wrap textarea {
       padding: 12px 16px; border: 1.5px solid var(--grey-200); border-radius: var(--radius);
       font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--grey-900);
       background: var(--white); outline: none; transition: all var(--transition);
+      width: 100%; -webkit-appearance: none; appearance: none;
     }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-      border-color: var(--green); box-shadow: 0 0 0 3px var(--green-glow);
+    .intake-wrap input:focus,
+    .intake-wrap select:focus,
+    .intake-wrap textarea:focus { border-color: var(--green); box-shadow: 0 0 0 3px var(--green-glow) }
+    .intake-wrap textarea { resize: vertical; min-height: 90px }
+    .intake-field-note { font-size: 0.75rem; color: var(--grey-500); margin-top: 2px }
+    .intake-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px }
+    .intake-row-full { display: grid; grid-template-columns: 1fr; gap: 14px }
+
+    /* Service cards */
+    .intake-svc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px }
+    .intake-svc-card {
+      border: 1.5px solid var(--grey-200); border-radius: var(--radius);
+      padding: 16px 14px; cursor: pointer; transition: all var(--transition);
+      display: flex; align-items: flex-start; gap: 12px; background: var(--white);
     }
-    .form-group textarea { resize: vertical; min-height: 110px }
-    .form-submit {
-      background: var(--green); color: white; border: none; padding: 14px 32px;
-      border-radius: var(--radius-full); font-size: 0.95rem; font-weight: 600;
+    .intake-svc-card:hover { border-color: var(--green); background: var(--green-light) }
+    .intake-svc-card.selected {
+      border-color: var(--green); background: var(--green-light);
+      box-shadow: 0 0 0 3px var(--green-glow);
+    }
+    .intake-svc-icon {
+      width: 36px; height: 36px; border-radius: 8px; background: var(--grey-100);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      transition: background var(--transition);
+    }
+    .intake-svc-card.selected .intake-svc-icon { background: rgba(13,158,95,0.15) }
+    .intake-svc-icon svg { width: 18px; height: 18px; color: var(--grey-500); transition: color var(--transition) }
+    .intake-svc-card.selected .intake-svc-icon svg { color: var(--green) }
+    .intake-svc-text { flex: 1; min-width: 0 }
+    .intake-svc-title { font-size: 0.83rem; font-weight: 600; color: var(--grey-900); line-height: 1.35 }
+    .intake-svc-title[data-lang="de"] { display: none }
+    body.de .intake-svc-title[data-lang="de"] { display: block }
+    body.de .intake-svc-title[data-lang="en"] { display: none }
+    .intake-svc-sub { font-size: 0.72rem; color: var(--grey-500); margin-top: 3px; line-height: 1.4 }
+    .intake-svc-sub[data-lang="de"] { display: none }
+    body.de .intake-svc-sub[data-lang="de"] { display: block }
+    body.de .intake-svc-sub[data-lang="en"] { display: none }
+
+    /* Case section */
+    .intake-case-sec { display: none }
+    .intake-case-sec.visible { display: flex; flex-direction: column; gap: 12px }
+
+    /* Doc preview */
+    .intake-dp { display: none; border: 1.5px solid var(--grey-200); border-radius: var(--radius); overflow: hidden }
+    .intake-dp.visible { display: block }
+    .intake-dp-hdr {
+      background: var(--grey-100); padding: 11px 16px; font-size: 0.8rem; font-weight: 600;
+      color: var(--grey-700); display: flex; align-items: center; gap: 8px; cursor: pointer;
+      user-select: none; transition: background var(--transition);
+    }
+    .intake-dp-hdr:hover { background: var(--grey-200) }
+    .intake-dp-hdr > svg:first-child { width: 15px; height: 15px; color: var(--green); flex-shrink: 0 }
+    .intake-dp-chevron { margin-left: auto; width: 14px; height: 14px; color: var(--grey-500); transition: transform var(--transition) }
+    .intake-dp-hdr.open .intake-dp-chevron { transform: rotate(180deg) }
+    .intake-dp-body { padding: 4px 0; max-height: 200px; overflow-y: auto }
+    .intake-dp-item { padding: 7px 16px; display: flex; gap: 10px; align-items: flex-start; border-bottom: 1px solid var(--grey-100) }
+    .intake-dp-item:last-child { border-bottom: none }
+    .intake-dp-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 6px; flex-shrink: 0 }
+    .intake-dp-dot.req { background: var(--green) }
+    .intake-dp-dot.opt { background: var(--grey-300) }
+    .intake-dp-en { font-size: 0.78rem; color: var(--grey-700); line-height: 1.4 }
+    .intake-dp-de { font-size: 0.7rem; color: var(--grey-500); font-style: italic; margin-top: 2px; display: none }
+    body.de .intake-dp-de { display: block }
+    body.de .intake-dp-en { display: none }
+
+    /* Divider */
+    .intake-divider { border: none; border-top: 1px solid var(--grey-200); margin: 2px 0 }
+
+    /* Error */
+    .intake-err {
+      background: #fef2f2; border: 1.5px solid #fecaca; border-radius: var(--radius);
+      padding: 10px 16px; font-size: 0.84rem; color: #dc2626; display: none
+    }
+    .intake-err.visible { display: block }
+
+    /* Submit */
+    .intake-submit {
+      background: var(--green); color: white; border: none;
+      padding: 14px 32px; border-radius: var(--radius-full);
+      font-size: 0.95rem; font-weight: 600; font-family: 'Inter', sans-serif;
+      cursor: pointer; transition: all var(--transition); width: 100%;
+      box-shadow: var(--shadow-green); letter-spacing: 0.01em;
+    }
+    .intake-submit:hover { background: var(--green-dark); transform: translateY(-1px) }
+    .intake-submit:disabled { background: var(--grey-300); box-shadow: none; cursor: not-allowed; transform: none }
+    .intake-spin {
+      display: inline-block; width: 13px; height: 13px;
+      border: 2px solid rgba(255,255,255,0.35); border-top-color: white;
+      border-radius: 50%; animation: ii-spin 0.7s linear infinite;
+      vertical-align: middle; margin-right: 7px
+    }
+    @keyframes ii-spin { to { transform: rotate(360deg) } }
+    .intake-privacy { font-size: 0.73rem; color: var(--grey-500); text-align: center; line-height: 1.6 }
+
+    /* Success overlay */
+    .intake-success-ov {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+      z-index: 2000; display: flex; align-items: center; justify-content: center;
+      padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    .intake-success-ov.visible { opacity: 1; pointer-events: auto }
+    .intake-success-card {
+      background: var(--white); border-radius: var(--radius-lg); max-width: 420px; width: 100%;
+      padding: 40px 36px; text-align: center;
+      transform: translateY(16px) scale(0.98); transition: transform 0.3s; box-shadow: var(--shadow-lg);
+    }
+    .intake-success-ov.visible .intake-success-card { transform: translateY(0) scale(1) }
+    .intake-s-icon {
+      width: 64px; height: 64px; border-radius: 50%; background: var(--green-light);
+      margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;
+    }
+    .intake-s-icon svg { width: 28px; height: 28px; color: var(--green) }
+    .intake-success-card h3 { font-size: 1.2rem; font-weight: 800; color: var(--grey-900); margin-bottom: 8px }
+    .intake-s-sub { font-size: 0.88rem; color: var(--grey-600); line-height: 1.6; margin-bottom: 6px }
+    .intake-s-email {
+      background: var(--green-light); border: 1.5px solid rgba(13,158,95,0.2);
+      border-radius: var(--radius); padding: 10px 16px; font-size: 0.88rem;
+      color: var(--green-dark); font-weight: 600; margin: 14px 0; word-break: break-all;
+    }
+    .intake-s-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px }
+    .intake-btn-wa {
+      background: #22c55e; color: white; border: none; border-radius: var(--radius-full);
+      padding: 11px 22px; font-size: 0.875rem; font-weight: 600;
       font-family: 'Inter', sans-serif; cursor: pointer; transition: all var(--transition);
-      align-self: flex-start; box-shadow: var(--shadow-green);
     }
-    .form-submit:hover { background: var(--green-dark); transform: translateY(-1px) }
+    .intake-btn-wa:hover { background: #16a34a }
+    .intake-btn-close {
+      border: 1.5px solid var(--grey-200); background: var(--white); color: var(--grey-700);
+      border-radius: var(--radius-full); padding: 11px 22px; font-size: 0.875rem; font-weight: 600;
+      font-family: 'Inter', sans-serif; cursor: pointer; transition: all var(--transition);
+    }
+    .intake-btn-close:hover { border-color: var(--grey-300); background: var(--grey-100) }
 
-    /* ── FOOTER ── */
-    footer {
-      background: var(--grey-900); color: rgba(255,255,255,0.5);
-      padding: 64px clamp(1.5rem, 5vw, 4rem) 32px;
-    }
-    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; margin-bottom: 48px }
-    .footer-brand .logo { color: white; font-size: 1.05rem; display: block; margin-bottom: 12px }
-    .footer-brand p { font-size: 0.84rem; line-height: 1.7; max-width: 280px }
-    .footer-col h3 { color: white; font-size: 0.82rem; font-weight: 700; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.08em }
-    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px }
-    .footer-col ul li a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.84rem; transition: color var(--transition) }
-    .footer-col ul li a:hover { color: white }
-    .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.08); padding-top: 28px;
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 12px; font-size: 0.78rem;
-    }
-    .footer-bottom .logo { color: white; font-size: 0.95rem }
+    @media(max-width: 640px) { .intake-row { grid-template-columns: 1fr } }
 
-    /* ── WHATSAPP BUBBLE ── */
-    .wa-bubble {
-      position: fixed; bottom: 28px; right: 28px; z-index: 999;
-      background: #25d366; color: white; width: 60px; height: 60px;
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      text-decoration: none; box-shadow: 0 4px 20px rgba(37,211,102,0.4);
-      transition: all var(--transition);
-    }
-    .wa-bubble:hover { transform: scale(1.08) translateY(-2px); box-shadow: 0 8px 28px rgba(37,211,102,0.5) }
-    .wa-bubble svg { width: 28px; height: 28px }
-
-    /* ── RESPONSIVE ── */
-    @media(max-width:1024px) {
-      section { padding: 80px clamp(1.5rem, 5vw, 4rem) }
-      .footer-top { grid-template-columns: 1fr 1fr; gap: 32px }
-      .services-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) }
-      .steps { grid-template-columns: repeat(2, 1fr); gap: 32px }
-      .steps::before { display: none }
-      .step-num { box-shadow: none }
-      .booking-box { padding: 40px; flex-direction: column; align-items: flex-start }
-      .about-stats { grid-template-columns: repeat(3, 1fr) }
-    }
-    @media(max-width:868px) {
-      .nav-links li:nth-child(2) { display: none }
-    }
-    @media(max-width:768px) {
-      .about-grid { grid-template-columns: 1fr; gap: 40px }
-      .contact-grid { grid-template-columns: 1fr; gap: 40px }
-      #home { padding: 100px clamp(1.5rem, 5vw, 4rem) 60px }
-      .trust-bar { gap: 20px; padding: 16px clamp(1.5rem, 5vw, 4rem) }
-    }
-    @media(max-width:640px) {
-      .nav-links { display: none }
-      .form-row { grid-template-columns: 1fr }
-      .booking-box { padding: 28px }
-      .footer-top { grid-template-columns: 1fr }
-      .services-grid { grid-template-columns: 1fr }
-      .steps { grid-template-columns: 1fr; gap: 24px }
-      .about-stats { grid-template-columns: 1fr 1fr 1fr }
-      #home { min-height: auto; padding: 90px 5% 50px }
-      .trust-bar { flex-direction: column; gap: 14px; align-items: flex-start }
-      h1 { font-size: 2rem }
-    }
-
-    /* ── LANG ── */
+    /* ══════════════════════════════════════════════════
+       BILINGUAL (placed LAST so it wins by cascade order
+       over same-specificity class rules like .hero-tag)
+    ══════════════════════════════════════════════════ */
     [data-lang="de"] { display: none }
     body.de [data-lang="de"] { display: block }
     body.de [data-lang="en"] { display: none }
-    span[data-lang="de"] { display: none }
-    body.de span[data-lang="de"] { display: inline }
-    body.de span[data-lang="en"] { display: none }
-    a[data-lang="de"], li[data-lang="de"] { display: none }
-    body.de a[data-lang="de"], body.de li[data-lang="de"] { display: inline-flex }
-    body.de a[data-lang="en"], body.de li[data-lang="en"] { display: none }
+    /* inline/inline-flex elements need inline display type */
+    span[data-lang="de"], a[data-lang="de"], button[data-lang="de"] { display: none }
+    body.de span[data-lang="de"], body.de a[data-lang="de"], body.de button[data-lang="de"] { display: inline }
+    body.de span[data-lang="en"], body.de a[data-lang="en"], body.de button[data-lang="en"] { display: none }
+    li[data-lang="de"] { display: none }
+    body.de li[data-lang="de"] { display: list-item }
+    body.de li[data-lang="en"] { display: none }
+    label[data-lang="de"] { display: none }
+    body.de label[data-lang="de"] { display: block }
+    body.de label[data-lang="en"] { display: none }
 
-    /* ── REVEAL ── */
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease }
-    .reveal.visible { opacity: 1; transform: none }
-    @media(prefers-reduced-motion: reduce) {
-      .reveal { opacity: 1; transform: none; transition: none }
-      @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8 } }
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1) }
+    .reveal.visible { opacity: 1; transform: translateY(0) }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--grey-900); color: rgba(255,255,255,0.6);
+      padding: 56px clamp(1.5rem, 5vw, 4rem) 0;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px;
+      padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-brand p { font-size: 0.875rem; margin-top: 14px; line-height: 1.7; max-width: 280px; color: rgba(255,255,255,0.55) }
+    .footer-col h3 {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: white; margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none }
+    .footer-col ul li { margin-bottom: 10px }
+    .footer-col a {
+      color: rgba(255,255,255,0.5); text-decoration: none;
+      font-size: 0.875rem; transition: color var(--transition);
+    }
+    .footer-col a:hover { color: var(--accent) }
+    .footer-bottom {
+      padding: 24px 0; display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,0.06); flex-wrap: wrap; gap: 12px;
+      font-size: 0.78rem; color: rgba(255,255,255,0.3);
+    }
+    .footer-bottom .logo { color: #fff !important; font-size: 0.95rem }
+    .footer-bottom .logo .logo-word { color: #fff !important }
+    @media(max-width: 768px) {
+      .footer-top { grid-template-columns: 1fr; gap: 28px }
+      .footer-bottom { justify-content: center; text-align: center; flex-direction: column }
     }
 
-    /* ── WELCOME POPUP ── */
+    /* ── WHATSAPP BUBBLE ── */
+    .wa-bubble {
+      position: fixed; bottom: 28px; right: 28px;
+      width: 54px; height: 54px; border-radius: 50%;
+      background: #22c55e; color: white;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(34,197,94,0.4);
+      z-index: 900; transition: all var(--transition); text-decoration: none;
+    }
+    .wa-bubble:hover { transform: scale(1.08); box-shadow: 0 8px 28px rgba(34,197,94,0.5) }
+    .wa-bubble svg { width: 26px; height: 26px }
+
+    /* ── WELCOME / EXIT-INTENT POPUP ── */
     .welcome-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
-      z-index: 2000; display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none; transition: opacity 0.3s;
+      z-index: 1500; display: flex; align-items: center; justify-content: center;
+      padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
     }
     .welcome-overlay.show { opacity: 1; pointer-events: auto }
     .welcome-box {
-      background: var(--white); border-radius: var(--radius-lg); max-width: 440px;
-      width: 90%; padding: 40px 36px; text-align: center;
+      background: var(--white); border-radius: var(--radius-lg);
+      max-width: 460px; width: 100%; padding: 36px 32px;
       transform: translateY(16px) scale(0.98); transition: transform 0.3s;
       box-shadow: var(--shadow-lg);
     }
-    .welcome-overlay.show .welcome-box { transform: none }
-    .welcome-box h3 { font-size: 1.3rem; margin-bottom: 8px; font-weight: 800; letter-spacing: -0.02em }
-    .welcome-box p { font-size: 0.9rem; color: var(--grey-500); margin-bottom: 28px; line-height: 1.6 }
-    .welcome-options { display: flex; flex-direction: column; gap: 10px }
+    .welcome-overlay.show .welcome-box { transform: translateY(0) scale(1) }
+    .welcome-box > h3 {
+      font-size: 1.2rem; font-weight: 800; color: var(--grey-900);
+      letter-spacing: -0.02em; margin-bottom: 8px;
+    }
+    .welcome-box > p {
+      font-size: 0.875rem; color: var(--grey-500); margin-bottom: 22px; line-height: 1.6;
+    }
+    .welcome-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px }
     .welcome-opt {
-      display: flex; align-items: center; gap: 14px; padding: 16px 20px;
-      border: 1px solid var(--grey-200); border-radius: var(--radius);
-      text-decoration: none; color: var(--grey-900); font-size: 0.9rem;
-      font-weight: 500; transition: all var(--transition); cursor: pointer;
+      display: flex; align-items: center; gap: 12px;
+      border: 1.5px solid var(--grey-200); border-radius: var(--radius);
+      padding: 12px 14px; text-decoration: none; color: var(--grey-800);
+      font-size: 0.875rem; font-weight: 500; transition: all var(--transition);
     }
-    .welcome-opt:hover { border-color: var(--green); background: var(--green-light) }
+    .welcome-opt:hover { border-color: var(--green); background: var(--green-light); color: var(--grey-900) }
     .welcome-opt-icon {
-      width: 40px; height: 40px; border-radius: 10px; background: var(--green-light);
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
+      background: var(--green-light); display: flex; align-items: center; justify-content: center;
     }
-    .welcome-opt-icon svg { width: 20px; height: 20px; color: var(--green) }
+    .welcome-opt-icon svg { width: 16px; height: 16px; color: var(--green) }
     .welcome-close {
-      margin-top: 20px; background: none; border: none; color: var(--grey-500);
-      font-size: 0.82rem; cursor: pointer; padding: 8px; font-family: 'Inter', sans-serif;
-      transition: color var(--transition);
+      width: 100%; border: none; background: transparent; color: var(--grey-400);
+      font-size: 0.8rem; cursor: pointer; font-family: 'Inter', sans-serif;
+      padding: 8px; transition: color var(--transition); letter-spacing: 0.01em;
     }
-    .welcome-close:hover { color: var(--grey-900) }
+    .welcome-close:hover { color: var(--grey-700) }
 
     /* ── COOKIE BANNER ── */
     .cookie-banner {
-      position: fixed; bottom: 0; left: 0; right: 0; background: var(--white);
-      border-top: 1px solid var(--grey-200);
-      padding: 20px clamp(1.5rem, 5vw, 4rem);
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 20px; z-index: 1999; box-shadow: 0 -4px 24px rgba(0,0,0,0.1);
-      transform: translateY(100%); transition: transform 0.4s; flex-wrap: wrap;
+      position: fixed; bottom: 24px; left: 24px;
+      max-width: 520px; background: var(--grey-900); color: rgba(255,255,255,0.75);
+      border-radius: var(--radius-lg); padding: 18px 22px;
+      display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.3); z-index: 1400;
+      transform: translateY(120px); opacity: 0; pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
     }
-    .cookie-banner.show { transform: none }
-    .cookie-text { font-size: 0.84rem; color: var(--grey-500); line-height: 1.6; flex: 1; min-width: 250px }
-    .cookie-text a { color: var(--green); text-decoration: underline }
-    .cookie-btns { display: flex; gap: 10px; flex-shrink: 0 }
+    .cookie-banner.show { transform: translateY(0); opacity: 1; pointer-events: auto }
+    .cookie-text { font-size: 0.8rem; line-height: 1.6; flex: 1 }
+    .cookie-text a { color: var(--accent); text-decoration: none }
+    .cookie-btns { display: flex; gap: 8px; flex-shrink: 0 }
     .cookie-btn {
-      padding: 10px 22px; border-radius: var(--radius-full); font-size: 0.84rem;
-      font-weight: 600; cursor: pointer; border: none; transition: all var(--transition);
-      font-family: 'Inter', sans-serif;
+      padding: 7px 16px; border-radius: var(--radius-full); font-size: 0.78rem;
+      font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer;
+      transition: all var(--transition); border: none;
     }
-    .cookie-accept { background: var(--green); color: white }
+    .cookie-decline { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.65) }
+    .cookie-decline:hover { background: rgba(255,255,255,0.18) }
+    .cookie-accept { background: var(--green); color: white; box-shadow: 0 2px 8px rgba(13,158,95,0.3) }
     .cookie-accept:hover { background: var(--green-dark) }
-    .cookie-decline { background: var(--grey-100); color: var(--grey-600) }
-    .cookie-decline:hover { background: var(--grey-200) }
+    @media(max-width: 580px) {
+      .cookie-banner { left: 12px; right: 12px; max-width: none }
+    }
+
+
   </style>
 </head>
 <body>
@@ -996,98 +1137,267 @@
   <div class="reveal">
     <p class="section-label" data-lang="en">Get In Touch</p>
     <p class="section-label" data-lang="de">Kontakt</p>
-    <h2 data-lang="en">Let's Talk</h2>
-    <h2 data-lang="de">Sprechen wir miteinander</h2>
+    <h2 data-lang="en">Start Your Enquiry</h2>
+    <h2 data-lang="de">Jetzt anfragen</h2>
+    <p class="contact-intro" data-lang="en">Tell us what you need and we'll send you a personalised response — in Tamil, English or German.</p>
+    <p class="contact-intro" data-lang="de">Sagen Sie uns, was Sie brauchen, und wir melden uns mit einer persönlichen Antwort — auf Tamil, Englisch oder Deutsch.</p>
+
     <div class="contact-grid">
+
+      <!-- Contact info left column -->
       <div class="contact-info">
-        <p data-lang="en">Reach out in Tamil, English or German. We offer free initial consultations.</p>
-        <p data-lang="de">Schreiben Sie uns auf Tamil, Englisch oder Deutsch. Wir bieten kostenlose Erstberatungen an.</p>
-        <div class="contact-items">
-          <div class="contact-item">
-            <div class="contact-item-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/></svg>
-            </div>
-            <div class="contact-item-text">
-              <strong>Email</strong>
-              <span><a href="mailto:info@docuassistgermany.de">info@docuassistgermany.de</a></span>
-            </div>
+
+        <a href="mailto:info@docuassistgermany.de" class="contact-info-item">
+          <div class="contact-info-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/></svg>
           </div>
-          <div class="contact-item">
-            <div class="contact-item-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/></svg>
-            </div>
-            <div class="contact-item-text">
-              <strong data-lang="en">Phone / WhatsApp</strong><strong data-lang="de">Telefon / WhatsApp</strong>
-              <span><a href="tel:+4915563671657">+49 155 6367 1657</a></span>
-            </div>
+          <div class="contact-info-body">
+            <span class="contact-info-label" data-lang="en">Email</span>
+            <span class="contact-info-label" data-lang="de">E-Mail</span>
+            <span class="contact-info-value">info@docuassistgermany.de</span>
           </div>
-          <div class="contact-item">
-            <div class="contact-item-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/></svg>
-            </div>
-            <div class="contact-item-text">
-              <strong data-lang="en">Location</strong><strong data-lang="de">Standort</strong>
-              <span>Berlin, Germany</span>
-            </div>
+        </a>
+
+        <a href="tel:+4915563671657" class="contact-info-item">
+          <div class="contact-info-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/></svg>
           </div>
-          <div class="contact-item">
-            <div class="contact-item-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg>
-            </div>
-            <div class="contact-item-text">
-              <strong data-lang="en">We speak</strong><strong data-lang="de">Wir sprechen</strong>
-              <span>Tamil · English · German</span>
-            </div>
+          <div class="contact-info-body">
+            <span class="contact-info-label" data-lang="en">Phone / WhatsApp</span>
+            <span class="contact-info-label" data-lang="de">Telefon / WhatsApp</span>
+            <span class="contact-info-value">+49 155 6367 1657</span>
           </div>
+        </a>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/></svg>
+          </div>
+          <div class="contact-info-body">
+            <span class="contact-info-label" data-lang="en">Location</span>
+            <span class="contact-info-label" data-lang="de">Standort</span>
+            <span class="contact-info-value">Berlin, Germany</span>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"/></svg>
+          </div>
+          <div class="contact-info-body">
+            <span class="contact-info-label" data-lang="en">Languages</span>
+            <span class="contact-info-label" data-lang="de">Sprachen</span>
+            <span class="contact-info-value">Tamil · English · German</span>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+          </div>
+          <div class="contact-info-body">
+            <span class="contact-info-label" data-lang="en">Office Hours</span>
+            <span class="contact-info-label" data-lang="de">Öffnungszeiten</span>
+            <span class="contact-info-value" data-lang="en">Mon – Fri &nbsp;09:00 – 18:00</span>
+            <span class="contact-info-value" data-lang="de">Mo – Fr &nbsp;09:00 – 18:00 Uhr</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Intake form right column -->
+      <div>
+      <div class="intake-wrap" id="intake-wrap">
+
+        <div class="intake-cfg-warn" id="ii-cfg-warn">
+          Setup required: EmailJS credentials not yet configured — see the setup guide.
+        </div>
+
+        <!-- Service selection -->
+        <div class="intake-field">
+          <label data-lang="en">What do you need help with?</label>
+          <label data-lang="de">Was können wir für Sie tun?</label>
+          <div class="intake-svc-grid">
+
+            <div class="intake-svc-card" id="ii-svc-docs" onclick="iiSelectService('docs')">
+              <div class="intake-svc-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/></svg>
+              </div>
+              <div class="intake-svc-text">
+                <div class="intake-svc-title" data-lang="en">Document Checklist</div>
+                <div class="intake-svc-title" data-lang="de">Dokumenten-Checkliste</div>
+                <div class="intake-svc-sub" data-lang="en">Personalised visa document list</div>
+                <div class="intake-svc-sub" data-lang="de">Persönliche Dokumentenliste für Ihr Visum</div>
+              </div>
+            </div>
+
+            <div class="intake-svc-card" id="ii-svc-consultation" onclick="iiSelectService('consultation')">
+              <div class="intake-svc-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg>
+              </div>
+              <div class="intake-svc-text">
+                <div class="intake-svc-title" data-lang="en">Consultation</div>
+                <div class="intake-svc-title" data-lang="de">Beratung</div>
+                <div class="intake-svc-sub" data-lang="en">Free immigration advice session</div>
+                <div class="intake-svc-sub" data-lang="de">Kostenlose Einwanderungsberatung</div>
+              </div>
+            </div>
+
+            <div class="intake-svc-card" id="ii-svc-translation" onclick="iiSelectService('translation')">
+              <div class="intake-svc-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"/></svg>
+              </div>
+              <div class="intake-svc-text">
+                <div class="intake-svc-title" data-lang="en">Translation</div>
+                <div class="intake-svc-title" data-lang="de">Übersetzung</div>
+                <div class="intake-svc-sub" data-lang="en">Certified translation &amp; notarisation</div>
+                <div class="intake-svc-sub" data-lang="de">Beglaubigte Übersetzung &amp; Beglaubigung</div>
+              </div>
+            </div>
+
+            <div class="intake-svc-card" id="ii-svc-admin" onclick="iiSelectService('admin')">
+              <div class="intake-svc-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 3.741-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"/></svg>
+              </div>
+              <div class="intake-svc-text">
+                <div class="intake-svc-title" data-lang="en">Admin &amp; Recognition</div>
+                <div class="intake-svc-title" data-lang="de">Verwaltung &amp; Anerkennung</div>
+                <div class="intake-svc-sub" data-lang="en">Admin support &amp; degree recognition</div>
+                <div class="intake-svc-sub" data-lang="de">Verwaltungsunterstützung &amp; Qualifikation</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Case type + preview (docs only) -->
+        <div class="intake-case-sec" id="ii-case-sec">
+          <div class="intake-field">
+            <label data-lang="en">Case Type</label>
+            <label data-lang="de">Antragstyp</label>
+            <select id="ii-ct-select" onchange="iiOnCaseType(this.value)">
+              <option value="">— Select / Auswählen —</option>
+            </select>
+          </div>
+          <div class="intake-dp" id="ii-doc-preview">
+            <div class="intake-dp-hdr" id="ii-dp-hdr" onclick="iiTogglePreview()">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/></svg>
+              <span id="ii-dp-title">
+                <span data-lang="en">Required Documents</span>
+                <span data-lang="de">Erforderliche Dokumente</span>
+              </span>
+              <svg class="intake-dp-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+            </div>
+            <div class="intake-dp-body" id="ii-dp-body" style="display:none"></div>
+          </div>
+        </div>
+
+        <hr class="intake-divider"/>
+
+        <!-- Personal details -->
+        <div class="intake-row">
+          <div class="intake-field">
+            <label data-lang="en">Full Name</label>
+            <label data-lang="de">Vollständiger Name</label>
+            <input type="text" id="ii-name" placeholder="e.g. Priya Sharma" autocomplete="name"/>
+          </div>
+          <div class="intake-field">
+            <label data-lang="en">Email Address</label>
+            <label data-lang="de">E-Mail-Adresse</label>
+            <input type="email" id="ii-email" placeholder="you@example.com" autocomplete="email"/>
+          </div>
+        </div>
+
+        <div class="intake-row">
+          <div class="intake-field">
+            <label data-lang="en">Phone / WhatsApp</label>
+            <label data-lang="de">Telefon / WhatsApp</label>
+            <input type="tel" id="ii-phone" placeholder="+49 ..." autocomplete="tel"/>
+          </div>
+          <div class="intake-field" id="ii-nat-field" style="display:none">
+            <label data-lang="en">Nationality</label>
+            <label data-lang="de">Nationalität</label>
+            <select id="ii-nat"><option value="">Select / Auswählen</option></select>
+          </div>
+        </div>
+
+        <div class="intake-field">
+          <label data-lang="en">Message <span style="font-weight:400;color:var(--grey-500)">(optional)</span></label>
+          <label data-lang="de">Nachricht <span style="font-weight:400;color:var(--grey-500)">(optional)</span></label>
+          <textarea id="ii-notes" placeholder="Any details about your situation..."></textarea>
+        </div>
+
+        <div class="intake-err" id="ii-err"></div>
+
+        <button class="intake-submit" id="ii-submit" onclick="iiHandleSubmit()">
+          <span data-lang="en">Send My Request</span>
+          <span data-lang="de">Anfrage senden</span>
+        </button>
+
+        <p class="intake-privacy">
+          <span data-lang="en">By submitting you agree that DocuAssist Germany may contact you. Your data is stored securely and never shared.</span>
+          <span data-lang="de">Mit dem Absenden stimmen Sie zu, dass DocuAssist Germany Sie kontaktieren darf. Ihre Daten werden sicher gespeichert.</span>
+        </p>
+
+      </div>
+
+      <!-- Trust signals -->
+      <div class="intake-trust">
+        <div class="intake-trust-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+          <span data-lang="en">Free checklist</span><span data-lang="de">Kostenlose Checkliste</span>
+        </div>
+        <div class="intake-trust-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+          <span data-lang="en">Response within 24h</span><span data-lang="de">Antwort innerhalb 24h</span>
+        </div>
+        <div class="intake-trust-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
+          <span data-lang="en">Secure &amp; private</span><span data-lang="de">Sicher &amp; vertraulich</span>
+        </div>
+        <div class="intake-trust-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/></svg>
+          <span data-lang="en">Berlin-based team</span><span data-lang="de">Team in Berlin</span>
         </div>
       </div>
-      <form class="contact-form" id="contact-form" onsubmit="handleSubmit(event)">
-        <input type="hidden" name="access_key" value="4f2213f5-87ff-457f-84b8-b8c0de25fd29"/>
-        <input type="hidden" name="subject" value="New enquiry from DocuAssist Germany website"/>
-        <input type="hidden" name="from_name" value="DocuAssist Germany Website"/>
-        <input type="checkbox" name="botcheck" style="display:none"/>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="fname" data-lang="en">First Name</label><label for="fname" data-lang="de">Vorname</label>
-            <input type="text" id="fname" name="first_name" required/>
-          </div>
-          <div class="form-group">
-            <label for="lname" data-lang="en">Last Name</label><label for="lname" data-lang="de">Nachname</label>
-            <input type="text" id="lname" name="last_name" required/>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required/>
-        </div>
-        <div class="form-group">
-          <label for="pref-lang" data-lang="en">Preferred Language</label><label for="pref-lang" data-lang="de">Bevorzugte Sprache</label>
-          <select id="pref-lang" name="preferred_language">
-            <option>English</option><option>German</option><option>Tamil</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="service-select" data-lang="en">Service Needed</label><label for="service-select" data-lang="de">Gewünschte Leistung</label>
-          <select id="service-select" name="service_needed"></select>
-        </div>
-        <div class="form-group">
-          <label for="msg" data-lang="en">Message</label><label for="msg" data-lang="de">Nachricht</label>
-          <textarea id="msg" data-lang="en" name="message" placeholder="Tell us about your situation — we've probably helped someone in the same spot before..."></textarea>
-          <textarea data-lang="de" name="message" placeholder="Erzählen Sie uns von Ihrer Situation — wir haben wahrscheinlich schon jemandem in der gleichen Lage geholfen..."></textarea>
-        </div>
-        <button type="submit" class="form-submit">
-          <span data-lang="en">Send Message</span><span data-lang="de">Nachricht senden</span>
-        </button>
-      </form>
+
+      </div>
     </div>
   </div>
 </section>
+
+
+<!-- INTAKE SUCCESS OVERLAY -->
+<div class="intake-success-ov" id="ii-success-ov">
+  <div class="intake-success-card">
+    <div class="intake-s-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+    </div>
+    <h3 data-lang="en">Request Received</h3>
+    <h3 data-lang="de">Anfrage erhalten</h3>
+    <p class="intake-s-sub" data-lang="en">We have sent your personalised document checklist to:</p>
+    <p class="intake-s-sub" data-lang="de">Wir haben Ihre persönliche Dokumenten-Checkliste gesendet an:</p>
+    <div class="intake-s-email" id="ii-s-email"></div>
+    <p class="intake-s-sub" data-lang="en">Please gather the required documents and reply to our email to get started.</p>
+    <p class="intake-s-sub" data-lang="de">Bitte bereiten Sie die Dokumente vor und antworten Sie auf unsere E-Mail.</p>
+    <div class="intake-s-actions">
+      <button class="intake-btn-wa" onclick="iiOpenWA()">
+        <span data-lang="en">WhatsApp Us</span>
+        <span data-lang="de">WhatsApp schreiben</span>
+      </button>
+      <button class="intake-btn-close" onclick="document.getElementById('ii-success-ov').classList.remove('visible')">
+        <span data-lang="en">Close</span>
+        <span data-lang="de">Schließen</span>
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
-      <a href="#home" class="logo">Docu<span>Assist</span> Germany</a>
+      <a href="#home" class="logo" style="color:#fff;text-decoration:none">Docu<span style="color:var(--green)">Assist</span><span style="color:#fff"> Germany</span></a>
       <p data-lang="en">End-to-end immigration document assistance for expats in Germany. Multilingual support available.</p>
       <p data-lang="de">Umfassende Einwanderungsdokumentenhilfe für Expats in Deutschland.</p>
     </div>
@@ -1110,7 +1420,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <a href="#home" class="logo">Docu<span style="color:var(--green)">Assist</span> Germany</a>
+    <a href="#home" class="logo" style="color:#fff;text-decoration:none">Docu<span style="color:var(--green)">Assist</span><span style="color:#fff"> Germany</span></a>
     <p>&copy; 2026 DocuAssist Germany · Berlin, Deutschland</p>
     <p><a href="privacy.html" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.78rem"><span data-lang="en">Privacy Policy</span><span data-lang="de">Datenschutzerklärung</span></a></p>
   </div>
@@ -1124,33 +1434,26 @@
     <p data-lang="en">Many expats feel overwhelmed by German paperwork. Pick what you need and we'll take it from there.</p>
     <p data-lang="de">Viele Expats fühlen sich von deutscher Bürokratie überfordert. Wählen Sie, was Sie brauchen.</p>
     <div class="welcome-options">
-      <a href="#svc-immigration" class="welcome-opt" onclick="closeWelcome()">
+      <a href="#contact" class="welcome-opt" onclick="closeWelcome()">
         <div class="welcome-opt-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z"/></svg>
         </div>
         <span data-lang="en">I need help with immigration documents</span>
         <span data-lang="de">Ich brauche Hilfe bei Einwanderungsdokumenten</span>
       </a>
-      <a href="#svc-translation" class="welcome-opt" onclick="closeWelcome()">
+      <a href="#contact" class="welcome-opt" onclick="closeWelcome()">
         <div class="welcome-opt-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
         </div>
         <span data-lang="en">I need a certified translation</span>
         <span data-lang="de">Ich brauche eine beglaubigte Übersetzung</span>
       </a>
       <a href="#" class="welcome-opt" onclick="closeWelcome();openCalendly(event)">
         <div class="welcome-opt-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg>
         </div>
-        <span data-lang="en">I'd like a free consultation</span>
-        <span data-lang="de">Ich möchte eine kostenlose Beratung</span>
-      </a>
-      <a href="#about" class="welcome-opt" onclick="closeWelcome()">
-        <div class="welcome-opt-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>
-        </div>
-        <span data-lang="en">Just browsing — tell me more</span>
-        <span data-lang="de">Ich schaue mich nur um — erzählen Sie mehr</span>
+        <span data-lang="en">Free 15-min consultation</span>
+        <span data-lang="de">Kostenlose 15-Min-Beratung</span>
       </a>
     </div>
     <button class="welcome-close" onclick="closeWelcome()">
@@ -1185,6 +1488,7 @@
 
   function updateServiceSelect(lang) {
     const sel = document.getElementById('service-select');
+    if (!sel) return; // service-select removed; intake form handles this now
     const opts = serviceOptions[lang] || serviceOptions.en;
     sel.innerHTML = '';
     opts.forEach(t => { const o = document.createElement('option'); o.textContent = t; sel.appendChild(o) });
@@ -1197,10 +1501,13 @@
     document.documentElement.lang = lang;
     localStorage.setItem('lang', lang);
     updateServiceSelect(lang);
+    // Inline-style toggle: reliable across all elements regardless of CSS class specificity
+    document.querySelectorAll('[data-lang]').forEach(function(el) {
+      el.style.display = (el.getAttribute('data-lang') === lang) ? '' : 'none';
+    });
   }
 
-  const saved = localStorage.getItem('lang');
-  if (saved === 'de') setLang('de'); else updateServiceSelect('en');
+  setLang(localStorage.getItem('lang') || 'en');
 
   // ── Scroll Reveal ──
   const reveals = document.querySelectorAll('.reveal');
@@ -1326,6 +1633,821 @@
     setTimeout(() => document.getElementById('cookie-banner').classList.add('show'), 1500);
   }
 </script>
+
+<script>
+
+// ══════════════════════════════════════════════════════════════
+//  INTAKE FORM — embedded in index.html
+//  Fill in your credentials in INTAKE_CFG below
+// ══════════════════════════════════════════════════════════════
+const INTAKE_CFG = {
+  EMAILJS_PUBLIC_KEY:      'REPLACE_EMAILJS_PUBLIC_KEY',
+  EMAILJS_SERVICE_ID:      'REPLACE_EMAILJS_SERVICE_ID',
+  EMAILJS_TEMPLATE_CLIENT: 'REPLACE_EMAILJS_TEMPLATE_CLIENT',
+  EMAILJS_TEMPLATE_TEAM:   'REPLACE_EMAILJS_TEMPLATE_TEAM',
+  SHEETS_WEBHOOK:          'REPLACE_GOOGLE_APPS_SCRIPT_URL',
+};
+
+// ── Case data ─────────────────────────────────────────────────
+const CASE_TYPES = {
+  // ── PERMANENT RESIDENCE ──────────────────────────────────────────────────
+  'ne-general': {
+    label: 'Permanent Settlement Permit (General)',
+    labelDe: 'Niederlassungserlaubnis (Allgemein)',
+    short: 'NE General',
+    shortDe: 'NE Allgemein',
+    category: 'Permanent Residence',
+    authority: 'LEA Berlin (Friedrich-Krause-Ufer)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/121864/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp + prior EU residence title if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel + frühere EU-Aufenthaltserlaubnis bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of current residence title', labelDe: 'Kopie des aktuellen Aufenthaltstitels', required: true },
+      { id: 'employer-cert', label: 'Employer certificate confirming ongoing employment (not older than 14 days)', labelDe: 'Arbeitgeberbescheinigung über bestehendes Beschäftigungsverhältnis (nicht älter als 14 Tage)', required: true },
+      { id: 'salary-slips', label: 'Last 6 months salary slips and/or bank statements showing salary credits', labelDe: 'Lohnabrechnungen der letzten 6 Monate und/oder Kontoauszüge mit Gehaltseingängen', required: true },
+      { id: 'pension-record', label: 'Pension insurance record from Deutsche Rentenversicherung (DRV) — 60 months contributions required', labelDe: 'Rentenversicherungsverlauf der Deutschen Rentenversicherung (DRV) — 60 Monate Beitragszeiten erforderlich', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'long-term-care', label: 'Long-term care (Pflegeversicherung) insurance proof', labelDe: 'Pflegeversicherungsnachweis', required: true },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'housing-costs', label: 'Proof of living space size & costs — rental: tenancy agreement + Warmmiete proof; owned: land register (section 3) + charges + loan costs', labelDe: 'Nachweis Wohnfläche und -kosten — Miete: Mietvertrag + Warmmiete-Nachweis; Eigentum: Grundbuchauszug (Abt. 3) + Lasten + Darlehenskosten', required: true },
+      { id: 'language-b1', label: 'German language certificate B1 (or higher)', labelDe: 'Deutschsprachnachweis B1 (oder höher)', required: true },
+      { id: 'civic-knowledge', label: 'Proof of civic knowledge (e.g. "Leben in Deutschland" certificate or Einbürgerungstest)', labelDe: 'Nachweis staatsbürgerlicher Kenntnisse (z. B. Zertifikat „Leben in Deutschland" oder Einbürgerungstest)', required: true },
+      { id: 'audit-report', label: 'Audit report (Prüfungsbericht) by tax advisor/auditor — self-employed only', labelDe: 'Prüfungsbericht durch Steuerberater/Wirtschaftsprüfer — nur für Selbständige', required: false },
+      { id: 'tax-clearance', label: 'Tax clearance certificate (Steuerunbedenklichkeitsbescheinigung) — self-employed only', labelDe: 'Steuerunbedenklichkeitsbescheinigung — nur für Selbständige', required: false },
+      { id: 'medical-cert', label: 'Medical certificate — only if claiming incapacity for work', labelDe: 'Ärztliches Attest — nur bei geltend gemachter Berufsunfähigkeit', required: false }
+    ]
+  },
+
+  'ne-skilled': {
+    label: 'Permanent Settlement Permit (Qualified Skilled Workers)',
+    labelDe: 'Niederlassungserlaubnis (Qualifizierte Fachkräfte)',
+    short: 'NE Skilled Worker',
+    shortDe: 'NE Fachkraft',
+    category: 'Permanent Residence',
+    authority: 'LEA Berlin (Keplerstrasse)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/326558/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of current residence title', labelDe: 'Kopie des aktuellen Aufenthaltstitels', required: true },
+      { id: 'employer-cert', label: 'Employer certificate confirming ongoing employment (not older than 14 days)', labelDe: 'Arbeitgeberbescheinigung über bestehendes Beschäftigungsverhältnis (nicht älter als 14 Tage)', required: true },
+      { id: 'salary-slips', label: 'Last 6 months salary slips and/or bank statements', labelDe: 'Lohnabrechnungen der letzten 6 Monate und/oder Kontoauszüge', required: true },
+      { id: 'pension-record', label: 'Pension insurance record from DRV — 60 months contributions required', labelDe: 'Rentenversicherungsverlauf der DRV — 60 Monate Beitragszeiten erforderlich', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'housing-costs', label: 'Proof of living space size & costs — rental: tenancy + Warmmiete; owned: land register + charges', labelDe: 'Nachweis Wohnfläche und -kosten — Miete: Mietvertrag + Warmmiete; Eigentum: Grundbuchauszug + Lasten', required: true },
+      { id: 'language-b1', label: 'German language certificate B1 (or higher)', labelDe: 'Deutschsprachnachweis B1 (oder höher)', required: true },
+      { id: 'civic-knowledge', label: 'Proof of civic knowledge (e.g. "Leben in Deutschland" or Einbürgerungstest certificate)', labelDe: 'Nachweis staatsbürgerlicher Kenntnisse (z. B. „Leben in Deutschland" oder Einbürgerungstest)', required: true }
+    ]
+  },
+
+  'ne-blue-card': {
+    label: 'Permanent Settlement Permit (Blue Card Holders)',
+    labelDe: 'Niederlassungserlaubnis (Blaue-Karte-EU-Inhaber)',
+    short: 'NE Blue Card',
+    shortDe: 'NE Blaue Karte',
+    category: 'Permanent Residence',
+    authority: 'LEA Berlin (Keplerstrasse)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/326556/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of current EU Blue Card', labelDe: 'Kopie der aktuellen Blauen Karte EU', required: true },
+      { id: 'employer-cert', label: 'Employer certificate confirming ongoing employment (not older than 14 days)', labelDe: 'Arbeitgeberbescheinigung über bestehendes Beschäftigungsverhältnis (nicht älter als 14 Tage)', required: true },
+      { id: 'salary-slips', label: 'Last 6 months salary slips and/or bank statements', labelDe: 'Lohnabrechnungen der letzten 6 Monate und/oder Kontoauszüge', required: true },
+      { id: 'pension-record', label: 'Pension insurance record from DRV (note: 21 months = B1 required; 27 months = A1 sufficient)', labelDe: 'Rentenversicherungsverlauf der DRV (Hinweis: 21 Monate = B1 erforderlich; 27 Monate = A1 ausreichend)', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'housing-costs', label: 'Proof of living space size & costs — rental: tenancy + Warmmiete; owned: land register + charges', labelDe: 'Nachweis Wohnfläche und -kosten — Miete: Mietvertrag + Warmmiete; Eigentum: Grundbuchauszug + Lasten', required: true },
+      { id: 'language-cert', label: 'German language certificate — A1 minimum (B1 if 21+ months employment, A1 if 27+ months)', labelDe: 'Deutschsprachnachweis — mind. A1 (B1 bei 21+ Monaten Beschäftigung, A1 bei 27+ Monaten)', required: true },
+      { id: 'civic-knowledge', label: 'Proof of civic knowledge (e.g. "Leben in Deutschland" or Einbürgerungstest certificate)', labelDe: 'Nachweis staatsbürgerlicher Kenntnisse (z. B. „Leben in Deutschland" oder Einbürgerungstest)', required: true }
+    ]
+  },
+
+  'eu-long-term': {
+    label: 'EU Long-term Residence Permit',
+    labelDe: 'Erlaubnis zum Daueraufenthalt-EU',
+    short: 'EU Long-term',
+    shortDe: 'EU-Daueraufenthalt',
+    category: 'Permanent Residence',
+    authority: 'LEA Berlin (Friedrich-Krause-Ufer)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/324281/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of current residence title', labelDe: 'Kopie des aktuellen Aufenthaltstitels', required: true },
+      { id: 'employer-cert', label: 'Employer certificate confirming ongoing employment (not older than 14 days)', labelDe: 'Arbeitgeberbescheinigung über bestehendes Beschäftigungsverhältnis (nicht älter als 14 Tage)', required: true },
+      { id: 'salary-slips', label: 'Last 6 months salary slips and/or bank statements', labelDe: 'Lohnabrechnungen der letzten 6 Monate und/oder Kontoauszüge', required: true },
+      { id: 'pension-record', label: 'Pension insurance record from DRV — 60 months contributions required', labelDe: 'Rentenversicherungsverlauf der DRV — 60 Monate Beitragszeiten erforderlich', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'long-term-care', label: 'Long-term care (Pflegeversicherung) insurance proof', labelDe: 'Pflegeversicherungsnachweis', required: true },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'housing-costs', label: 'Proof of living space size & costs — rental: tenancy + Warmmiete; owned: land register + charges', labelDe: 'Nachweis Wohnfläche und -kosten — Miete: Mietvertrag + Warmmiete; Eigentum: Grundbuchauszug + Lasten', required: true },
+      { id: 'language-b1', label: 'German language certificate B1 (or higher)', labelDe: 'Deutschsprachnachweis B1 (oder höher)', required: true },
+      { id: 'civic-knowledge', label: 'Proof of civic knowledge (e.g. "Leben in Deutschland" or Einbürgerungstest certificate)', labelDe: 'Nachweis staatsbürgerlicher Kenntnisse (z. B. „Leben in Deutschland" oder Einbürgerungstest)', required: true },
+      { id: 'audit-report', label: 'Audit report (Prüfungsbericht) — self-employed only', labelDe: 'Prüfungsbericht durch Steuerberater/Wirtschaftsprüfer — nur für Selbständige', required: false },
+      { id: 'tax-clearance', label: 'Tax clearance certificate — self-employed only', labelDe: 'Steuerunbedenklichkeitsbescheinigung — nur für Selbständige', required: false }
+    ]
+  },
+
+  // ── SKILLED WORKER ───────────────────────────────────────────────────────
+  'blue-card': {
+    label: 'EU Blue Card',
+    labelDe: 'Blaue Karte EU',
+    short: 'Blue Card',
+    shortDe: 'Blaue Karte',
+    category: 'Skilled Worker',
+    authority: 'LEA Berlin — Business Immigration Service (BIS)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/324659/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp + prior EU residence title if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel + frühere EU-Aufenthaltserlaubnis bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of existing residence title (if applicable)', labelDe: 'Kopie des bestehenden Aufenthaltstitels (falls vorhanden)', required: false },
+      { id: 'employment-contract', label: 'Employment contract or binding job offer (min. 6-month duration)', labelDe: 'Arbeitsvertrag oder verbindliche Stellenzusage (mind. 6 Monate Laufzeit)', required: true },
+      { id: 'qualification', label: 'University / college degree certificate', labelDe: 'Hochschulabschlusszeugnis / Universitätsdiplom', required: true },
+      { id: 'zab-eval', label: 'ZAB degree evaluation — if foreign degree not listed in Anabin database', labelDe: 'ZAB-Gutachten zur Anerkennung des ausländischen Abschlusses — wenn nicht in der Anabin-Datenbank gelistet', required: false },
+      { id: 'employer-form', label: 'Form "Erklärung zum Beschäftigungsverhältnis" — completed and signed by employer', labelDe: 'Formular „Erklärung zum Beschäftigungsverhältnis" — ausgefüllt und vom Arbeitgeber unterzeichnet', required: true },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'housing-costs', label: 'Proof of living space size & costs — rental: tenancy + Warmmiete; owned: land register + charges', labelDe: 'Nachweis Wohnfläche und -kosten — Miete: Mietvertrag + Warmmiete; Eigentum: Grundbuchauszug + Lasten', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'occupation-permit', label: 'Occupation practice permit (e.g. for doctors, engineers) — if applicable', labelDe: 'Berufsausübungserlaubnis (z. B. für Ärzte, Ingenieure) — falls erforderlich', required: false },
+      { id: 'extension-employer-cert', label: 'Extension only: employer confirmation of ongoing employment (max 14 days old)', labelDe: 'Nur Verlängerung: Arbeitgeberbescheinigung über bestehendes Beschäftigungsverhältnis (max. 14 Tage alt)', required: false },
+      { id: 'extension-salary', label: 'Extension only: salary slips for first two and last two months', labelDe: 'Nur Verlängerung: Lohnabrechnungen für die ersten und letzten zwei Monate', required: false }
+    ]
+  },
+
+  'ae-academic': {
+    label: 'Residence Permit — Academic Skilled Worker',
+    labelDe: 'Aufenthaltserlaubnis — Akademische Fachkraft',
+    short: 'AE Academic',
+    shortDe: 'AE Akadem. Fachkraft',
+    category: 'Skilled Worker',
+    authority: 'LEA Berlin — Business Immigration Service (BIS)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/329328/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp + prior EU residence title if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel + frühere EU-Aufenthaltserlaubnis bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of existing residence title (if applicable)', labelDe: 'Kopie des bestehenden Aufenthaltstitels (falls vorhanden)', required: false },
+      { id: 'employment-contract', label: 'Employment contract or binding job offer', labelDe: 'Arbeitsvertrag oder verbindliche Stellenzusage', required: true },
+      { id: 'qualification', label: 'Proof of academic qualification — German degree, Anabin-recognised foreign degree, or ZAB individual evaluation', labelDe: 'Nachweis der akademischen Qualifikation — deutsches Hochschulzeugnis, Anabin-anerkannter ausländischer Abschluss oder ZAB-Einzelbewertung', required: true },
+      { id: 'employer-form', label: 'Form "Erklärung zum Beschäftigungsverhältnis" — completed and signed by employer', labelDe: 'Formular „Erklärung zum Beschäftigungsverhältnis" — ausgefüllt und vom Arbeitgeber unterzeichnet', required: true },
+      { id: 'occupation-permit', label: 'Occupation practice permit — if required for the profession', labelDe: 'Berufsausübungserlaubnis — falls für den Beruf erforderlich', required: false },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'housing-costs', label: 'Proof of living space size & costs — rental: tenancy + Warmmiete; owned: land register + charges', labelDe: 'Nachweis Wohnfläche und -kosten — Miete: Mietvertrag + Warmmiete; Eigentum: Grundbuchauszug + Lasten', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'extension-employer-cert', label: 'Extension only: employer confirmation (max 14 days old)', labelDe: 'Nur Verlängerung: Arbeitgeberbescheinigung (max. 14 Tage alt)', required: false },
+      { id: 'extension-salary', label: 'Extension only: salary slips for first two and last two months', labelDe: 'Nur Verlängerung: Lohnabrechnungen für die ersten und letzten zwei Monate', required: false }
+    ]
+  },
+
+  'ae-vocational': {
+    label: 'Residence Permit — Vocational Skilled Worker',
+    labelDe: 'Aufenthaltserlaubnis — Beruflich Qualifizierte Fachkraft',
+    short: 'AE Vocational',
+    shortDe: 'AE Berufl. Fachkraft',
+    category: 'Skilled Worker',
+    authority: 'LEA Berlin — Business Immigration Service (BIS)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/305304/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp + prior EU residence title if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel + frühere EU-Aufenthaltserlaubnis bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of existing residence title (if applicable)', labelDe: 'Kopie des bestehenden Aufenthaltstitels (falls vorhanden)', required: false },
+      { id: 'employment-contract', label: 'Employment contract or binding job offer', labelDe: 'Arbeitsvertrag oder verbindliche Stellenzusage', required: true },
+      { id: 'qualification', label: 'Proof of vocational qualification — German training certificate (min. 2 years) OR foreign equivalent with official recognition decision', labelDe: 'Nachweis der Berufsqualifikation — deutsches Ausbildungszeugnis (mind. 2 Jahre) ODER ausländisches Äquivalent mit offiziellem Anerkennungsbescheid', required: true },
+      { id: 'employer-form', label: 'Form "Erklärung zum Beschäftigungsverhältnis" — completed and signed by employer', labelDe: 'Formular „Erklärung zum Beschäftigungsverhältnis" — ausgefüllt und vom Arbeitgeber unterzeichnet', required: true },
+      { id: 'occupation-permit', label: 'Occupation practice permit — if required for the profession', labelDe: 'Berufsausübungserlaubnis — falls für den Beruf erforderlich', required: false },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'housing-costs', label: 'Proof of living space size & costs — rental: tenancy + Warmmiete; owned: land register + charges', labelDe: 'Nachweis Wohnfläche und -kosten — Miete: Mietvertrag + Warmmiete; Eigentum: Grundbuchauszug + Lasten', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'extension-employer-cert', label: 'Extension only: employer confirmation (max 14 days old)', labelDe: 'Nur Verlängerung: Arbeitgeberbescheinigung (max. 14 Tage alt)', required: false },
+      { id: 'extension-salary', label: 'Extension only: salary slips for first two and last two months', labelDe: 'Nur Verlängerung: Lohnabrechnungen für die ersten und letzten zwei Monate', required: false }
+    ]
+  },
+
+  // ── STUDY & EDUCATION ────────────────────────────────────────────────────
+  'ae-study': {
+    label: 'Residence Permit — Full-time Studies',
+    labelDe: 'Aufenthaltserlaubnis — Studium (Vollzeit)',
+    short: 'AE Study',
+    shortDe: 'AE Studium',
+    category: 'Study & Education',
+    authority: 'LEA Berlin (Keplerstrasse)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/305244/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of existing residence title (if applicable)', labelDe: 'Kopie des bestehenden Aufenthaltstitels (falls vorhanden)', required: false },
+      { id: 'enrolment', label: 'Certificate of enrolment or conditional admission letter from university', labelDe: 'Immatrikulationsbescheinigung oder vorläufiger Zulassungsbescheid der Hochschule', required: true },
+      { id: 'livelihood-initial', label: 'Initial: proof of livelihood — blocked account (Sperrkonto, min. €992/month / €11,904/year 2026), scholarship, parents notarised income declaration, part-time employment contract, or declaration of commitment', labelDe: 'Erstantrag: Nachweis der Lebensunterhaltssicherung — Sperrkonto (mind. €992/Monat / €11.904/Jahr 2026), Stipendium, notarielle Einkommenserklärung der Eltern, Teilzeitarbeitsvertrag oder Verpflichtungserklärung', required: true },
+      { id: 'livelihood-extension', label: 'Extension: bank statements last 6 months and/or proof of other income', labelDe: 'Verlängerung: Kontoauszüge der letzten 6 Monate und/oder Nachweis sonstiger Einkünfte', required: false },
+      { id: 'study-progress', label: 'Extension only: performance overview or study forecast from university', labelDe: 'Nur Verlängerung: Leistungsübersicht oder Studienprognose der Hochschule', required: false },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'housing-proof', label: 'Proof of residence in Berlin: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis in Berlin: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'hzb', label: 'University entrance qualification (HZB/Abitur) — only if attending preparatory language course', labelDe: 'Hochschulzugangsberechtigung (HZB/Abitur) — nur bei Besuch eines vorbereitenden Sprachkurses', required: false },
+      { id: 'language-contract', label: 'Contract with language school — only if attending preparatory language course', labelDe: 'Vertrag mit Sprachschule — nur bei Besuch eines vorbereitenden Sprachkurses', required: false }
+    ]
+  },
+
+  'ae-training-vocational': {
+    label: 'Residence Permit — School-based Vocational Training',
+    labelDe: 'Aufenthaltserlaubnis — Schulische Berufsausbildung',
+    short: 'AE School Training',
+    shortDe: 'AE Schulausbildung',
+    category: 'Study & Education',
+    authority: 'LEA Berlin (Keplerstrasse)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/328338/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of existing residence title (if applicable)', labelDe: 'Kopie des bestehenden Aufenthaltstitels (falls vorhanden)', required: false },
+      { id: 'training-contract', label: 'School contract or current admission decision — must state vocational qualification pursued and duration of training', labelDe: 'Schulvertrag oder aktueller Zulassungsbescheid — muss den angestrebten Berufsabschluss und die Ausbildungsdauer angeben', required: true },
+      { id: 'livelihood-initial', label: 'Initial: proof of livelihood — blocked account (min. €959/month / €11,508/year 2026), scholarship, parents notarised declaration, part-time contract, or declaration of commitment', labelDe: 'Erstantrag: Nachweis der Lebensunterhaltssicherung — Sperrkonto (mind. €959/Monat / €11.508/Jahr 2026), Stipendium, notarielle Erklärung der Eltern, Teilzeitarbeitsvertrag oder Verpflichtungserklärung', required: true },
+      { id: 'livelihood-extension', label: 'Extension: bank statements last 6 months and/or other income proof', labelDe: 'Verlängerung: Kontoauszüge der letzten 6 Monate und/oder sonstiger Einkommensnachweis', required: false },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'housing-proof', label: 'Proof of residence in Berlin: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis in Berlin: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true }
+    ]
+  },
+
+  'ae-training-company': {
+    label: 'Residence Permit — In-company Training / Further Education',
+    labelDe: 'Aufenthaltserlaubnis — Betriebliche Aus- und Weiterbildung',
+    short: 'AE Company Training',
+    shortDe: 'AE Betriebl. Ausbildung',
+    category: 'Study & Education',
+    authority: 'LEA Berlin (Keplerstrasse)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/329337/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of existing residence title (if applicable)', labelDe: 'Kopie des bestehenden Aufenthaltstitels (falls vorhanden)', required: false },
+      { id: 'training-proof', label: 'Proof of in-company training or further education: employment contract, training contract, or scholarship letter', labelDe: 'Nachweis der betrieblichen Aus- oder Weiterbildung: Arbeitsvertrag, Ausbildungsvertrag oder Stipendienzusage', required: true },
+      { id: 'employer-form', label: 'Form "Erklärung zum Beschäftigungsverhältnis" — completed and signed by employer', labelDe: 'Formular „Erklärung zum Beschäftigungsverhältnis" — ausgefüllt und vom Arbeitgeber unterzeichnet', required: true },
+      { id: 'prior-qualification', label: 'Proof of prior qualification (for further education pathway): prior training / university certificates', labelDe: 'Nachweis der Vorqualifikation (für Weiterbildungsweg): frühere Ausbildungs-/Hochschulzeugnisse', required: false },
+      { id: 'livelihood-initial', label: 'If income below BAföG rate: blocked account (min. €959/month training / €992/month further edu.), scholarship, parents declaration, or declaration of commitment', labelDe: 'Wenn Einkommen unter BAföG-Satz: Sperrkonto (mind. €959/Monat Ausbildung / €992/Monat Weiterbildung), Stipendium, elterliche Erklärung oder Verpflichtungserklärung', required: false },
+      { id: 'livelihood-extension', label: 'Extension: bank statements last 6 months and/or other income proof', labelDe: 'Verlängerung: Kontoauszüge der letzten 6 Monate und/oder sonstiger Einkommensnachweis', required: false },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'housing-proof', label: 'Proof of residence in Berlin: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis in Berlin: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true }
+    ]
+  },
+
+  // ── SELF-EMPLOYMENT & FREELANCE ──────────────────────────────────────────
+  'ae-freelance': {
+    label: 'Residence Permit — Freelance Employment',
+    labelDe: 'Aufenthaltserlaubnis — Freiberufliche Tätigkeit',
+    short: 'AE Freelance',
+    shortDe: 'AE Freiberufler',
+    category: 'Self-Employment & Freelance',
+    authority: 'LEA Berlin (Friedrich-Krause-Ufer)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/328332/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of existing residence title (if applicable)', labelDe: 'Kopie des bestehenden Aufenthaltstitels (falls vorhanden)', required: false },
+      { id: 'cv', label: 'CV / curriculum vitae with proof of qualifications and professional history', labelDe: 'Lebenslauf (CV) mit Qualifikationsnachweisen und beruflichem Werdegang', required: true },
+      { id: 'references', label: 'References or funding commitments (Förderzusagen)', labelDe: 'Referenzen oder Förderzusagen', required: true },
+      { id: 'revenue-forecast', label: 'Revenue forecast — official LEA form (Honorarprognose)', labelDe: 'Honorarprognose — offizielles LEA-Formular', required: true },
+      { id: 'fee-contracts', label: 'Fee-based contracts OR at least 2 letters of intent with description of work type and scope — if working on fee/commission basis', labelDe: 'Honorarverträge ODER mind. 2 Absichtserklärungen mit Beschreibung von Art und Umfang der Tätigkeit — bei Honorar- oder Provisionstätigkeit', required: false },
+      { id: 'occupation-permit', label: 'Professional practice permit (e.g. Approbation for doctors, Anwaltszulassung for lawyers) — if required', labelDe: 'Berufsausübungserlaubnis (z. B. Approbation für Ärzte, Anwaltszulassung für Anwälte) — falls erforderlich', required: false },
+      { id: 'other-income', label: 'Proof of other regular income (assets, parental support, declaration of commitment) — required for artists and language teachers', labelDe: 'Nachweis sonstiger regelmäßiger Einkünfte (Vermögen, elterliche Unterstützung, Verpflichtungserklärung) — erforderlich für Künstler und Sprachlehrer', required: false },
+      { id: 'health-insurance', label: 'Health insurance — statutory: current confirmation with contribution amount OR Künstlersozialkasse registration; private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherung — gesetzlich: aktuelle Bestätigung mit Beitragshöhe ODER Künstlersozialkasse-Anmeldung; privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'housing-proof', label: 'Lease or proof of home ownership', labelDe: 'Mietvertrag oder Nachweis des Wohneigentums', required: true },
+      { id: 'housing-costs', label: 'Proof of monthly living costs (current bank statement or property cost statement)', labelDe: 'Nachweis der monatlichen Lebenshaltungskosten (aktueller Kontoauszug oder Kostennachweise für Eigentum)', required: true }
+    ]
+  },
+
+  'ae-selfemployed': {
+    label: 'Residence Permit — Self-Employment',
+    labelDe: 'Aufenthaltserlaubnis — Selbständige Tätigkeit',
+    short: 'AE Self-Employed',
+    shortDe: 'AE Selbständig',
+    category: 'Self-Employment & Freelance',
+    authority: 'LEA Berlin (Friedrich-Krause-Ufer / BIS)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/305249/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of existing residence title (if applicable)', labelDe: 'Kopie des bestehenden Aufenthaltstitels (falls vorhanden)', required: false },
+      { id: 'cv', label: 'CV / curriculum vitae with proof of qualifications and professional background', labelDe: 'Lebenslauf (CV) mit Qualifikationsnachweisen und beruflichem Hintergrund', required: true },
+      { id: 'references', label: 'References or funding commitments (Förderzusagen)', labelDe: 'Referenzen oder Förderzusagen', required: true },
+      { id: 'business-plan', label: 'Detailed business concept / business plan (Businessplan)', labelDe: 'Detailliertes Unternehmenskonzept / Businessplan', required: true },
+      { id: 'financing-plan', label: 'Financing plan — official LEA form', labelDe: 'Finanzierungsplan — offizielles LEA-Formular', required: true },
+      { id: 'degree', label: 'University degree (Diploma/Bachelor/Master) — for university graduate pathway', labelDe: 'Hochschulabschluss (Diplom/Bachelor/Master) — für den Weg als Hochschulabsolvent', required: false },
+      { id: 'university-statement', label: 'University statement on acquired knowledge and its link to business idea — for university graduate pathway', labelDe: 'Stellungnahme der Hochschule zu den erworbenen Kenntnissen und deren Bezug zur Geschäftsidee — für den Hochschulabsolventenweg', required: false },
+      { id: 'employer-statement', label: 'Previous employer statement on link between prior research/academic work and business idea — for researcher/academic pathway', labelDe: 'Stellungnahme des früheren Arbeitgebers zum Zusammenhang zwischen bisheriger Forschungs-/akademischer Arbeit und Geschäftsidee — für den Forscher-/Akademikerweg', required: false },
+      { id: 'trade-register', label: 'Trade register extract OR notarial filing; OR Gewerbeanmeldung if no register entry required', labelDe: 'Handelsregisterauszug oder notarielle Einreichung; ODER Gewerbeanmeldung (wenn kein Registereintrag erforderlich)', required: true },
+      { id: 'health-insurance', label: 'Health insurance — statutory: current confirmation with contribution; private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherung — gesetzlich: aktuelle Bestätigung mit Beitragshöhe; privat: §257 Abs. 2a SGB V Bescheinigung', required: true },
+      { id: 'housing-proof', label: 'Lease or proof of home ownership', labelDe: 'Mietvertrag oder Nachweis des Wohneigentums', required: true },
+      { id: 'housing-costs', label: 'Proof of monthly living costs (current bank statement or property cost statement)', labelDe: 'Nachweis der monatlichen Lebenshaltungskosten (aktueller Kontoauszug oder Kostennachweise für Eigentum)', required: true },
+      { id: 'other-income', label: 'Proof of other income (assets, maintenance, Einstiegsgeld) — if applicable', labelDe: 'Nachweis sonstiger Einkünfte (Vermögen, Unterhalt, Einstiegsgeld) — falls zutreffend', required: false }
+    ]
+  },
+
+  // ── FAMILY REUNIFICATION ─────────────────────────────────────────────────
+  'family-german': {
+    label: 'Family Reunification — Spouse/Child of German Citizen',
+    labelDe: 'Familiennachzug — Ehegatte/Kind eines deutschen Staatsbürgers',
+    short: 'Family of German',
+    shortDe: 'Familie Deutsche/r',
+    category: 'Family Reunification',
+    authority: 'LEA Berlin (Friedrich-Krause-Ufer)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/328191/en/',
+    appointmentUrl: 'https://service.berlin.de/dienstleistung/328191/en/',
+    docs: [
+      { id: 'application-form', label: 'Application form "Antrag auf Erteilung eines Aufenthaltstitels" — one per applicant (not needed for extension)', labelDe: 'Antragsformular „Antrag auf Erteilung eines Aufenthaltstitels" — je ein Formular pro Antragsteller (nicht erforderlich bei Verlängerung)', required: true },
+      { id: 'passport', label: 'Valid passport — each family member (German spouse may use Personalausweis)', labelDe: 'Gültiger Reisepass — jedes Familienmitglied (deutschen Ehegatte kann Personalausweis verwenden)', required: true },
+      { id: 'photo', label: '1 current biometric photo — digital only since May 2025 (taken at government office or certified photo studio)', labelDe: '1 aktuelles biometrisches Lichtbild — seit Mai 2025 ausschließlich digital (aufgenommen beim Amt oder in zertifiziertem Fotostudio)', required: true },
+      { id: 'marriage-cert', label: 'Marriage / partnership certificate — for spouses (not needed for extension)', labelDe: 'Heiratsurkunde / Partnerschaftsurkunde — für Ehegatten (nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'birth-cert', label: 'Birth certificate for underage children (not needed for extension)', labelDe: 'Geburtsurkunde für minderjährige Kinder (nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'custody-cert', label: 'Certificate of legal custody — if foreign father not married to mother, or one parent not resident in Germany', labelDe: 'Sorgerechtsbescheinigung — wenn ausländischer Vater nicht mit der Mutter verheiratet ist oder ein Elternteil nicht in Deutschland wohnt', required: false },
+      { id: 'paternity', label: 'Proof of paternity recognition (Vaterschaftsanerkennung) — if parents not married under German law (not needed for extension)', labelDe: 'Nachweis der Vaterschaftsanerkennung — wenn Eltern nicht nach deutschem Recht verheiratet sind (nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'translations', label: 'Certified German translations of all foreign documents + apostille or authenticity confirmation (where required by country of origin)', labelDe: 'Beglaubigte deutsche Übersetzungen aller ausländischen Dokumente + Apostille oder Echtheitsbestätigung (je nach Herkunftsland)', required: true },
+      { id: 'jugendamt', label: 'Youth Welfare Office (Jugendamt) confirmation of contact with child (max 14 days) — only if foreign father applies without child\'s mother present', labelDe: 'Bestätigung des Jugendamts über Kontakt zum Kind (max. 14 Tage) — nur wenn ausländischer Vater ohne die Kindesmutter antragstellt', required: false },
+      { id: 'school-cert', label: 'Current school attendance certificate (max 14 days) — for school-age children', labelDe: 'Aktuelle Schulbesuchsbescheinigung (max. 14 Tage) — für schulpflichtige Kinder', required: false },
+      { id: 'language-a1', label: 'German language certificate A1 — required for foreign spouse/partner', labelDe: 'Deutschsprachnachweis A1 — erforderlich für ausländischen Ehegatten/eingetragenen Lebenspartner', required: true },
+      { id: 'integration-certs', label: 'All integration course participation certificates — extension only (if course was mandated)', labelDe: 'Alle Teilnahmebescheinigungen über Integrationskurse — nur bei Verlängerung (wenn Kurs angeordnet wurde)', required: false },
+      { id: 'housing-proof', label: 'Proof of main residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Nachweis des Hauptwohnsitzes: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true }
+    ]
+  },
+
+  'family-foreign': {
+    label: 'Family Reunification — Spouse/Child of Foreign National (General)',
+    labelDe: 'Familiennachzug — Ehegatte/Kind eines Ausländers (Allgemein)',
+    short: 'Family of Foreign National',
+    shortDe: 'Familie Ausländer/in',
+    category: 'Family Reunification',
+    authority: 'LEA Berlin (Friedrich-Krause-Ufer / BIS)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/305289/en/',
+    appointmentUrl: 'https://service.berlin.de/dienstleistung/305289/en/',
+    docs: [
+      { id: 'application-form', label: 'Application form "Antrag auf Erteilung eines Aufenthaltstitels" — one per applicant (initial application only)', labelDe: 'Antragsformular „Antrag auf Erteilung eines Aufenthaltstitels" — je ein Formular pro Antragsteller (nur Erstantrag)', required: true },
+      { id: 'passport', label: 'Valid passport — each family member', labelDe: 'Gültiger Reisepass — jedes Familienmitglied', required: true },
+      { id: 'photo', label: '1 current biometric photo — 35mm × 45mm, frontal, neutral expression, light background', labelDe: '1 aktuelles biometrisches Lichtbild — 35 mm × 45 mm, frontal, neutraler Ausdruck, heller Hintergrund', required: true },
+      { id: 'marriage-cert', label: 'Marriage certificate (spouse reunion, initial only)', labelDe: 'Heiratsurkunde (Ehegattenachzug, nur Erstantrag)', required: false },
+      { id: 'partnership-cert', label: 'Partnership certificate (same-sex civil partner, initial only)', labelDe: 'Partnerschaftsurkunde (gleichgeschlechtlicher eingetragener Lebenspartner, nur Erstantrag)', required: false },
+      { id: 'birth-cert', label: 'Birth certificate for underage children (initial only)', labelDe: 'Geburtsurkunde für minderjährige Kinder (nur Erstantrag)', required: false },
+      { id: 'custody-cert', label: 'Certificate of legal custody — if one parent does not live in Germany (initial only)', labelDe: 'Sorgerechtsbescheinigung — wenn ein Elternteil nicht in Deutschland wohnt (nur Erstantrag)', required: false },
+      { id: 'translations', label: 'Certified translations of all foreign documents + apostille/authenticity confirmation where required', labelDe: 'Beglaubigte Übersetzungen aller ausländischen Dokumente + Apostille/Echtheitsbestätigung wo erforderlich', required: true },
+      { id: 'school-cert', label: 'Current school attendance certificate (max 14 days) — for school-age children', labelDe: 'Aktuelle Schulbesuchsbescheinigung (max. 14 Tage) — für schulpflichtige Kinder', required: false },
+      { id: 'language-a1', label: 'German language certificate A1 — for foreign spouse/partner', labelDe: 'Deutschsprachnachweis A1 — für ausländischen Ehegatten/Lebenspartner', required: true },
+      { id: 'integration-certs', label: 'Integration course participation certificates — extension only (if course was mandated)', labelDe: 'Teilnahmebescheinigungen über Integrationskurse — nur bei Verlängerung (wenn Kurs angeordnet wurde)', required: false },
+      { id: 'lease', label: 'Lease agreement with proof of current monthly rent (e.g. bank statement)', labelDe: 'Mietvertrag mit Nachweis der aktuellen monatlichen Miete (z. B. Kontoauszug)', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof (statutory = sufficient; private = check scope and extent, see LEA leaflet)', labelDe: 'Krankenversicherungsnachweis (gesetzlich = ausreichend; privat = Umfang prüfen, LEA-Merkblatt beachten)', required: true },
+      { id: 'livelihood-employed', label: 'Employed sponsor: employment contract + current employment certificate (max 14 days) + last 6 salary slips (+ pension contribution proof for extension)', labelDe: 'Beschäftigter Sponsor: Arbeitsvertrag + aktuelle Arbeitgeberbescheinigung (max. 14 Tage) + letzte 6 Lohnabrechnungen (+ Rentenversicherungsnachweis bei Verlängerung)', required: false },
+      { id: 'livelihood-selfemployed', label: 'Self-employed sponsor: audit report (Prüfungsbericht) by tax consultant or auditor', labelDe: 'Selbständiger Sponsor: Prüfungsbericht durch Steuerberater oder Wirtschaftsprüfer', required: false },
+      { id: 'livelihood-benefits', label: 'If on social benefits: current proof of SGB II/XII, child benefit, etc.', labelDe: 'Bei Sozialleistungsbezug: aktueller Nachweis SGB II/XII, Kindergeld usw.', required: false },
+      { id: 'housing-proof', label: 'Proof of main residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Nachweis des Hauptwohnsitzes: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true }
+    ]
+  },
+
+  'family-skilled': {
+    label: 'Family Reunification — Spouse/Child of Skilled Worker or Student',
+    labelDe: 'Familiennachzug — Ehegatte/Kind einer Fachkraft oder Studierenden',
+    short: 'Family of Skilled Worker',
+    shortDe: 'Familie Fachkraft',
+    category: 'Family Reunification',
+    authority: 'LEA Berlin — Business Immigration Service (BIS)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/327471/en/',
+    appointmentUrl: 'https://service.berlin.de/dienstleistung/327471/en/',
+    docs: [
+      { id: 'application-form', label: 'Application form "Antrag auf Erteilung eines Aufenthaltstitels" — one per applicant (not needed for extension)', labelDe: 'Antragsformular „Antrag auf Erteilung eines Aufenthaltstitels" — je ein Formular pro Antragsteller (nicht erforderlich bei Verlängerung)', required: true },
+      { id: 'passport', label: 'Valid passport — each family member', labelDe: 'Gültiger Reisepass — jedes Familienmitglied', required: true },
+      { id: 'photo', label: '1 current biometric photo — digital only since May 2025 (government office or certified studio)', labelDe: '1 aktuelles biometrisches Lichtbild — seit Mai 2025 ausschließlich digital (Amt oder zertifiziertes Fotostudio)', required: true },
+      { id: 'marriage-cert', label: 'Marriage certificate (to join spouse, not needed for extension)', labelDe: 'Heiratsurkunde (zum Nachzug zum Ehegatten, nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'partnership-cert', label: 'Partnership certificate (to join same-sex partner, not needed for extension)', labelDe: 'Partnerschaftsurkunde (zum Nachzug zum gleichgeschlechtlichen Lebenspartner, nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'birth-cert', label: 'Birth certificate (to join parents, not needed for extension)', labelDe: 'Geburtsurkunde (zum Nachzug zu den Eltern, nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'custody-proof', label: 'Proof of custody — if joining one parent and other parent lives outside Germany (not needed for extension)', labelDe: 'Sorgerechtsnachweise — bei Einzug zu einem Elternteil, wenn der andere Elternteil außerhalb Deutschlands wohnt (nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'translations', label: 'Certified translations of all foreign documents + apostille where required', labelDe: 'Beglaubigte Übersetzungen aller ausländischen Dokumente + Apostille wo erforderlich', required: true },
+      { id: 'lease', label: 'Lease agreement stating current monthly rental cost', labelDe: 'Mietvertrag mit Angabe der aktuellen monatlichen Mietkosten', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof (statutory = sufficient; private = check scope)', labelDe: 'Krankenversicherungsnachweis (gesetzlich = ausreichend; privat = Umfang prüfen)', required: true },
+      { id: 'livelihood-employed', label: 'Employed sponsor: employment contract + employment certificate (max 14 days) + last 6 salary slips', labelDe: 'Beschäftigter Sponsor: Arbeitsvertrag + Arbeitgeberbescheinigung (max. 14 Tage) + letzte 6 Lohnabrechnungen', required: false },
+      { id: 'livelihood-student', label: 'Student/trainee sponsor: bank statements last 6 months, scholarship, blocked account, declaration of commitment, or other income proof', labelDe: 'Studierender/Auszubildender als Sponsor: Kontoauszüge letzte 6 Monate, Stipendium, Sperrkonto, Verpflichtungserklärung oder sonstiger Einkommensnachweis', required: false },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true }
+    ]
+  },
+
+  'family-blue-card': {
+    label: 'Family Reunification — Spouse/Child of EU Blue Card Holder',
+    labelDe: 'Familiennachzug — Ehegatte/Kind eines Blaue-Karte-EU-Inhabers',
+    short: 'Family of Blue Card',
+    shortDe: 'Familie Blaue Karte',
+    category: 'Family Reunification',
+    authority: 'LEA Berlin — Business Immigration Service (BIS)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/328188/en/',
+    appointmentUrl: 'https://service.berlin.de/dienstleistung/328188/en/',
+    docs: [
+      { id: 'application-form', label: 'Application form "Antrag auf Erteilung eines Aufenthaltstitels" — one per applicant (not needed for extension)', labelDe: 'Antragsformular „Antrag auf Erteilung eines Aufenthaltstitels" — je ein Formular pro Antragsteller (nicht erforderlich bei Verlängerung)', required: true },
+      { id: 'passport', label: 'Valid passport — each family member', labelDe: 'Gültiger Reisepass — jedes Familienmitglied', required: true },
+      { id: 'photo', label: '1 current biometric photo — digital only since May 2025 (government office or certified studio)', labelDe: '1 aktuelles biometrisches Lichtbild — seit Mai 2025 ausschließlich digital (Amt oder zertifiziertes Fotostudio)', required: true },
+      { id: 'marriage-cert', label: 'Marriage certificate (to join spouse, not needed for extension)', labelDe: 'Heiratsurkunde (zum Nachzug zum Ehegatten, nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'partnership-cert', label: 'Partnership certificate (to join same-sex partner, not needed for extension)', labelDe: 'Partnerschaftsurkunde (zum Nachzug zum gleichgeschlechtlichen Lebenspartner, nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'birth-cert', label: 'Birth certificate (to join parents, not needed for extension)', labelDe: 'Geburtsurkunde (zum Nachzug zu den Eltern, nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'custody-proof', label: 'Proof of custody — if joining one parent and other parent lives outside Germany (not needed for extension)', labelDe: 'Sorgerechtsnachweise — bei Einzug zu einem Elternteil, wenn der andere Elternteil außerhalb Deutschlands wohnt (nicht erforderlich bei Verlängerung)', required: false },
+      { id: 'translations', label: 'Certified translations of all foreign documents + apostille where required', labelDe: 'Beglaubigte Übersetzungen aller ausländischen Dokumente + Apostille wo erforderlich', required: true },
+      { id: 'lease', label: 'Lease agreement stating current monthly rental cost', labelDe: 'Mietvertrag mit Angabe der aktuellen monatlichen Mietkosten', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof (statutory = sufficient; private = check scope)', labelDe: 'Krankenversicherungsnachweis (gesetzlich = ausreichend; privat = Umfang prüfen)', required: true },
+      { id: 'livelihood', label: 'Proof of livelihood: employment contract + current employment certificate (max 14 days) + last 6 salary slips', labelDe: 'Nachweis der Lebensunterhaltssicherung: Arbeitsvertrag + aktuelle Arbeitgeberbescheinigung (max. 14 Tage) + letzte 6 Lohnabrechnungen', required: true },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true }
+    ]
+  },
+
+  // ── JOB SEEKING & RESEARCH ───────────────────────────────────────────────
+  'job-seeker': {
+    label: 'Residence Permit — Job Seeker (Post-Study/Training)',
+    labelDe: 'Aufenthaltserlaubnis — Arbeitssuche (nach Studium/Ausbildung)',
+    short: 'Job Seeker',
+    shortDe: 'Arbeitssuche',
+    category: 'Job Seeking & Research',
+    authority: 'LEA Berlin (Keplerstrasse)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/324661/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages', labelDe: 'Reisepasskopien (farbig) — Datenseiten', required: true },
+      { id: 'residence-title', label: 'Copy of current residence permit', labelDe: 'Kopie des aktuellen Aufenthaltstitels', required: true },
+      { id: 'degree-cert', label: 'Degree certificate — if post-study pathway', labelDe: 'Abschlusszeugnis — bei Weg nach Studium', required: false },
+      { id: 'training-cert', label: 'Training certificate — if post-vocational-training pathway', labelDe: 'Ausbildungszeugnis — bei Weg nach Berufsausbildung', required: false },
+      { id: 'research-docs', label: 'Documents on terminated research employment — if post-research pathway', labelDe: 'Dokumente über beendetes Forschungsbeschäftigungsverhältnis — bei Weg nach Forschungsaufenthalt', required: false },
+      { id: 'recognition-decision', label: 'Recognition decision OR occupation practice permit OR permission to use professional title — if post-recognition pathway', labelDe: 'Anerkennungsbescheid ODER Berufsausübungserlaubnis ODER Erlaubnis zur Führung der Berufsbezeichnung — bei Weg nach Anerkennung', required: false },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'housing-costs', label: 'Proof of living space size & costs — rental: tenancy + Warmmiete; owned: land register + charges', labelDe: 'Nachweis Wohnfläche und -kosten — Miete: Mietvertrag + Warmmiete; Eigentum: Grundbuchauszug + Lasten', required: true },
+      { id: 'livelihood', label: 'Proof of secure livelihood: bank statements, declaration of commitment by third parties, or scholarship', labelDe: 'Nachweis gesicherter Lebensunterhalt: Kontoauszüge, Verpflichtungserklärung Dritter oder Stipendium', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true }
+    ]
+  },
+
+  'ae-research': {
+    label: 'Residence Permit — Research',
+    labelDe: 'Aufenthaltserlaubnis — Forschung',
+    short: 'AE Research',
+    shortDe: 'AE Forschung',
+    category: 'Job Seeking & Research',
+    authority: 'LEA Berlin (Keplerstrasse)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/328457/en/',
+    appointmentUrl: 'https://www.berlin.de/einwanderung/en/services/appointments/',
+    docs: [
+      { id: 'passport', label: 'Passport copies (colour) — data pages always; entry stamp + prior EU residence title if first application', labelDe: 'Reisepasskopien (farbig) — Datenseiten immer; Einreisestempel + frühere EU-Aufenthaltserlaubnis bei Erstantrag', required: true },
+      { id: 'residence-title', label: 'Copy of existing residence title (if applicable)', labelDe: 'Kopie des bestehenden Aufenthaltstitels (falls vorhanden)', required: false },
+      { id: 'hosting-agreement', label: 'Hosting agreement (Aufnahmevereinbarung) in German (English version may also be included) OR suitable contract with recognised research institution', labelDe: 'Aufnahmevereinbarung in deutscher Sprache (englische Version kann beigefügt werden) ODER geeigneter Vertrag mit anerkannter Forschungseinrichtung', required: true },
+      { id: 'housing-proof', label: 'Proof of residence: Meldebestätigung OR lease + Wohnungsgeber-Bestätigung', labelDe: 'Wohnsitznachweis: Meldebestätigung ODER Mietvertrag + Wohnungsgeberbestätigung', required: true },
+      { id: 'housing-costs', label: 'Proof of living space size & costs — rental: tenancy + Warmmiete; owned: land register + charges', labelDe: 'Nachweis Wohnfläche und -kosten — Miete: Mietvertrag + Warmmiete; Eigentum: Grundbuchauszug + Lasten', required: true },
+      { id: 'health-insurance', label: 'Health insurance proof — statutory: health card (front & back); private: §257 Para. 2a SGB V certificate', labelDe: 'Krankenversicherungsnachweis — gesetzlich: Gesundheitskarte (Vorder- und Rückseite); privat: §257 Abs. 2a SGB V Bescheinigung', required: true }
+    ]
+  },
+
+  // ── CITIZENSHIP ──────────────────────────────────────────────────────────
+  'citizenship': {
+    label: 'Einbürgerung — German Citizenship Application',
+    labelDe: 'Einbürgerung — Deutsche Staatsangehörigkeit beantragen',
+    short: 'Citizenship',
+    shortDe: 'Einbürgerung',
+    category: 'Citizenship',
+    authority: 'LEA Berlin (Sellerstrasse)',
+    officialUrl: 'https://service.berlin.de/dienstleistung/318998/',
+    appointmentUrl: 'https://service.berlin.de/dienstleistung/318998/',
+    docs: [
+      { id: 'passport', label: 'Valid passport or national ID card', labelDe: 'Gültiger Reisepass oder Personalausweis', required: true },
+      { id: 'personal-status', label: 'Personal status documents: marriage certificate, divorce decree, adoption order — if applicable', labelDe: 'Personenstandsurkunden: Heiratsurkunde, Scheidungsurteil, Adoptionsbescheid — falls zutreffend', required: false },
+      { id: 'income-employed', label: 'Employees: employment contract + last 6 months salary slips + employer confirmation of ongoing employment', labelDe: 'Arbeitnehmer: Arbeitsvertrag + Lohnabrechnungen der letzten 6 Monate + Arbeitgeberbescheinigung über bestehendes Arbeitsverhältnis', required: false },
+      { id: 'income-selfemployed', label: 'Self-employed / freelancers: last tax assessment + audit report (Prüfungsbericht by tax advisor) + tax clearance certificate (Steuerunbedenklichkeitsbescheinigung) + trade register extract or Gewerbeanmeldung', labelDe: 'Selbständige/Freiberufler: letzter Steuerbescheid + Prüfungsbericht (Steuerberater) + Steuerunbedenklichkeitsbescheinigung + Handelsregisterauszug oder Gewerbeanmeldung', required: false },
+      { id: 'income-nonemployed', label: 'Non-employed: unemployment benefit notice / pension notice / asset proof / SGB II–XII benefit receipts / BAföG notice — as applicable', labelDe: 'Nicht Erwerbstätige: Arbeitslosengeld-/Rentenbescheid / Vermögensnachweis / SGB II–XII-Leistungsnachweise / BAföG-Bescheid — je nach Lage', required: false },
+      { id: 'health-insurance', label: 'Health & long-term care insurance — statutory: health card + current confirmation; private: proof of premium payments + current insurer certificate', labelDe: 'Kranken- und Pflegeversicherung — gesetzlich: Gesundheitskarte + aktuelle Bestätigung; privat: Beitragszahlungsnachweis + aktuelle Versichererbescheinigung', required: true },
+      { id: 'housing-proof', label: 'Rental agreement with proof of current rent level OR land register extract for owners', labelDe: 'Mietvertrag mit Nachweis der aktuellen Mietkosten ODER Grundbuchauszug für Eigentümer', required: true },
+      { id: 'language-b1', label: 'German language proof at B1 or higher — DTZ certificate, B1 certificate, German school/university qualification', labelDe: 'Deutschsprachnachweis B1 oder höher — DTZ-Zertifikat, B1-Zertifikat oder deutsches Schul-/Hochschulzeugnis', required: true },
+      { id: 'civic-knowledge', label: 'Civic knowledge proof — Einbürgerungstest certificate OR "Leben in Deutschland" certificate OR qualifying German school/university completion', labelDe: 'Nachweis staatsbürgerlicher Kenntnisse — Einbürgerungstestzertifikat ODER „Leben in Deutschland"-Zertifikat ODER qualifizierender deutsches Schul-/Hochschulabschluss', required: true },
+      { id: 'meldebestatigung', label: 'Registration certificate (Meldebestätigung)', labelDe: 'Meldebestätigung (Anmeldebestätigung beim Einwohnermeldeamt)', required: true },
+      { id: 'consent-joint-custody', label: 'Signed consent of other parent with joint custody — for children under 16 with shared parental custody', labelDe: 'Unterzeichnete Zustimmung des anderen gemeinsam sorgeberechtigten Elternteils — für Kinder unter 16 Jahren bei gemeinsamer elterlicher Sorge', required: false }
+    ]
+  },
+
+  // ── NATIONAL VISAS D (Embassy — pre-entry) ───────────────────────────────
+  'visa-work': {
+    label: 'National Visa D — Work (Skilled Worker)',
+    labelDe: 'Nationales Visum D — Arbeit (Fachkraft)',
+    short: 'Visa D Work',
+    shortDe: 'Visum D Arbeit',
+    category: 'National Visas D (Embassy)',
+    authority: 'German Embassy / Consulate in home country',
+    officialUrl: 'https://www.make-it-in-germany.com/en/visa-residence/types/work-qualified-professionals',
+    appointmentUrl: 'https://www.make-it-in-germany.com/en/visa-residence/types/work-qualified-professionals',
+    docs: [
+      { id: 'passport', label: 'Valid passport — min. 6 months valid beyond intended stay', labelDe: 'Gültiger Reisepass — mind. 6 Monate über das geplante Aufenthaltsende hinaus gültig', required: true },
+      { id: 'application-form', label: 'Completed national visa application form (from German embassy website)', labelDe: 'Ausgefülltes nationales Visumantragformular (von der Website der deutschen Botschaft)', required: true },
+      { id: 'photo', label: 'Biometric passport photo (digital, from certified photo studio)', labelDe: 'Biometrisches Lichtbild (digital, aus zertifiziertem Fotostudio)', required: true },
+      { id: 'employment-contract', label: 'Employment contract or binding job offer from German employer', labelDe: 'Arbeitsvertrag oder verbindliche Stellenzusage eines deutschen Arbeitgebers', required: true },
+      { id: 'qualification', label: 'Degree or vocational training certificate proving the qualification', labelDe: 'Hochschulabschluss- oder Berufsausbildungszeugnis als Qualifikationsnachweis', required: true },
+      { id: 'recognition-decision', label: 'Qualification recognition decision from competent German authority — for regulated professions', labelDe: 'Anerkennungsbescheid der zuständigen deutschen Behörde — für reglementierte Berufe', required: false },
+      { id: 'cv', label: 'Curriculum vitae (CV)', labelDe: 'Lebenslauf (CV)', required: true },
+      { id: 'health-insurance', label: 'Health insurance confirmation covering at least the duration of the visa', labelDe: 'Krankenversicherungsbestätigung für mindestens die Dauer des Visums', required: true }
+    ]
+  },
+
+  'visa-study': {
+    label: 'National Visa D — Study',
+    labelDe: 'Nationales Visum D — Studium',
+    short: 'Visa D Study',
+    shortDe: 'Visum D Studium',
+    category: 'National Visas D (Embassy)',
+    authority: 'German Embassy / Consulate in home country',
+    officialUrl: 'https://www.make-it-in-germany.com/en/visa-residence/types/studying',
+    appointmentUrl: 'https://www.make-it-in-germany.com/en/visa-residence/types/studying',
+    docs: [
+      { id: 'passport', label: 'Valid passport — min. 6 months valid beyond intended stay', labelDe: 'Gültiger Reisepass — mind. 6 Monate über das geplante Aufenthaltsende hinaus gültig', required: true },
+      { id: 'application-form', label: 'Completed national visa application form (from German embassy website)', labelDe: 'Ausgefülltes nationales Visumantragformular (von der Website der deutschen Botschaft)', required: true },
+      { id: 'photo', label: 'Biometric passport photo (digital, from certified photo studio)', labelDe: 'Biometrisches Lichtbild (digital, aus zertifiziertem Fotostudio)', required: true },
+      { id: 'admission-letter', label: 'University admission letter or conditional admission from a German state-recognised institution', labelDe: 'Zulassungsschreiben oder vorläufiger Zulassungsbescheid einer staatlich anerkannten deutschen Hochschule', required: true },
+      { id: 'livelihood', label: 'Proof of funding — blocked account (Sperrkonto) min. €11,904/year (2026), scholarship, or parents\' certified financial guarantee', labelDe: 'Finanzierungsnachweis — Sperrkonto (mind. €11.904/Jahr 2026), Stipendium oder beglaubigte Finanzierungsgarantie der Eltern', required: true },
+      { id: 'language-cert', label: 'Language skills proof — German B2/C1 for German-taught programmes; English for English-taught programmes', labelDe: 'Sprachkenntnisnachweis — Deutsch B2/C1 für deutschsprachige Studiengänge; Englisch für englischsprachige Studiengänge', required: true },
+      { id: 'academic-records', label: 'Academic qualifications and transcripts', labelDe: 'Schulische und akademische Zeugnisse und Notennachweise', required: true },
+      { id: 'health-insurance', label: 'Health insurance confirmation for the duration of studies', labelDe: 'Krankenversicherungsbestätigung für die Dauer des Studiums', required: true }
+    ]
+  },
+
+  'visa-family': {
+    label: 'National Visa D — Family Reunification',
+    labelDe: 'Nationales Visum D — Familiennachzug',
+    short: 'Visa D Family',
+    shortDe: 'Visum D Familie',
+    category: 'National Visas D (Embassy)',
+    authority: 'German Embassy / Consulate in home country',
+    officialUrl: 'https://www.auswaertiges-amt.de/en/visa-service/familienvisum',
+    appointmentUrl: 'https://www.auswaertiges-amt.de/en/visa-service',
+    docs: [
+      { id: 'passport', label: 'Valid passport — min. 6 months valid beyond intended stay', labelDe: 'Gültiger Reisepass — mind. 6 Monate über das geplante Aufenthaltsende hinaus gültig', required: true },
+      { id: 'application-form', label: 'Completed national visa application form (from German embassy website)', labelDe: 'Ausgefülltes nationales Visumantragformular (von der Website der deutschen Botschaft)', required: true },
+      { id: 'photo', label: 'Biometric passport photo (digital, from certified photo studio)', labelDe: 'Biometrisches Lichtbild (digital, aus zertifiziertem Fotostudio)', required: true },
+      { id: 'relationship-cert', label: 'Marriage certificate or birth certificate with certified German translation + apostille/legalisation', labelDe: 'Heiratsurkunde oder Geburtsurkunde mit beglaubigter deutscher Übersetzung + Apostille/Legalisation', required: true },
+      { id: 'sponsor-docs', label: 'Sponsor\'s residence permit copy or German passport copy', labelDe: 'Kopie der Aufenthaltserlaubnis oder des deutschen Reisepasses des Einladenden (Sponsors)', required: true },
+      { id: 'sponsor-income', label: 'Sponsor\'s proof of income: employment contract + last 3–6 salary slips', labelDe: 'Einkommensnachweis des Sponsors: Arbeitsvertrag + letzte 3–6 Lohnabrechnungen', required: true },
+      { id: 'housing-proof', label: 'Proof of adequate housing in Germany (lease agreement)', labelDe: 'Nachweis angemessenen Wohnraums in Deutschland (Mietvertrag)', required: true },
+      { id: 'language-a1', label: 'German language certificate A1 — required for spouses joining German citizens or holders of standard residence permits', labelDe: 'Deutschsprachnachweis A1 — erforderlich für Ehegatten, die zu deutschen Staatsangehörigen oder Inhabern einer Aufenthaltserlaubnis einreisen', required: true },
+      { id: 'health-insurance', label: 'Health insurance confirmation for at least the duration of the visa', labelDe: 'Krankenversicherungsbestätigung für mindestens die Dauer des Visums', required: true }
+    ]
+  }
+};
+
+const INTAKE_CASE_GROUPS = [
+  { label:'Permanent Residence / Niederlassungserlaubnis', keys:['ne-general','ne-skilled','ne-blue-card','eu-long-term'] },
+  { label:'Skilled Worker / Fachkraft', keys:['blue-card','ae-academic','ae-vocational'] },
+  { label:'Study & Education / Studium & Ausbildung', keys:['ae-study','ae-training-vocational','ae-training-company'] },
+  { label:'Self-Employment & Freelance / Selbständigkeit', keys:['ae-freelance','ae-selfemployed'] },
+  { label:'Family Reunification / Familiennachzug', keys:['family-german','family-foreign','family-skilled','family-blue-card'] },
+  { label:'Job Seeking & Research / Jobsuche & Forschung', keys:['job-seeker','ae-research'] },
+  { label:'Citizenship / Einbürgerung', keys:['citizenship'] },
+  { label:'National Visa D / Nationales Visum D (Botschaft)', keys:['visa-work','visa-study','visa-family'] },
+];
+
+const INTAKE_NATIONALITIES = ['Afghan','Albanian','Algerian','American','Bangladeshi','Brazilian','British','Bulgarian','Chinese','Croatian','Czech','Danish','Dutch','Egyptian','Ethiopian','Filipino','Finnish','French','Georgian','Ghanaian','Greek','Hungarian','Indian','Indonesian','Iranian','Iraqi','Irish','Israeli','Italian','Japanese','Jordanian','Kenyan','Korean','Lebanese','Malaysian','Mexican','Moroccan','Nepali','Nigerian','Norwegian','Pakistani','Polish','Portuguese','Romanian','Russian','Saudi Arabian','Serbian','Singaporean','South African','Spanish','Sri Lankan','Swedish','Swiss','Syrian','Taiwanese','Thai','Tunisian','Turkish','Ukrainian','Vietnamese','Other'];
+
+// ── State ─────────────────────────────────────────────────────
+let iiSvc = null, iiCaseType = null, iiPreviewOpen = false;
+
+// ── Init ──────────────────────────────────────────────────────
+(function iiInit() {
+  function run() {
+    // Config warning
+    if (INTAKE_CFG.EMAILJS_PUBLIC_KEY === 'REPLACE_EMAILJS_PUBLIC_KEY') {
+      const w = document.getElementById('ii-cfg-warn');
+      if (w) w.classList.add('visible');
+    }
+    // Populate nationality
+    const natSel = document.getElementById('ii-nat');
+    if (natSel) {
+      INTAKE_NATIONALITIES.forEach(n => {
+        const o = document.createElement('option'); o.value = n; o.textContent = n; natSel.appendChild(o);
+      });
+    }
+    // Populate case type select
+    const ctSel = document.getElementById('ii-ct-select');
+    if (ctSel) {
+      INTAKE_CASE_GROUPS.forEach(g => {
+        const og = document.createElement('optgroup'); og.label = g.label;
+        g.keys.forEach(k => {
+          if (!CASE_TYPES[k]) return;
+          const o = document.createElement('option'); o.value = k;
+          o.textContent = CASE_TYPES[k].label + (CASE_TYPES[k].shortDe ? ' / ' + CASE_TYPES[k].shortDe : '');
+          og.appendChild(o);
+        });
+        ctSel.appendChild(og);
+      });
+    }
+    // Init EmailJS
+    if (INTAKE_CFG.EMAILJS_PUBLIC_KEY !== 'REPLACE_EMAILJS_PUBLIC_KEY') {
+      try { if (typeof emailjs !== 'undefined') emailjs.init(INTAKE_CFG.EMAILJS_PUBLIC_KEY); } catch(e) {}
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+  else run();
+})();
+
+// ── Service selection ─────────────────────────────────────────
+function iiSelectService(svc) {
+  iiSvc = svc;
+  document.querySelectorAll('.intake-svc-card').forEach(c => c.classList.remove('selected'));
+  const card = document.getElementById('ii-svc-' + svc);
+  if (card) card.classList.add('selected');
+  const caseSec = document.getElementById('ii-case-sec');
+  const natField = document.getElementById('ii-nat-field');
+  if (svc === 'docs') {
+    caseSec.classList.add('visible');
+    if (natField) natField.style.display = 'flex';
+  } else {
+    caseSec.classList.remove('visible');
+    iiCaseType = null;
+    const dp = document.getElementById('ii-doc-preview');
+    if (dp) dp.classList.remove('visible');
+    if (natField) natField.style.display = 'none';
+  }
+}
+
+// ── Case type change ──────────────────────────────────────────
+function iiOnCaseType(key) {
+  iiCaseType = key || null;
+  const preview = document.getElementById('ii-doc-preview');
+  if (!key || !CASE_TYPES[key]) { if (preview) preview.classList.remove('visible'); return; }
+  const ct = CASE_TYPES[key];
+  const titleEl = document.getElementById('ii-dp-title');
+  if (titleEl) titleEl.textContent =
+    'Documents for: ' + ct.short + (ct.shortDe ? ' / ' + ct.shortDe : '') + ' (' + ct.docs.length + ')';
+  const body = document.getElementById('ii-dp-body');
+  if (body) {
+    body.innerHTML = ct.docs.map(d =>
+      '<div class="intake-dp-item">' +
+        '<div class="intake-dp-dot ' + (d.required ? 'req' : 'opt') + '"></div>' +
+        '<div><div class="intake-dp-en">' + iiEsc(d.label) + '</div>' +
+        (d.labelDe ? '<div class="intake-dp-de">' + iiEsc(d.labelDe) + '</div>' : '') +
+        '</div></div>'
+    ).join('');
+  }
+  if (preview) preview.classList.add('visible');
+  if (!iiPreviewOpen) iiTogglePreview();
+}
+
+function iiTogglePreview() {
+  const body = document.getElementById('ii-dp-body');
+  const toggle = document.getElementById('ii-dp-toggle');
+  iiPreviewOpen = !iiPreviewOpen;
+  if (body) body.style.display = iiPreviewOpen ? 'block' : 'none';
+  if (toggle) toggle.textContent = iiPreviewOpen ? '▲ Hide' : '▼ Show';
+}
+
+// ── Helpers ───────────────────────────────────────────────────
+function iiGenId() { return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+function iiEsc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function iiShowErr(msg) {
+  const el = document.getElementById('ii-err');
+  if (!el) return;
+  el.textContent = msg; el.classList.add('visible');
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+function iiOpenWA() {
+  window.open('https://wa.me/4915563671657?text=Hi%2C%20I%20just%20submitted%20my%20document%20request%20via%20docuassistgermany.de%20and%20would%20like%20to%20follow%20up.', '_blank');
+}
+
+// ── Form submission ───────────────────────────────────────────
+async function iiHandleSubmit() {
+  const btn = document.getElementById('ii-submit');
+  const err = document.getElementById('ii-err');
+  if (err) err.classList.remove('visible');
+
+  // Validate
+  const name  = (document.getElementById('ii-name')  || {}).value?.trim() || '';
+  const email = (document.getElementById('ii-email') || {}).value?.trim() || '';
+  const phone = (document.getElementById('ii-phone') || {}).value?.trim() || '';
+  const nat   = (document.getElementById('ii-nat')   || {}).value || '';
+  const notes = (document.getElementById('ii-notes') || {}).value?.trim() || '';
+
+  if (!iiSvc)                        { iiShowErr('Please select a service type.'); return; }
+  if (!name)                         { iiShowErr('Please enter your full name.'); return; }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+                                     { iiShowErr('Please enter a valid email address.'); return; }
+  if (iiSvc === 'docs' && !iiCaseType)
+                                     { iiShowErr('Please select your case type to receive the correct document list.'); return; }
+
+  // Loading
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="intake-spin"></span>Sending...'; }
+
+  try {
+    const ct = iiCaseType ? CASE_TYPES[iiCaseType] : null;
+    const leadId = iiGenId();
+    const now = Date.now();
+
+    const docs = ct ? ct.docs.map(d => ({ id: d.id, status: 'pending', filename: null, issues: [], extractedFields: null })) : [];
+
+    const lead = {
+      id: leadId, name, email, phone, nationality: nat,
+      caseType: iiCaseType || iiSvc,
+      notes, documents: docs,
+      shareToken: iiGenId(), source: 'website-contact',
+      createdAt: now, updatedAt: now
+    };
+
+    // 1. Firebase
+    if (window._iiSaveLead) await window._iiSaveLead(lead);
+
+    // 2. Build email params
+    let requiredList = '', optionalList = '';
+    if (ct) {
+      const reqDocs = ct.docs.filter(d => d.required);
+      const optDocs = ct.docs.filter(d => !d.required);
+      requiredList = reqDocs.map((d,i) =>
+        (i+1) + '. ' + d.label + (d.labelDe ? '\n   (DE: ' + d.labelDe + ')' : '')
+      ).join('\n\n');
+      optionalList = optDocs.length
+        ? optDocs.map((d,i) => (i+1) + '. ' + d.label + (d.labelDe ? '\n   (DE: ' + d.labelDe + ')' : '')).join('\n\n')
+        : 'None / Keine';
+    }
+
+    const emailParams = {
+      to_email:       email,
+      to_name:        name,
+      reply_to:       'info@docuassistgermany.de',
+      service_type:   iiSvc === 'docs' ? 'Document Checklist & Preparation' : iiSvc,
+      case_label:     ct ? ct.label : 'General Consultation',
+      case_label_de:  ct ? (ct.labelDe || ct.label) : 'Allgemeine Beratung',
+      authority:      ct ? ct.authority : 'LEA Berlin',
+      official_url:   ct ? (ct.officialUrl || '') : '',
+      required_docs:  requiredList || 'Please contact us for your personalised list.',
+      optional_docs:  optionalList || 'None / Keine',
+      client_notes:   notes || 'None provided',
+      doc_count:      ct ? ct.docs.length.toString() : '0',
+      req_count:      ct ? ct.docs.filter(d=>d.required).length.toString() : '0',
+    };
+
+    const teamParams = {
+      ...emailParams,
+      to_email: 'info@docuassistgermany.de', to_name: 'DocuAssist Team',
+      client_email: email, client_phone: phone || 'Not provided',
+      client_nat: nat || 'Not specified', lead_id: leadId,
+    };
+
+    // 3. EmailJS
+    if (INTAKE_CFG.EMAILJS_PUBLIC_KEY !== 'REPLACE_EMAILJS_PUBLIC_KEY' && typeof emailjs !== 'undefined') {
+      try {
+        await emailjs.send(INTAKE_CFG.EMAILJS_SERVICE_ID, INTAKE_CFG.EMAILJS_TEMPLATE_CLIENT, emailParams);
+        if (INTAKE_CFG.EMAILJS_TEMPLATE_TEAM !== 'REPLACE_EMAILJS_TEMPLATE_TEAM') {
+          emailjs.send(INTAKE_CFG.EMAILJS_SERVICE_ID, INTAKE_CFG.EMAILJS_TEMPLATE_TEAM, teamParams).catch(() => {});
+        }
+      } catch(e) { console.error('EmailJS:', e); }
+    }
+
+    // 4. Google Sheets
+    if (INTAKE_CFG.SHEETS_WEBHOOK !== 'REPLACE_GOOGLE_APPS_SCRIPT_URL') {
+      fetch(INTAKE_CFG.SHEETS_WEBHOOK, {
+        method: 'POST', mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          timestamp: new Date().toISOString(), lead_id: leadId,
+          name, email, phone: phone||'', nationality: nat||'',
+          service: iiSvc, case_type: iiCaseType||'',
+          case_label: ct?.label||'', notes: notes||'', source: 'website-contact'
+        })
+      }).catch(() => {});
+    }
+
+    // 5. Show success
+    const emailBox = document.getElementById('ii-s-email');
+    if (emailBox) emailBox.textContent = email;
+    const ov = document.getElementById('ii-success-ov');
+    if (ov) ov.classList.add('visible');
+
+  } catch(e) {
+    console.error('Intake submit error:', e);
+    iiShowErr('Something went wrong. Please try again or email us at info@docuassistgermany.de');
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '<span data-lang="en">Send My Request</span><span data-lang="de">Anfrage senden</span>';
+    }
+  }
+}
+
+</script>
 <script src="https://assets.calendly.com/assets/external/widget.js"></script>
+<!-- INTAKE: EMAILJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+
+<!-- INTAKE: FIREBASE (saves leads to Firestore) -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { getFirestore, collection, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+const II_FIREBASE_CFG = {
+  apiKey:            'REPLACE_API_KEY',
+  authDomain:        'REPLACE_AUTH_DOMAIN',
+  projectId:         'REPLACE_PROJECT_ID',
+  storageBucket:     'REPLACE_STORAGE_BUCKET',
+  messagingSenderId: 'REPLACE_MESSAGING_SENDER_ID',
+  appId:             'REPLACE_APP_ID'
+};
+let iiDB = null;
+try {
+  const app = initializeApp(II_FIREBASE_CFG, 'intake-index');
+  iiDB = getFirestore(app);
+} catch(e) { console.warn('Intake Firebase:', e.message); }
+window._iiSaveLead = async function(leadData) {
+  if (!iiDB || II_FIREBASE_CFG.apiKey === 'REPLACE_API_KEY') return false;
+  try { await setDoc(doc(collection(iiDB, 'leads'), leadData.id), leadData); return true; }
+  catch(e) { console.error('Firestore save:', e); return false; }
+};
+</script>
+
 </body>
 </html>

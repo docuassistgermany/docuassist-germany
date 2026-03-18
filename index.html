@@ -752,6 +752,76 @@
       .cookie-banner { left: 12px; right: 12px; max-width: none }
     }
 
+    /* ── MOBILE / TABLET RESPONSIVE ── */
+    .nav-hamburger {
+      display: none; flex-direction: column; justify-content: center; gap: 5px;
+      cursor: pointer; padding: 6px; border: none; background: transparent; flex-shrink: 0;
+    }
+    .nav-hamburger span {
+      display: block; width: 22px; height: 2px; background: var(--grey-900);
+      border-radius: 2px; transition: all var(--transition);
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg) }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0 }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg) }
+
+    @media(max-width: 768px) {
+      /* Nav */
+      .nav-hamburger { display: flex; width: 44px; height: 44px; align-items: center; justify-content: center; padding: 0 }
+      .nav-links {
+        display: none; position: fixed; top: 72px; left: 0; right: 0;
+        background: rgba(255,255,255,0.98); backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        flex-direction: column; gap: 0; padding: 8px 0 16px;
+        border-bottom: 1px solid var(--grey-200); box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        list-style: none; z-index: 999;
+      }
+      .nav-links.open { display: flex }
+      .nav-links li { padding: 0 }
+      .nav-links a { padding: 14px 24px; display: block; font-size: 0.95rem; color: var(--grey-700) }
+      .nav-links .nav-cta {
+        margin: 10px 20px 4px; text-align: center; border-radius: var(--radius-full); display: block;
+      }
+      /* Larger tap targets for lang toggle on mobile */
+      .lang-toggle button { padding: 8px 16px; font-size: 0.8rem; min-height: 38px }
+      /* Slightly smaller logo on mobile */
+      .logo { font-size: 1rem }
+
+      /* Section padding */
+      section { padding: 64px clamp(1.25rem, 5vw, 2.5rem) }
+
+      /* How It Works — 2 columns on tablet */
+      .steps { grid-template-columns: 1fr 1fr; gap: 36px 20px }
+      .steps::before { display: none }
+
+      /* About */
+      .about-grid { grid-template-columns: 1fr; gap: 36px }
+      .about-stats { grid-template-columns: 1fr 1fr }
+
+      /* Booking CTA box */
+      .booking-box { padding: 36px 28px; flex-direction: column; align-items: flex-start }
+      .booking-btns { flex-direction: column; width: 100% }
+      .btn-white, .btn-outline-white { text-align: center; width: 100%; box-sizing: border-box }
+    }
+
+    @media(max-width: 480px) {
+      /* Section padding tighter on small phones */
+      section { padding: 52px clamp(1rem, 4vw, 1.5rem) }
+
+      /* Steps — 1 column on small phones */
+      .steps { grid-template-columns: 1fr; gap: 28px }
+
+      /* About stats — 1 column */
+      .about-stats { grid-template-columns: 1fr }
+
+      /* Booking box */
+      .booking-box { padding: 28px 20px }
+
+      /* Hero buttons stacked */
+      .hero-btns { flex-direction: column; align-items: center }
+      .btn-primary, .btn-secondary { width: 100%; text-align: center; justify-content: center }
+    }
+
 
   </style>
 </head>
@@ -771,6 +841,9 @@
       <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
       <button id="btn-de" onclick="setLang('de')">DE</button>
     </div>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
@@ -1508,6 +1581,24 @@
   }
 
   setLang(localStorage.getItem('lang') || 'en');
+
+  // ── Mobile Nav Hamburger ──
+  const hamburger = document.getElementById('nav-hamburger');
+  const navLinks  = document.querySelector('.nav-links');
+  if (hamburger && navLinks) {
+    hamburger.addEventListener('click', () => {
+      const open = hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', open);
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navLinks.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
 
   // ── Scroll Reveal ──
   const reveals = document.querySelectorAll('.reveal');

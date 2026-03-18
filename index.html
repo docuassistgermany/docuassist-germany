@@ -1734,8 +1734,8 @@
 //  INTAKE FORM — embedded in index.html
 // ══════════════════════════════════════════════════════════════
 const INTAKE_CFG = {
-  CLOUD_FUNCTION_URL: 'https://submit-lead-524865389220.europe-west1.run.app',
-  SHEETS_WEBHOOK:     'REPLACE_GOOGLE_APPS_SCRIPT_URL',
+  // Single backend endpoint — Apps Script Web App v4 (handles Sheets + Brevo + owner email)
+  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzoqQvSsVUTqahdvq6UziPCrx256ds1ieqnV8-Ozr3yTjXroNJzVJiO7g8NMlbldBf3/exec',
 };
 
 // ── Case data ─────────────────────────────────────────────────
@@ -2293,8 +2293,8 @@ let iiSvc = null, iiCaseType = null, iiPreviewOpen = false;
 // ── Init ──────────────────────────────────────────────────────
 (function iiInit() {
   function run() {
-    // Config warning (shown only if Cloud Function URL is still a placeholder)
-    if (!INTAKE_CFG.CLOUD_FUNCTION_URL || INTAKE_CFG.CLOUD_FUNCTION_URL.includes('REPLACE_')) {
+    // Config warning (shown only if Apps Script URL is missing)
+    if (!INTAKE_CFG.APPS_SCRIPT_URL) {
       const w = document.getElementById('ii-cfg-warn');
       if (w) w.classList.add('visible');
     }
@@ -2426,64 +2426,33 @@ async function iiHandleSubmit() {
       createdAt: now, updatedAt: now
     };
 
-    // 1. Build document lists for the Cloud Function
+    // 1. Resolve case label
     const caseLabel   = ct ? ct.label : 'General Consultation';
-    const requiredDocs = ct ? ct.docs.filter(d => d.required).map(d => d.label)  : [];
-    const optionalDocs = ct ? ct.docs.filter(d => !d.required).map(d => d.label) : [];
 
-    // 2. Call Cloud Function (saves to Firestore + sends both emails via Brevo)
-    let cfSuccess = false;
-    if (INTAKE_CFG.CLOUD_FUNCTION_URL && !INTAKE_CFG.CLOUD_FUNCTION_URL.includes('REPLACE_')) {
-      try {
-        const cfRes = await fetch(INTAKE_CFG.CLOUD_FUNCTION_URL, {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name, email, phone,
-            nationality:  nat,
-            caseType:     iiCaseType || iiSvc,
-            caseLabel,
-            authority:    ct ? ct.authority : 'LEA Berlin',
-            service:      iiSvc === 'docs' ? 'Document Checklist & Preparation' : iiSvc,
-            notes,
-            documents:    docs,
-            shareToken:   lead.shareToken,
-            source:       'website-contact',
-            requiredDocs,
-            optionalDocs,
-          })
-        });
-        const cfData = await cfRes.json();
-        if (cfRes.ok && cfData.success) {
-          cfSuccess = true;
-        } else {
-          throw new Error(cfData.error || 'Cloud Function returned error');
-        }
-      } catch(e) {
-        console.error('Cloud Function:', e);
-      }
-    }
-
-    // 3. Fallback: save directly to Firestore if Cloud Function failed (no email, but lead preserved)
-    if (!cfSuccess && window._iiSaveLead) {
-      await window._iiSaveLead(lead);
-    }
-
-    // 4. Google Sheets
-    if (INTAKE_CFG.SHEETS_WEBHOOK !== 'REPLACE_GOOGLE_APPS_SCRIPT_URL') {
-      fetch(INTAKE_CFG.SHEETS_WEBHOOK, {
-        method: 'POST', mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
+    // 2. POST directly to Apps Script Web App (handles Sheets + Brevo email + owner notification)
+    // Uses no-cors mode (browser → Apps Script cross-origin) — response is opaque, success is optimistic
+    if (INTAKE_CFG.APPS_SCRIPT_URL) {
+      fetch(INTAKE_CFG.APPS_SCRIPT_URL, {
+        method:  'POST',
+        mode:    'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({
-          timestamp: new Date().toISOString(), lead_id: leadId,
-          name, email, phone: phone||'', nationality: nat||'',
-          service: iiSvc, case_type: iiCaseType||'',
-          case_label: ct?.label||'', notes: notes||'', source: 'website-contact'
+          leadId,
+          name,
+          email,
+          phone:       phone || '',
+          nationality: nat   || '',
+          caseType:    iiCaseType || iiSvc,
+          caseLabel,
+          authority:   ct ? ct.authority : '',
+          notes:       notes || '',
+          source:      'website-contact',
+          timestamp:   now,
         })
-      }).catch(() => {});
+      }).catch(err => console.warn('Apps Script POST error:', err));
     }
 
-    // 5. Show success
+    // 3. Show success
     const emailBox = document.getElementById('ii-s-email');
     if (emailBox) emailBox.textContent = email;
     const ov = document.getElementById('ii-success-ov');

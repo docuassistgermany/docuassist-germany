@@ -870,6 +870,9 @@
     label[data-lang="de"] { display: none }
     body.de label[data-lang="de"] { display: block }
     body.de label[data-lang="en"] { display: none }
+    /* Nav links must stay block regardless of language — inline style 'none' hides
+       inactive ones; active ones must render as block in the mobile dropdown */
+    .nav-links a[data-lang] { display: block }
 
   </style>
 </head>

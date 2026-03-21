@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Guides & Resources – DocuAssist Germany | Berlin Immigration Help</title>
+  <meta name="description" content="Practical guides for expats navigating German immigration. Bilingual EN/DE resources on Aufenthaltserlaubnis, certified translations, Niederlassungserlaubnis, and degree recognition in Berlin."/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://www.docuassistgermany.de/blog/"/>
+  <link rel="alternate" hreflang="en" href="https://www.docuassistgermany.de/blog/"/>
+  <link rel="alternate" hreflang="de" href="https://www.docuassistgermany.de/blog/"/>
+  <link rel="alternate" hreflang="x-default" href="https://www.docuassistgermany.de/blog/"/>
+
+  <!-- OPEN GRAPH -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://www.docuassistgermany.de/blog/"/>
+  <meta property="og:title" content="Guides & Resources – DocuAssist Germany"/>
+  <meta property="og:description" content="Practical guides for expats navigating German immigration in Berlin. Bilingual EN/DE."/>
+
+  <!-- BREADCRUMB SCHEMA -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.docuassistgermany.de/" },
+      { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://www.docuassistgermany.de/blog/" }
+    ]
+  }
+  </script>
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ── CSS TOKENS ── */
+    :root {
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --grey: #f7f8fa;
+      --grey-100: #f1f3f5;
+      --grey-200: #e5e7eb;
+      --grey-300: #d1d5db;
+      --grey-500: #6b7280;
+      --grey-600: #4b5563;
+      --grey-700: #374151;
+      --grey-800: #1f2937;
+      --grey-900: #111827;
+      --green: #0d9e5f;
+      --green-dark: #0a7d4b;
+      --green-light: rgba(13,158,95,0.08);
+      --green-glow: rgba(13,158,95,0.15);
+      --accent: #10b981;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+      --shadow-green: 0 4px 24px rgba(13,158,95,0.25);
+      --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0 }
+    html { scroll-behavior: smooth }
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: var(--grey-900); background: var(--white); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      display: flex; align-items: center; justify-content: space-between; height: 72px;
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+    nav.scrolled { box-shadow: 0 1px 12px rgba(0,0,0,0.08) }
+    .logo { font-weight: 800; font-size: 1.15rem; color: var(--grey-900); text-decoration: none; letter-spacing: -0.02em }
+    .logo span { color: var(--green) }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none }
+    .nav-links a { text-decoration: none; color: var(--grey-600); font-size: 0.875rem; font-weight: 500; transition: color var(--transition) }
+    .nav-links a:hover { color: var(--green) }
+    .nav-links a.active { color: var(--green) }
+    .nav-cta {
+      background: var(--green) !important; color: white !important;
+      padding: 10px 22px; border-radius: var(--radius-full); font-weight: 600 !important;
+      white-space: nowrap; transition: all var(--transition);
+    }
+    .nav-cta:hover { background: var(--green-dark) !important; transform: translateY(-1px) }
+    .lang-toggle { display: flex; background: var(--grey-100); border-radius: var(--radius-full); overflow: hidden; border: 1px solid var(--grey-200) }
+    .lang-toggle button {
+      border: none; background: transparent; padding: 6px 14px; font-size: 0.75rem;
+      font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
+      color: var(--grey-500); transition: all var(--transition); border-radius: var(--radius-full);
+    }
+    .lang-toggle button.active { background: var(--grey-900); color: white }
+    .nav-hamburger {
+      display: none; flex-direction: column; justify-content: center; gap: 5px;
+      cursor: pointer; padding: 6px; border: none; background: transparent; flex-shrink: 0;
+    }
+    .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--grey-900); border-radius: 2px; transition: all var(--transition) }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg) }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0 }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg) }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 120px clamp(1.5rem,5vw,4rem) 64px;
+      background: linear-gradient(135deg, var(--grey-900) 0%, #0f1b2d 50%, #0a1628 100%);
+      color: white; text-align: center; position: relative; overflow: hidden;
+    }
+    .page-header::before {
+      content: ''; position: absolute; top: -30%; right: -10%; width: 600px; height: 600px;
+      border-radius: 50%; background: radial-gradient(circle, rgba(13,158,95,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .page-header-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto }
+    .page-header .section-label {
+      text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.75rem;
+      font-weight: 700; color: var(--accent); margin-bottom: 16px; display: block;
+    }
+    .page-header h1 { font-size: clamp(2rem,4vw,2.8rem); font-weight: 800; line-height: 1.15; margin-bottom: 16px; letter-spacing: -0.03em }
+    .page-header p { font-size: 1rem; color: rgba(255,255,255,0.65); line-height: 1.7 }
+
+    /* ── BLOG GRID ── */
+    .blog-container { max-width: 1100px; margin: 0 auto; padding: 72px clamp(1.5rem,5vw,4rem) }
+    .blog-filter { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 48px }
+    .filter-btn {
+      padding: 8px 20px; border-radius: var(--radius-full); font-size: 0.82rem; font-weight: 600;
+      border: 1.5px solid var(--grey-200); background: var(--white); color: var(--grey-600);
+      cursor: pointer; transition: all var(--transition); font-family: 'Inter', sans-serif;
+    }
+    .filter-btn:hover, .filter-btn.active { border-color: var(--green); background: var(--green-light); color: var(--green-dark) }
+
+    .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px }
+    .blog-card {
+      background: var(--white); border-radius: var(--radius-lg);
+      border: 1px solid var(--grey-200); transition: all var(--transition);
+      overflow: hidden; text-decoration: none; color: inherit;
+      display: flex; flex-direction: column;
+    }
+    .blog-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); border-color: transparent }
+    .blog-card-img {
+      height: 180px; background: linear-gradient(135deg, var(--grey-900) 0%, #0f1b2d 100%);
+      position: relative; overflow: hidden; display: flex; align-items: flex-end; padding: 20px;
+    }
+    .blog-card-img-accent {
+      position: absolute; top: -20%; right: -10%; width: 220px; height: 220px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(13,158,95,0.2) 0%, transparent 70%);
+    }
+    .blog-card-img-icon {
+      width: 48px; height: 48px; border-radius: var(--radius);
+      background: rgba(13,158,95,0.15); border: 1px solid rgba(13,158,95,0.25);
+      display: flex; align-items: center; justify-content: center; position: relative; z-index: 1;
+    }
+    .blog-card-img-icon svg { width: 22px; height: 22px; color: var(--accent) }
+    .blog-card-body { padding: 24px; flex: 1; display: flex; flex-direction: column; gap: 12px }
+    .blog-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap }
+    .blog-category {
+      background: var(--green-light); color: var(--green-dark); font-size: 0.7rem;
+      font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 3px 10px; border-radius: var(--radius-full);
+    }
+    .blog-read-time { font-size: 0.75rem; color: var(--grey-500); font-weight: 500 }
+    .blog-card-title { font-size: 1.05rem; font-weight: 700; color: var(--grey-900); line-height: 1.35; letter-spacing: -0.01em }
+    .blog-card-excerpt { font-size: 0.875rem; color: var(--grey-500); line-height: 1.7; flex: 1 }
+    .blog-card-footer {
+      margin-top: 4px; padding-top: 16px; border-top: 1px solid var(--grey-100);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .blog-card-date { font-size: 0.75rem; color: var(--grey-400) }
+    .blog-card-link {
+      font-size: 0.82rem; font-weight: 600; color: var(--green);
+      display: flex; align-items: center; gap: 4px;
+    }
+    .blog-card-link svg { width: 14px; height: 14px; transition: transform var(--transition) }
+    .blog-card:hover .blog-card-link svg { transform: translateX(3px) }
+
+    /* ── CTA ── */
+    .blog-cta {
+      background: var(--grey-900); color: white;
+      padding: 72px clamp(1.5rem,5vw,4rem); text-align: center;
+    }
+    .blog-cta h2 { font-size: 2rem; font-weight: 800; margin-bottom: 14px; letter-spacing: -0.02em }
+    .blog-cta p { color: rgba(255,255,255,0.65); max-width: 500px; margin: 0 auto 32px; font-size: 0.95rem }
+    .btn-primary {
+      background: var(--green); color: white; padding: 14px 32px; border-radius: var(--radius-full);
+      text-decoration: none; font-weight: 600; font-size: 0.95rem;
+      transition: all var(--transition); display: inline-flex; align-items: center; gap: 8px;
+      box-shadow: var(--shadow-green);
+    }
+    .btn-primary:hover { background: var(--green-dark); transform: translateY(-2px) }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--grey-900); color: rgba(255,255,255,0.6);
+      padding: 56px clamp(1.5rem, 5vw, 4rem) 0;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px;
+      padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-brand p { font-size: 0.875rem; margin-top: 14px; line-height: 1.7; max-width: 280px; color: rgba(255,255,255,0.55) }
+    .footer-col h3 {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: white; margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none }
+    .footer-col ul li { margin-bottom: 10px }
+    .footer-col a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.875rem; transition: color var(--transition) }
+    .footer-col a:hover { color: var(--accent) }
+    .footer-bottom {
+      padding: 24px 0; display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,0.06); flex-wrap: wrap; gap: 12px;
+      font-size: 0.78rem; color: rgba(255,255,255,0.3);
+    }
+
+    /* ── WA BUBBLE ── */
+    .wa-bubble {
+      position: fixed; bottom: 28px; right: 28px;
+      width: 54px; height: 54px; border-radius: 50%;
+      background: #22c55e; color: white;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(34,197,94,0.4);
+      z-index: 900; transition: all var(--transition); text-decoration: none;
+    }
+    .wa-bubble:hover { transform: scale(1.08) }
+    .wa-bubble svg { width: 26px; height: 26px }
+
+    /* ── BILINGUAL ── */
+    [data-lang="de"] { display: none }
+    body.de [data-lang="de"] { display: block }
+    body.de [data-lang="en"] { display: none }
+    span[data-lang="de"], a[data-lang="de"] { display: none }
+    body.de span[data-lang="de"], body.de a[data-lang="de"] { display: inline }
+    body.de span[data-lang="en"], body.de a[data-lang="en"] { display: none }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1) }
+    .reveal.visible { opacity: 1; transform: translateY(0) }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width: 768px) {
+      .nav-hamburger { display: flex; width: 44px; height: 44px; align-items: center; justify-content: center; padding: 0 }
+      .nav-links {
+        display: none; position: fixed; top: 72px; left: 0; right: 0;
+        background: rgba(255,255,255,0.98); backdrop-filter: blur(16px);
+        flex-direction: column; gap: 0; padding: 8px 0 16px;
+        border-bottom: 1px solid var(--grey-200); z-index: 999;
+      }
+      .nav-links.open { display: flex }
+      .nav-links a { padding: 14px 24px; display: block; font-size: 0.95rem }
+      .nav-links .nav-cta { margin: 10px 20px 4px; text-align: center; display: block }
+      .footer-top { grid-template-columns: 1fr; gap: 28px }
+      .footer-bottom { justify-content: center; text-align: center; flex-direction: column }
+      .blog-grid { grid-template-columns: 1fr }
+    }
+    @media(max-width: 480px) {
+      .logo { font-size: 1rem }
+      .blog-cta h2 { font-size: 1.6rem }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="https://www.docuassistgermany.de/" class="logo">Docu<span>Assist</span> Germany</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="https://www.docuassistgermany.de/#services" data-lang="en">Services</a><a href="https://www.docuassistgermany.de/#services" data-lang="de">Leistungen</a></li>
+    <li><a href="https://www.docuassistgermany.de/#how" data-lang="en">How It Works</a><a href="https://www.docuassistgermany.de/#how" data-lang="de">So läuft's</a></li>
+    <li><a href="https://www.docuassistgermany.de/#about" data-lang="en">About</a><a href="https://www.docuassistgermany.de/#about" data-lang="de">Über uns</a></li>
+    <li><a href="/blog/" class="active" data-lang="en">Guides</a><a href="/blog/" class="active" data-lang="de">Ratgeber</a></li>
+    <li><a href="https://www.docuassistgermany.de/#contact" class="nav-cta"><span data-lang="en">Get Free Checklist</span><span data-lang="de">Checkliste anfordern</span></a></li>
+    <li>
+      <div class="lang-toggle">
+        <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+        <button id="btn-de" onclick="setLang('de')">DE</button>
+      </div>
+    </li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="lang-toggle" style="display:flex" id="nav-lang-toggle">
+      <button id="btn-en2" class="active" onclick="setLang('en')">EN</button>
+      <button id="btn-de2" onclick="setLang('de')">DE</button>
+    </div>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <span class="section-label" data-lang="en">Free Resources</span>
+    <span class="section-label" data-lang="de">Kostenlose Ratgeber</span>
+    <h1 data-lang="en">Guides for Expats in Berlin</h1>
+    <h1 data-lang="de">Ratgeber für Expats in Berlin</h1>
+    <p data-lang="en">Practical, honest guides to navigating German immigration paperwork — written by people who've been through it. No jargon, no fluff.</p>
+    <p data-lang="de">Praktische, ehrliche Ratgeber für den deutschen Behördendschungel — geschrieben von Menschen, die ihn selbst durchquert haben.</p>
+  </div>
+</div>
+
+<!-- BLOG GRID -->
+<div class="blog-container">
+
+  <!-- Filter pills -->
+  <div class="blog-filter">
+    <button class="filter-btn active" data-lang="en">All Guides</button>
+    <button class="filter-btn active" data-lang="de" style="display:none">Alle Ratgeber</button>
+    <button class="filter-btn" data-lang="en">Residence Permits</button>
+    <button class="filter-btn" data-lang="de" style="display:none">Aufenthaltstitel</button>
+    <button class="filter-btn" data-lang="en">Translations</button>
+    <button class="filter-btn" data-lang="de" style="display:none">Übersetzungen</button>
+    <button class="filter-btn" data-lang="en">Qualifications</button>
+    <button class="filter-btn" data-lang="de" style="display:none">Qualifikationen</button>
+  </div>
+
+  <div class="blog-grid">
+
+    <!-- CARD 1 — Aufenthaltserlaubnis checklist -->
+    <a href="/blog/aufenthaltserlaubnis-checklist-berlin.html" class="blog-card reveal">
+      <div class="blog-card-img">
+        <div class="blog-card-img-accent"></div>
+        <div class="blog-card-img-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+        </div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-meta">
+          <span class="blog-category" data-lang="en">Residence Permits</span>
+          <span class="blog-category" data-lang="de">Aufenthaltstitel</span>
+          <span class="blog-read-time">8 min read</span>
+        </div>
+        <div class="blog-card-title" data-lang="en">Aufenthaltserlaubnis Document Checklist Berlin (2025)</div>
+        <div class="blog-card-title" data-lang="de">Aufenthaltserlaubnis Checkliste Berlin (2025)</div>
+        <div class="blog-card-excerpt" data-lang="en">Every document you need for a Berlin residence permit application — general list plus employment, family reunification, and student permit specifics. Updated for 2025.</div>
+        <div class="blog-card-excerpt" data-lang="de">Alle Dokumente für Ihren Aufenthaltserlaubnis-Antrag in Berlin — allgemeine Liste plus spezifische Anforderungen für Beschäftigung, Familiennachzug und Studium.</div>
+        <div class="blog-card-footer">
+          <span class="blog-card-date">March 2025</span>
+          <span class="blog-card-link">
+            <span data-lang="en">Read guide</span>
+            <span data-lang="de">Zum Ratgeber</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- CARD 2 — Certified translation -->
+    <a href="/blog/certified-translation-requirements-germany.html" class="blog-card reveal">
+      <div class="blog-card-img" style="background: linear-gradient(135deg, #0f1b2d 0%, #1a0f2d 100%)">
+        <div class="blog-card-img-accent"></div>
+        <div class="blog-card-img-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+          </svg>
+        </div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-meta">
+          <span class="blog-category" data-lang="en">Translations</span>
+          <span class="blog-category" data-lang="de">Übersetzungen</span>
+          <span class="blog-read-time">7 min read</span>
+        </div>
+        <div class="blog-card-title" data-lang="en">Certified Translation Requirements Germany — What You Need to Know</div>
+        <div class="blog-card-title" data-lang="de">Beglaubigte Übersetzungen in Deutschland — Was Sie wissen müssen</div>
+        <div class="blog-card-excerpt" data-lang="en">When do you need a certified translation? Who is authorised to produce one? What must the document contain? A complete guide for expats dealing with German authorities.</div>
+        <div class="blog-card-excerpt" data-lang="de">Wann brauchen Sie eine beglaubigte Übersetzung? Wer darf sie erstellen? Was muss das Dokument enthalten? Ein vollständiger Leitfaden für Expats mit deutschen Behörden.</div>
+        <div class="blog-card-footer">
+          <span class="blog-card-date">March 2025</span>
+          <span class="blog-card-link">
+            <span data-lang="en">Read guide</span>
+            <span data-lang="de">Zum Ratgeber</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- CARD 3 — Niederlassungserlaubnis -->
+    <a href="/blog/niederlassungserlaubnis-guide-berlin.html" class="blog-card reveal">
+      <div class="blog-card-img" style="background: linear-gradient(135deg, #111827 0%, #0a1628 100%)">
+        <div class="blog-card-img-accent"></div>
+        <div class="blog-card-img-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+        </div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-meta">
+          <span class="blog-category" data-lang="en">Permanent Residency</span>
+          <span class="blog-category" data-lang="de">Niederlassungserlaubnis</span>
+          <span class="blog-read-time">10 min read</span>
+        </div>
+        <div class="blog-card-title" data-lang="en">Niederlassungserlaubnis Berlin: Complete Guide to Permanent Residency (2025)</div>
+        <div class="blog-card-title" data-lang="de">Niederlassungserlaubnis Berlin: Der komplette Ratgeber (2025)</div>
+        <div class="blog-card-excerpt" data-lang="en">Eligibility, the full document checklist, the 21-month shortcut for skilled workers, and the most common reasons applications are refused — everything you need to plan ahead.</div>
+        <div class="blog-card-excerpt" data-lang="de">Voraussetzungen, vollständige Dokumentenliste, die 21-Monats-Abkürzung für Fachkräfte und die häufigsten Ablehnungsgründe — alles, was Sie für Ihre Planung brauchen.</div>
+        <div class="blog-card-footer">
+          <span class="blog-card-date">March 2025</span>
+          <span class="blog-card-link">
+            <span data-lang="en">Read guide</span>
+            <span data-lang="de">Zum Ratgeber</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- CARD 4 — Anerkennung -->
+    <a href="/blog/anerkennung-foreign-degree-germany.html" class="blog-card reveal">
+      <div class="blog-card-img" style="background: linear-gradient(135deg, #0a1628 0%, #111827 100%)">
+        <div class="blog-card-img-accent"></div>
+        <div class="blog-card-img-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+          </svg>
+        </div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-meta">
+          <span class="blog-category" data-lang="en">Qualifications</span>
+          <span class="blog-category" data-lang="de">Qualifikationen</span>
+          <span class="blog-read-time">9 min read</span>
+        </div>
+        <div class="blog-card-title" data-lang="en">Foreign Degree Recognition in Germany (Anerkennung) — Complete Guide</div>
+        <div class="blog-card-title" data-lang="de">Anerkennung ausländischer Abschlüsse in Deutschland — Vollständiger Leitfaden</div>
+        <div class="blog-card-excerpt" data-lang="en">ZAB, regulated professions, apostille — the Anerkennung process explained step by step. Know which authority to approach, what to submit, and how long it really takes.</div>
+        <div class="blog-card-excerpt" data-lang="de">ZAB, reglementierte Berufe, Apostille — der Anerkennungsprozess Schritt für Schritt erklärt. Welche Behörde, welche Unterlagen, wie lange es wirklich dauert.</div>
+        <div class="blog-card-footer">
+          <span class="blog-card-date">March 2025</span>
+          <span class="blog-card-link">
+            <span data-lang="en">Read guide</span>
+            <span data-lang="de">Zum Ratgeber</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="blog-cta">
+  <h2 data-lang="en">Still have questions?</h2>
+  <h2 data-lang="de">Noch Fragen?</h2>
+  <p data-lang="en">Our guides cover the basics — but every situation is different. Get a free personalised document checklist from DocuAssist Germany.</p>
+  <p data-lang="de">Unsere Ratgeber decken das Wesentliche ab — aber jede Situation ist anders. Erhalten Sie eine kostenlose persönliche Dokumentencheckliste von DocuAssist Germany.</p>
+  <a href="https://www.docuassistgermany.de/#contact" class="btn-primary">
+    <span data-lang="en">Get Your Free Checklist</span>
+    <span data-lang="de">Kostenlose Checkliste anfordern</span>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+    </svg>
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="https://www.docuassistgermany.de/" class="logo" style="color:#fff;text-decoration:none">Docu<span style="color:var(--green)">Assist</span><span style="color:#fff"> Germany</span></a>
+      <p data-lang="en">End-to-end immigration document assistance for expats in Germany. Multilingual support available.</p>
+      <p data-lang="de">Umfassende Einwanderungsdokumentenhilfe für Expats in Deutschland.</p>
+    </div>
+    <div class="footer-col">
+      <h3 data-lang="en">Services</h3><h3 data-lang="de">Leistungen</h3>
+      <ul>
+        <li><a href="https://www.docuassistgermany.de/#services" data-lang="en">Immigration Docs</a><a href="https://www.docuassistgermany.de/#services" data-lang="de">Einwanderung</a></li>
+        <li><a href="https://www.docuassistgermany.de/#services" data-lang="en">Translations</a><a href="https://www.docuassistgermany.de/#services" data-lang="de">Übersetzungen</a></li>
+        <li><a href="https://www.docuassistgermany.de/#services" data-lang="en">Admin Support</a><a href="https://www.docuassistgermany.de/#services" data-lang="de">Verwaltung</a></li>
+        <li><a href="https://www.docuassistgermany.de/#services" data-lang="en">Degree Recognition</a><a href="https://www.docuassistgermany.de/#services" data-lang="de">Anerkennung</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3 data-lang="en">Guides</h3><h3 data-lang="de">Ratgeber</h3>
+      <ul>
+        <li><a href="/blog/aufenthaltserlaubnis-checklist-berlin.html" data-lang="en">Aufenthaltserlaubnis</a><a href="/blog/aufenthaltserlaubnis-checklist-berlin.html" data-lang="de">Aufenthaltserlaubnis</a></li>
+        <li><a href="/blog/certified-translation-requirements-germany.html" data-lang="en">Certified Translations</a><a href="/blog/certified-translation-requirements-germany.html" data-lang="de">Beglaubigte Übersetzungen</a></li>
+        <li><a href="/blog/niederlassungserlaubnis-guide-berlin.html" data-lang="en">Niederlassungserlaubnis</a><a href="/blog/niederlassungserlaubnis-guide-berlin.html" data-lang="de">Niederlassungserlaubnis</a></li>
+        <li><a href="/blog/anerkennung-foreign-degree-germany.html" data-lang="en">Degree Recognition</a><a href="/blog/anerkennung-foreign-degree-germany.html" data-lang="de">Anerkennung</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <a href="https://www.docuassistgermany.de/" class="logo" style="color:#fff;text-decoration:none">Docu<span style="color:var(--green)">Assist</span><span style="color:#fff"> Germany</span></a>
+    <span data-lang="en">&copy; 2025 DocuAssist Germany. All rights reserved.</span>
+    <span data-lang="de">&copy; 2025 DocuAssist Germany. Alle Rechte vorbehalten.</span>
+  </div>
+</footer>
+
+<!-- WA BUBBLE -->
+<a href="https://wa.me/4915563671657" class="wa-bubble" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.126 1.532 5.864L.053 23.61a.75.75 0 00.93.93l5.746-1.479A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.75 9.75 0 01-4.974-1.366l-.356-.212-3.693.949.969-3.585-.232-.369A9.75 9.75 0 1112 21.75z"/>
+  </svg>
+</a>
+
+<script>
+  /* ── NAV ── */
+  window.addEventListener('scroll', () => {
+    document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+  });
+  document.getElementById('nav-hamburger').addEventListener('click', function() {
+    const links = document.getElementById('nav-links');
+    this.classList.toggle('open');
+    links.classList.toggle('open');
+    this.setAttribute('aria-expanded', links.classList.contains('open'));
+  });
+
+  /* ── SCROLL REVEAL ── */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target) } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  /* ── LANGUAGE TOGGLE ── */
+  function setLang(lang) {
+    document.body.classList.toggle('de', lang === 'de');
+    localStorage.setItem('lang', lang);
+    ['btn-en','btn-de','btn-en2','btn-de2'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('active', (lang === 'en' && id.includes('en')) || (lang === 'de' && id.includes('de')));
+    });
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      el.style.display = el.dataset.lang === lang ? '' : 'none';
+    });
+  }
+  (function() {
+    const saved = localStorage.getItem('lang') || 'en';
+    setLang(saved);
+  })();
+</script>
+</body>
+</html>

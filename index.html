@@ -2643,21 +2643,23 @@ async function iiHandleSubmit() {
         })
       }).catch(err => console.warn('Apps Script POST error:', err));
     }    
-    // 2b. POST to Supabase backend
-fetch('https://docuassist-backend.vercel.app/api/intake', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    name,
-    email,
-    phone: phone || '',
-    nationality: nat || '',
-    service: iiSvc,
-    case_type_key: iiCaseType || '',
-    notes: notes || '',
-    language: localStorage.getItem('lang') || 'en'
-  })
-}).catch(err => console.warn('Backend POST error:', err));
+    // 2b. POST to Supabase backend (isolated — never blocks the main flow)
+    try {
+      fetch('https://docuassist-backend.vercel.app/api/intake', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          phone: phone || '',
+          nationality: nat || '',
+          service: iiSvc,
+          case_type_key: iiCaseType || '',
+          notes: notes || '',
+          language: localStorage.getItem('lang') || 'en'
+        })
+      }).catch(function(err) { console.warn('Backend POST error:', err); });
+    } catch(backendErr) { console.warn('Backend setup error:', backendErr); }
 
     // 3. Show success
     const emailBox = document.getElementById('ii-s-email');

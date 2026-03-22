@@ -2642,7 +2642,22 @@ async function iiHandleSubmit() {
           timestamp:   now,
         })
       }).catch(err => console.warn('Apps Script POST error:', err));
-    }
+    }    
+    // 2b. POST to Supabase backend
+    fetch('https://docuassist-backend.vercel.app/api/intake', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        email,
+        phone: phone || '',
+        nationality: nat || '',
+        service: iiSvc,
+        case_type_key: iiCaseType || '',
+        notes: notes || '',
+        language: currentLang || 'en'
+      })
+    }).catch(err => console.warn('Backend POST error:', err));
 
     // 3. Show success
     const emailBox = document.getElementById('ii-s-email');

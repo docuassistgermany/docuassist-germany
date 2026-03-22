@@ -1551,6 +1551,59 @@
           </div>
         </div>
 
+        <!-- Translation language pair (shown only for translation service) -->
+        <div class="intake-row" id="ii-lang-pair" style="display:none">
+          <div class="intake-field">
+            <label data-lang="en">Source Language</label>
+            <label data-lang="de">Ausgangssprache</label>
+            <select id="ii-source-lang">
+              <option value="">— Select / Auswählen —</option>
+              <option value="Turkish">Turkish / Türkisch</option>
+              <option value="Arabic">Arabic / Arabisch</option>
+              <option value="English">English / Englisch</option>
+              <option value="Polish">Polish / Polnisch</option>
+              <option value="Russian">Russian / Russisch</option>
+              <option value="Vietnamese">Vietnamese / Vietnamesisch</option>
+              <option value="Tamil">Tamil / Tamilisch</option>
+              <option value="Hindi">Hindi</option>
+              <option value="Urdu">Urdu</option>
+              <option value="Farsi">Farsi / Persisch</option>
+              <option value="Romanian">Romanian / Rumänisch</option>
+              <option value="Bulgarian">Bulgarian / Bulgarisch</option>
+              <option value="Spanish">Spanish / Spanisch</option>
+              <option value="French">French / Französisch</option>
+              <option value="Italian">Italian / Italienisch</option>
+              <option value="Portuguese">Portuguese / Portugiesisch</option>
+              <option value="Chinese">Chinese / Chinesisch</option>
+              <option value="Japanese">Japanese / Japanisch</option>
+              <option value="Korean">Korean / Koreanisch</option>
+              <option value="Ukrainian">Ukrainian / Ukrainisch</option>
+              <option value="Serbian">Serbian / Serbisch</option>
+              <option value="Croatian">Croatian / Kroatisch</option>
+              <option value="Greek">Greek / Griechisch</option>
+              <option value="Georgian">Georgian / Georgisch</option>
+              <option value="Bengali">Bengali / Bengalisch</option>
+              <option value="Nepali">Nepali / Nepalesisch</option>
+              <option value="Sinhala">Sinhala / Singhalesisch</option>
+              <option value="German">German / Deutsch</option>
+              <option value="Other">Other / Andere</option>
+            </select>
+          </div>
+          <div class="intake-field">
+            <label data-lang="en">Target Language</label>
+            <label data-lang="de">Zielsprache</label>
+            <select id="ii-target-lang">
+              <option value="German">German / Deutsch</option>
+              <option value="English">English / Englisch</option>
+              <option value="Turkish">Turkish / Türkisch</option>
+              <option value="Arabic">Arabic / Arabisch</option>
+              <option value="French">French / Französisch</option>
+              <option value="Spanish">Spanish / Spanisch</option>
+              <option value="Other">Other / Andere</option>
+            </select>
+          </div>
+        </div>
+
         <hr class="intake-divider"/>
 
         <!-- Personal details -->
@@ -2524,14 +2577,24 @@ function iiSelectService(svc) {
   if (card) card.classList.add('selected');
   const caseSec = document.getElementById('ii-case-sec');
   const natField = document.getElementById('ii-nat-field');
+  var langPair = document.getElementById('ii-lang-pair');
   if (svc === 'docs') {
     caseSec.classList.add('visible');
     if (natField) natField.style.display = 'flex';
+    if (langPair) langPair.style.display = 'none';
+  } else if (svc === 'translation') {
+    caseSec.classList.remove('visible');
+    iiCaseType = null;
+    if (langPair) langPair.style.display = 'flex';
+    if (natField) natField.style.display = 'none';
+    var dp = document.getElementById('ii-doc-preview');
+    if (dp) dp.classList.remove('visible');
   } else {
     caseSec.classList.remove('visible');
     iiCaseType = null;
-    const dp = document.getElementById('ii-doc-preview');
-    if (dp) dp.classList.remove('visible');
+    if (langPair) langPair.style.display = 'none';
+    var dp2 = document.getElementById('ii-doc-preview');
+    if (dp2) dp2.classList.remove('visible');
     if (natField) natField.style.display = 'none';
   }
 }
@@ -2645,10 +2708,13 @@ async function iiHandleSubmit() {
     }    
     // 2b. POST to Supabase backend (with retry — ensures delivery)
     (function sendToBackend(attempt) {
+      var srcLang = (document.getElementById('ii-source-lang') || {}).value || '';
+      var tgtLang = (document.getElementById('ii-target-lang') || {}).value || '';
       var backendData = JSON.stringify({
         name: name, email: email, phone: phone || '', nationality: nat || '',
         service: iiSvc, case_type_key: iiCaseType || '', notes: notes || '',
-        language: localStorage.getItem('lang') || 'en'
+        language: localStorage.getItem('lang') || 'en',
+        source_language: srcLang, target_language: tgtLang
       });
       fetch('https://docuassist-backend.vercel.app/api/intake', {
         method: 'POST',
